@@ -3,3 +3,4 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-height { height: 100%; }
+.large-icon-container { font-size: 48px; }
