@@ -4,7 +4,7 @@
       <div class="large-icon-container">
         <mat-icon [inline]="true">account_circle</mat-icon>
       </div>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Sign in to {{this.appProperties.appName}}</mat-card-title>
     </div>
     <form class="example-form" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
@@ -15,7 +15,7 @@
         <input type="password" matInput placeholder="Your password" class="form-control" formControlName="password">
         <mat-error *ngIf="passwordError">{{passwordError}}</mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary">Login</button>
+      <button type="submit" mat-raised-button color="primary">Sing in</button>
     </form>
   </mat-card>
 </div>

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AppPropertiesService} from '../services/app-properties.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private appProperties: AppPropertiesService) {
   }
 
   ngOnInit() {
@@ -22,20 +24,22 @@ export class LoginComponent implements OnInit {
 
   get emailError() {
     const control = this.form.controls.email;
-    return control.hasError('required') ? 'Email is required' :
-      control.hasError('email') ? 'Email must be a valid email address' :
+    return control.hasError('required') ? this.appProperties.valMsgEmailRequired :
+      control.hasError('email') ? this.appProperties.valMsgEmailInvalid :
         null;
   }
 
   get passwordError() {
     const control = this.form.controls.password;
-    return control.hasError('required') ? 'Password is required' :
-      control.hasError('minlength') ? 'Password must be at least 5 characters long' :
+    return control.hasError('required') ? this.appProperties.valMsgPasswordRequired :
+      control.hasError('minlength') ? this.appProperties.valMsgPasswordMinLength :
         null;
   }
 
   onSubmit() {
-    if (!this.form.valid) return;
+    if (!this.form.valid) {
+      return;
+    }
     console.log(this.form.value);
   }
 

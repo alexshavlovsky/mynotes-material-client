@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {MaterialModule} from './material.module';
 import {LoginComponent} from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AppPropertiesService} from './services/app-properties.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     FlexLayoutModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AppPropertiesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
