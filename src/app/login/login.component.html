@@ -1,20 +1,14 @@
-<div class="full-height" fxLayout="row" fxLayoutAlign="center center">
+<div class="height-100" fxLayout="row" fxLayoutAlign="center center">
   <mat-card fxFlex="308px">
     <div fxLayout="column" fxLayoutAlign="center center">
       <div class="large-icon-container">
         <mat-icon [inline]="true">account_circle</mat-icon>
       </div>
-      <mat-card-title>Sign in to {{this.appProperties.appName}}</mat-card-title>
+      <mat-card-title>Sign in to {{appProperties.appName}}</mat-card-title>
     </div>
-    <form class="example-form" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field>
-        <input type="email" matInput placeholder="Your email" class="form-control" formControlName="email">
-        <mat-error *ngIf="emailError">{{emailError}}</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input type="password" matInput placeholder="Your password" class="form-control" formControlName="password">
-        <mat-error *ngIf="passwordError">{{passwordError}}</mat-error>
-      </mat-form-field>
+    <form class="mt-16" fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <formly-form fxLayout="column" fxLayoutGap="16px"
+                   [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
       <button type="submit" mat-raised-button color="primary">Sing in</button>
     </form>
   </mat-card>
