@@ -1,0 +1,20 @@
+mat-card {
+  width: 270px;
+  text-align: center;
+}
+
+mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -.5px;
+}
+
+a {
+  padding: 0;
+}

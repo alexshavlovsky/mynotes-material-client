@@ -9,7 +9,7 @@ import {NgModule} from "@angular/core";
     ],
     validationMessages: [
       {name: 'required', message: 'This field is required'},
-      {name: 'minlength', message: (_, f) => `Should have at least ${f.templateOptions.minLength} characters`},
+      {name: 'minlength', message: (_, f) => `Please enter at least ${f.templateOptions.minLength} characters`},
       {name: 'email', message: 'Please enter a valid email address'}
     ],
   }),

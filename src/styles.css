@@ -2,6 +2,6 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-.height-100 { height: 100%; }
-.large-icon-container { font-size: 48px; }
+.h-100 { height: 100vh; }
 .mt-16 { margin-top: 16px; }
+.mt-32 { margin-top: 32px; }
