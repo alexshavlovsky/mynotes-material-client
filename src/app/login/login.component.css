@@ -4,9 +4,9 @@ mat-card {
 }
 
 mat-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
 }
 
 h1 {
@@ -17,4 +17,5 @@ h1 {
 
 a {
   padding: 0;
+  min-width: 0;
 }

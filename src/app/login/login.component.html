@@ -1,12 +1,12 @@
 <div class="h-100" fxLayout="row" fxLayoutAlign="center center">
   <div>
-    <mat-card>
-      <mat-icon>notes</mat-icon>
-      <h1>Sign in to {{appProperties.appName}}</h1>
+    <mat-card class="slide-down">
+      <mat-icon class="drop-down">notes</mat-icon>
+      <h1 class="drop-down">Sign in to {{appProperties.appName}}</h1>
     </mat-card>
     <mat-card class="mt-32">
       <form fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <formly-form fxLayout="column" fxLayoutGap="16px"
+        <formly-form fxLayout="column" fxLayoutGap="8px"
                      [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
         <button type="submit" mat-raised-button color="primary">Sing in</button>
       </form>
