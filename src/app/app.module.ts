@@ -11,11 +11,13 @@ import {LoginComponent} from './login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AppPropertiesService} from './services/app-properties.service';
 import {AppFormlyModule} from './formly.module';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
