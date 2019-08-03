@@ -1,17 +1,17 @@
 <div class="h-100" fxLayout="row" fxLayoutAlign="center center">
   <div>
-    <mat-card class="slide-down">
-      <mat-icon class="drop-down">notes</mat-icon>
-      <h1 class="drop-down">Sign in to {{appProperties.appName}}</h1>
+    <mat-card class="an-bounce">
+      <mat-icon>notes</mat-icon>
+      <h1>Sign in to {{appProperties.appName}}</h1>
     </mat-card>
-    <mat-card class="mt-32">
-      <form fxLayout="column" fxLayoutGap="16px" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <formly-form fxLayout="column" fxLayoutGap="8px"
+    <mat-card class="mt-16 an-scale-st1">
+      <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <formly-form fxLayout="column"
                      [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
         <button type="submit" mat-raised-button color="primary">Sing in</button>
       </form>
     </mat-card>
-    <mat-card class="mt-32">
+    <mat-card class="mt-16 an-scale-st2">
       <mat-card-content>
         New to {{appProperties.appName}}?
         <a mat-button color="primary" routerLink="/register">Create an account</a>.
