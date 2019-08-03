@@ -1,14 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
 import {AppPropertiesService} from "../services/app-properties.service";
+import {takeUntil, tap} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
+  onDestroy$ = new Subject<void>();
+
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -49,13 +53,46 @@ export class RegisterComponent implements OnInit {
         required: true,
         minLength: 5,
       },
-    }
+    },
+    {
+      key: 'confirmPassword',
+      type: 'input',
+      templateOptions: {
+        label: 'Confirm password',
+        type: 'password',
+        required: true,
+      },
+      validators: {
+        fieldMatch: {
+          expression: (control) => control.value === this.model.password,
+          message: 'Passwords do not match',
+        },
+      },
+      expressionProperties: {
+        'templateOptions.disabled': () => !this.form.get('password').valid,
+      },
+      lifecycle: {
+        onInit: (form, field) => {
+          form.get('password').valueChanges.pipe(
+            takeUntil(this.onDestroy$),
+            tap(() => {
+              field.formControl.updateValueAndValidity();
+            })
+          ).subscribe();
+        }
+      },
+    },
   ];
 
   constructor(private appProperties: AppPropertiesService) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onSubmit() {
@@ -66,12 +103,3 @@ export class RegisterComponent implements OnInit {
   }
 
 }
-
-
-// this.form = this.formBuilder.group({
-//   firstName: ['', Validators.required],
-//   lastName: [''],
-//   email: ['', [Validators.required, Validators.email]],
-//   password: ['', [Validators.required, Validators.minLength(5)]],
-//   confirmPassword: ['']
-// }, {validator: RegisterComponent.checkPasswords});
