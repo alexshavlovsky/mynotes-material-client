@@ -71,9 +71,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       expressionProperties: {
         'templateOptions.disabled': () => !this.form.get('password').valid,
       },
-      lifecycle: {
-        onInit: (form, field) => {
-          form.get('password').valueChanges.pipe(
+      hooks: {
+        onInit: (field) => {
+          field.form.get('password').valueChanges.pipe(
             takeUntil(this.onDestroy$),
             tap(() => {
               field.formControl.updateValueAndValidity();
