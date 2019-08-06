@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
-import {AppPropertiesService} from "../services/app-properties.service";
+import {AppPropertiesService} from "../../services/app-properties.service";
 import {takeUntil, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['../common/public-form.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();

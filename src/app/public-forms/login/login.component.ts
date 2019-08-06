@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {AppPropertiesService} from '../services/app-properties.service';
+import {AppPropertiesService} from '../../services/app-properties.service';
 import {FormGroup} from '@angular/forms';
 import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['../common/public-form.css']
 })
 export class LoginComponent implements OnInit {
   form = new FormGroup({});
