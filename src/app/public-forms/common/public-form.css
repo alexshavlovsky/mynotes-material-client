@@ -1,3 +1,14 @@
+.mt-16 { margin-top: 16px; }
+
+:host {
+  height: 100vh;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center;
+  align-items: center;
+}
+
 mat-card {
   width: 270px;
   text-align: center;
@@ -19,3 +30,10 @@ a {
   padding: 0;
   min-width: 0;
 }
+
+.an-bounce{animation:kf-bounce 1s}
+@keyframes kf-bounce{0%{transform:translateY(-45px);animation-timing-function:ease-in}40%{transform:translateY(-24px);animation-timing-function:ease-in}65%{transform:translateY(-12px);animation-timing-function:ease-in}82%{transform:translateY(-6px);animation-timing-function:ease-in}93%{transform:translateY(-4px);animation-timing-function:ease-in}25%,55%,75%,87%{transform:translateY(0);animation-timing-function:ease-out}100%{transform:translateY(0);animation-timing-function:ease-out}}
+.an-scale-st1{animation:kf-scale-st1 .5s ease-out}
+@keyframes kf-scale-st1{0%{transform:scaleY(0);transform-origin:100% 0}50%{transform:scaleY(0);transform-origin:100% 0}100%{transform:scaleY(1);transform-origin:100% 0}}
+.an-scale-st2{animation:kf-scale-st2 .8s ease-out}
+@keyframes kf-scale-st2{0%{transform:scaleY(0);transform-origin:100% 0}70%{transform:scaleY(0);transform-origin:100% 0}100%{transform:scaleY(1);transform-origin:100% 0}}
