@@ -4,11 +4,13 @@ import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
 import {AppPropertiesService} from "../../services/app-properties.service";
 import {takeUntil, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {formAnimations} from '../common/animations';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../common/public-form.css']
+  styleUrls: ['../common/public-form.css'],
+  animations: formAnimations
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
@@ -91,7 +93,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // notify the password input valueChanges observable and force it to complete
     this.onDestroy$.next();
+    // complete the notifier observable
     this.onDestroy$.complete();
   }
 
