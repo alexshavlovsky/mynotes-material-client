@@ -1,18 +1,24 @@
 <div>
   <mat-card @formHeader>
     <mat-icon>notes</mat-icon>
-    <h1>Sign in to {{appProperties.appName}}</h1>
+    <h1>Sign in to {{appProps.appName}}</h1>
   </mat-card>
   <mat-card class="mt-16" @formBody>
     <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <formly-form fxLayout="column"
-                   [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+      <mat-form-field>
+        <input type="email" matInput placeholder="Your email" class="form-control" formControlName="email">
+        <mat-error>{{emailError}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Your password" class="form-control" formControlName="password">
+        <mat-error>{{passwordError}}</mat-error>
+      </mat-form-field>
       <button type="submit" mat-raised-button color="primary">Sing in</button>
     </form>
   </mat-card>
   <mat-card class="mt-16" @formFooter>
     <mat-card-content>
-      New to {{appProperties.appName}}?
+      New to {{appProps.appName}}?
       <a mat-button color="primary" routerLink="/register">Create an account</a>.
     </mat-card-content>
   </mat-card>

@@ -9,10 +9,10 @@ import {AppComponent} from './app.component';
 import {MaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AppPropertiesService} from './services/app-properties.service';
-import {AppFormlyModule} from './formly.module';
 
 import {LoginComponent} from './public-forms/login/login.component';
 import {RegisterComponent} from './public-forms/register/register.component';
+import {FormValidationService} from "./services/form-validation.service";
 
 @NgModule({
   declarations: [
@@ -27,9 +27,8 @@ import {RegisterComponent} from './public-forms/register/register.component';
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    AppFormlyModule,
   ],
-  providers: [AppPropertiesService],
+  providers: [AppPropertiesService, FormValidationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AppPropertiesService} from '../../services/app-properties.service';
-import {FormGroup} from '@angular/forms';
-import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {formAnimations} from '../common/animations';
+import {FormValidationService} from "../../services/form-validation.service";
 
 @Component({
   selector: 'app-login',
@@ -11,38 +11,28 @@ import {formAnimations} from '../common/animations';
   animations: formAnimations
 })
 export class LoginComponent implements OnInit {
-  form = new FormGroup({});
-  model: any = {};
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'email',
-      type: 'input',
-      templateOptions: {
-        label: 'Your email',
-        type: 'email',
-        required: true,
-      },
-      validators: {
-        validation: ['email'],
-      },
-    },
-    {
-      key: 'password',
-      type: 'input',
-      templateOptions: {
-        label: 'Your password',
-        type: 'password',
-        required: true,
-        minLength: 5,
-      },
-    }
-  ];
+  form: FormGroup;
 
-  constructor(private appProperties: AppPropertiesService) {
+  constructor(private appProps: AppPropertiesService,
+              private formBuilder: FormBuilder,
+              private formValidationService: FormValidationService) {
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(this.appProps.userPasswordMinLength)]],
+    });
+  }
+
+  get emailError() {
+    const control = this.form.controls.email;
+    return this.formValidationService.getValidationMessage(control);
+  }
+
+  get passwordError() {
+    const control = this.form.controls.password;
+    return this.formValidationService.getValidationMessage(control, {minlength: this.appProps.userPasswordMinLength});
   }
 
   onSubmit() {

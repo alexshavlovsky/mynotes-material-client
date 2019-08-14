@@ -1,10 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppPropertiesService} from "../../services/app-properties.service";
-import {takeUntil, tap} from "rxjs/operators";
-import {Subject} from "rxjs";
 import {formAnimations} from '../common/animations';
+import {CrossFieldErrorMatcher, FormValidationService} from "../../services/form-validation.service";
 
 @Component({
   selector: 'app-register',
@@ -12,91 +10,44 @@ import {formAnimations} from '../common/animations';
   styleUrls: ['../common/public-form.css'],
   animations: formAnimations
 })
-export class RegisterComponent implements OnInit, OnDestroy {
-  onDestroy$ = new Subject<void>();
+export class RegisterComponent implements OnInit {
+  form: FormGroup;
+  errorMatcher = new CrossFieldErrorMatcher(this.appProps.passwordCrossFieldValidatorErrorKey);
 
-  form = new FormGroup({});
-  model: any = {};
-  options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'firstName',
-      type: 'input',
-      templateOptions: {
-        label: 'Your first name',
-        required: true,
-      },
-    },
-    {
-      key: 'lastName',
-      type: 'input',
-      templateOptions: {
-        label: 'Your last name',
-      },
-    },
-    {
-      key: 'email',
-      type: 'input',
-      templateOptions: {
-        label: 'Your email',
-        type: 'email',
-        required: true,
-      },
-      validators: {
-        validation: ['email'],
-      },
-    },
-    {
-      key: 'password',
-      type: 'input',
-      templateOptions: {
-        label: 'Your password',
-        type: 'password',
-        required: true,
-        minLength: 5,
-      },
-    },
-    {
-      key: 'confirmPassword',
-      type: 'input',
-      templateOptions: {
-        label: 'Confirm password',
-        type: 'password',
-        required: true,
-      },
-      validators: {
-        fieldMatch: {
-          expression: (control) => control.value === this.model.password,
-          message: 'Passwords do not match',
-        },
-      },
-      expressionProperties: {
-        'templateOptions.disabled': () => !this.form.get('password').valid,
-      },
-      hooks: {
-        onInit: (field) => {
-          field.form.get('password').valueChanges.pipe(
-            takeUntil(this.onDestroy$),
-            tap(() => {
-              field.formControl.updateValueAndValidity();
-            })
-          ).subscribe();
-        }
-      },
-    },
-  ];
-
-  constructor(private appProperties: AppPropertiesService) {
+  constructor(private appProps: AppPropertiesService,
+              private formBuilder: FormBuilder,
+              private formValidationService: FormValidationService) {
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: [''],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(this.appProps.userPasswordMinLength)]],
+      confirmPassword: ''
+    }, {
+      validator: this.formValidationService.getCrossFieldEqualityValidator('password', 'confirmPassword', this.appProps.passwordCrossFieldValidatorErrorKey)
+    });
   }
 
-  ngOnDestroy(): void {
-    // notify the password input valueChanges observable and force it to complete
-    this.onDestroy$.next();
-    // complete the notifier observable
-    this.onDestroy$.complete();
+  get firstNameError() {
+    const control = this.form.controls.firstName;
+    return this.formValidationService.getValidationMessage(control);
+  }
+
+  get emailError() {
+    const control = this.form.controls.email;
+    return this.formValidationService.getValidationMessage(control);
+  }
+
+  get passwordError() {
+    const control = this.form.controls.password;
+    return this.formValidationService.getValidationMessage(control, {minlength: this.appProps.userPasswordMinLength});
+  }
+
+  get confirmPasswordError() {
+    return this.formValidationService.getValidationMessage(this.form);
   }
 
   onSubmit() {
