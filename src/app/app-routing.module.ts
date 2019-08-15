@@ -4,8 +4,8 @@ import {LoginComponent} from './public-forms/login/login.component';
 import {RegisterComponent} from './public-forms/register/register.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent, data: {animation: 'Login'}},
+  {path: 'register', component: RegisterComponent, data: {animation: 'Register'}},
   {path: '**', component: LoginComponent},
 ];
 

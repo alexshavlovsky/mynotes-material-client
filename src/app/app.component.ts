@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {RouterOutlet} from "@angular/router";
+import {routeAnimations} from "./router.animations";
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations: [routeAnimations]
 })
 export class AppComponent {
-  title = 'mynotes-material-client';
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
 }
