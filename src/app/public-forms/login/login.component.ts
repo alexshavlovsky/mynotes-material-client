@@ -8,7 +8,10 @@ import {FormValidationService} from "../../services/form-validation.service";
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['../common/public-form.css'],
-  animations: formAnimations
+  animations: [formAnimations],
+  host: {
+    '[@formAnimations]': 'true'
+  }
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;

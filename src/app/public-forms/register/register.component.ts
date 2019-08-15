@@ -8,7 +8,10 @@ import {CrossFieldErrorMatcher, FormValidationService} from "../../services/form
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../common/public-form.css'],
-  animations: formAnimations
+  animations: [formAnimations],
+  host: {
+    '[@formAnimations]': 'true'
+  }
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup;

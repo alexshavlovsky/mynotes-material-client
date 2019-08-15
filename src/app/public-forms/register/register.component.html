@@ -1,9 +1,9 @@
 <div>
-  <mat-card @formHeader>
+  <mat-card>
     <mat-icon>how_to_reg</mat-icon>
     <h1>Sign up for {{appProps.appName}}</h1>
   </mat-card>
-  <mat-card class="mt-16" @formBody>
+  <mat-card class="mt-16">
     <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <input type="text" matInput placeholder="Your first name" class="form-control" formControlName="firstName">
@@ -28,7 +28,7 @@
       <button type="submit" mat-raised-button color="primary">Sing up</button>
     </form>
   </mat-card>
-  <mat-card class="mt-16" @formFooter>
+  <mat-card class="mt-16">
     <mat-card-content>
       Already registered?
       <a mat-button color="primary" routerLink="/login">Log in</a>.
