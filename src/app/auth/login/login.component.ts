@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {AppPropertiesService} from '../../services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {formAnimations} from '../common/animations';
+import {authAnimation} from '../shared/auth.animation';
 import {FormValidationService} from "../../services/form-validation.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../common/public-form.css'],
-  animations: [formAnimations],
+  styleUrls: ['../shared/auth.css'],
+  animations: [authAnimation],
   host: {
-    '[@formAnimations]': 'true'
+    '[@authAnimation]': 'true'
   }
 })
 export class LoginComponent implements OnInit {

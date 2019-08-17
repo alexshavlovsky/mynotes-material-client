@@ -1,6 +1,6 @@
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
 
-export const formAnimations = trigger('formAnimations', [
+export const authAnimation = trigger('authAnimation', [
   transition(':enter', [
     query('mat-card', [
       style({transform: 'translateX(100vw)'}),

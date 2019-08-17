@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppPropertiesService} from "../../services/app-properties.service";
-import {formAnimations} from '../common/animations';
+import {authAnimation} from '../shared/auth.animation';
 import {CrossFieldErrorMatcher, FormValidationService} from "../../services/form-validation.service";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../common/public-form.css'],
-  animations: [formAnimations],
+  styleUrls: ['../shared/auth.css'],
+  animations: [authAnimation],
   host: {
-    '[@formAnimations]': 'true'
+    '[@authAnimation]': 'true'
   }
 })
 export class RegisterComponent implements OnInit {
