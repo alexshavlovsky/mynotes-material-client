@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppPropertiesService} from "../../services/app-properties.service";
 import {authAnimation} from '../shared/auth.animation';
@@ -9,11 +9,10 @@ import {CrossFieldErrorMatcher, FormValidationService} from "../../services/form
   templateUrl: './register.component.html',
   styleUrls: ['../shared/auth.css'],
   animations: [authAnimation],
-  host: {
-    '[@authAnimation]': 'true'
-  }
 })
 export class RegisterComponent implements OnInit {
+  @HostBinding('@authAnimation') animation = true;
+
   form: FormGroup;
   errorMatcher = new CrossFieldErrorMatcher(this.appProps.passwordCrossFieldValidatorErrorKey);
 

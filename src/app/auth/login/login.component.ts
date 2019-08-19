@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {AppPropertiesService} from '../../services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {authAnimation} from '../shared/auth.animation';
@@ -9,11 +9,10 @@ import {FormValidationService} from "../../services/form-validation.service";
   templateUrl: './login.component.html',
   styleUrls: ['../shared/auth.css'],
   animations: [authAnimation],
-  host: {
-    '[@authAnimation]': 'true'
-  }
 })
 export class LoginComponent implements OnInit {
+  @HostBinding('@authAnimation') animation = true;
+
   form: FormGroup;
 
   constructor(private appProps: AppPropertiesService,
