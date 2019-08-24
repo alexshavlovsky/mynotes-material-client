@@ -9,6 +9,8 @@ import {AppPropertiesService} from './services/app-properties.service';
 import {FormValidationService} from "./services/form-validation.service";
 import {AuthModule} from "./auth/auth.module";
 import {ErrorComponent} from './error.component';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import {ErrorComponent} from './error.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
   providers: [AppPropertiesService, FormValidationService],
   bootstrap: [AppComponent]
