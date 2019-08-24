@@ -13,6 +13,8 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from "./services/custom-route-serializer";
+import {StoreModule} from '@ngrx/store';
+import {metaReducers, reducers} from './reducers';
 
 @NgModule({
   declarations: [
@@ -24,12 +26,15 @@ import {CustomSerializer} from "./services/custom-route-serializer";
     BrowserAnimationsModule,
     AppRoutingModule,
     AuthModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    StoreRouterConnectingModule.forRoot({serializer: CustomSerializer})
-// TODO: add in the root reducer:
-// export const reducers: ActionReducerMap<State> = {
-//   router: routerReducer
-// };
+    StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
   ],
   providers: [AppPropertiesService, FormValidationService],
   bootstrap: [AppComponent]
