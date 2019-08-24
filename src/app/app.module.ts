@@ -8,10 +8,12 @@ import {AppComponent} from './app.component';
 import {AppPropertiesService} from './services/app-properties.service';
 import {FormValidationService} from "./services/form-validation.service";
 import {AuthModule} from "./auth/auth.module";
+import {ErrorComponent} from './error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
