@@ -15,6 +15,8 @@ import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from "./services/custom-route-serializer";
 import {StoreModule} from '@ngrx/store';
 import {metaReducers, reducers} from './reducers';
+import {EffectsModule} from '@ngrx/effects';
+
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import {metaReducers, reducers} from './reducers';
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
+    EffectsModule.forRoot([]),
   ],
   providers: [AppPropertiesService, FormValidationService],
   bootstrap: [AppComponent]
