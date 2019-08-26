@@ -7,7 +7,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AppPropertiesService} from './services/app-properties.service';
 import {FormValidationService} from "./services/form-validation.service";
-import {AuthModule} from "./auth/auth.module";
 import {ErrorComponent} from './error.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
@@ -29,7 +28,6 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AuthModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
