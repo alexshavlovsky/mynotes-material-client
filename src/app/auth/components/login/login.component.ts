@@ -1,20 +1,20 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {AppPropertiesService} from '../../services/app-properties.service';
+import {AppPropertiesService} from '../../../services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {authAnimation} from '../shared/auth.animation';
-import {FormValidationService} from "../../services/form-validation.service";
+import {animations} from '../animations';
+import {FormValidationService} from "../../../services/form-validation.service";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../reducers";
-import {LoginRequest} from "../auth.actions";
+import {AppState} from "../../../reducers";
+import {LoginRequest} from "../../store/auth.actions";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../shared/auth.css'],
-  animations: [authAnimation],
+  styleUrls: ['../styles.css'],
+  animations: [animations],
 })
 export class LoginComponent implements OnInit {
-  @HostBinding('@authAnimation') animation = true;
+  @HostBinding('@animations') animation = true;
 
   form: FormGroup;
 

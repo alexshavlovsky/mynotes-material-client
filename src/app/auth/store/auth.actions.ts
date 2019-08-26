@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {UserLoginRequest} from "./model/user-login-request.model";
-import {UserLoginResponse} from "./model/user-login-response.model";
+import {UserLoginRequest} from "../model/user-login-request.model";
+import {UserLoginResponse} from "../model/user-login-response.model";
 
 export enum AuthActionTypes {
   LoginRequest = '[Auth LoginPage] Login Request',

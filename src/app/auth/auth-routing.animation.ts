@@ -2,7 +2,7 @@ import {animate, animateChild, group, query as q, style, transition, trigger} fr
 
 const query = (s, a, o = {optional: true}) => q(s, a, o);
 
-export const authWrapperAnimation = trigger('authWrapperAnimation', [
+export const authRoutingAnimation = trigger('authRoutingAnimation', [
   transition('* => *', [
     query(':enter, :leave', style({position: 'fixed', width: '100%'})),
     query(':leave', style({zIndex: 1})),

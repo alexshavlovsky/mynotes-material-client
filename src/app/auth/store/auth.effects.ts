@@ -3,9 +3,9 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {catchError, exhaustMap, map} from 'rxjs/operators';
 import {AuthActions, AuthActionTypes, LoginFailure, LoginSuccess} from './auth.actions';
-import {HttpService} from "../services/http.service";
+import {HttpService} from "../../services/http.service";
 import {of} from "rxjs";
-import {adaptErrorMessage, AppPropertiesService} from "../services/app-properties.service";
+import {adaptErrorMessage, AppPropertiesService} from "../../services/app-properties.service";
 
 
 @Injectable()

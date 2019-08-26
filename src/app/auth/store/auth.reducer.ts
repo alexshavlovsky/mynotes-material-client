@@ -1,6 +1,6 @@
 import {AuthActions, AuthActionTypes} from './auth.actions';
 import {createFeatureSelector} from "@ngrx/store";
-import {UserRegisterResponse} from "./model/user-register-response.model";
+import {UserRegisterResponse} from "../model/user-register-response.model";
 
 export const authStateKey = 'auth';
 

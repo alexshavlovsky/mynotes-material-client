@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
-import {authWrapperAnimation} from "./auth-wrapper.animation";
+import {authRoutingAnimation} from "./auth-routing.animation";
 
 @Component({
   selector: 'auth-wrapper',
-  templateUrl: './auth-wrapper.component.html',
-  animations: [authWrapperAnimation]
+  templateUrl: './auth.component.html',
+  animations: [authRoutingAnimation]
 })
-export class AuthWrapperComponent {
+export class AuthComponent {
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];

@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./login/login.component";
-import {RegisterComponent} from "./register/register.component";
-import {AuthWrapperComponent} from "./wrapper/auth-wrapper.component";
+import {LoginComponent} from "./components/login/login.component";
+import {RegisterComponent} from "./components/register/register.component";
+import {AuthComponent} from "./auth.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   {
-    path: '', component: AuthWrapperComponent, children: [
+    path: '', component: AuthComponent, children: [
       {path: 'login', component: LoginComponent, data: {animation: 'Login'}},
       {path: 'register', component: RegisterComponent, data: {animation: 'Register'}},
     ]
