@@ -28,6 +28,8 @@ export class AppPropertiesService {
     {name: this.passwordCrossFieldValidatorErrorKey, message: 'Passwords do not match'}
   ];
   readonly msgLoginFailure = 'Failed to login';
+  readonly snackbarErrorAction = 'Hide';
+  readonly snackbarErrorDelay = 5000;
 
   readonly API_USERS = 'users';
   readonly API_CURRENT_USER = 'current';

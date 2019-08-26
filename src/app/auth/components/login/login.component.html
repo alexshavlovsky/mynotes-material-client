@@ -13,7 +13,13 @@
         <input type="password" matInput placeholder="Your password" class="form-control" formControlName="password">
         <mat-error>{{passwordError}}</mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary">Sing in</button>
+      <button type="submit" mat-raised-button color="primary"
+              matBadge="!" matBadgeColor="accent"
+              [matBadgeHidden]="!(lastErrorMessage$|async)"
+              [disabled]="isInProgress$|async"
+              [matTooltip]="lastErrorMessage$|async|prefix:'Last error: '">
+        Sing in
+      </button>
     </form>
   </mat-card>
   <mat-card class="mt-16">

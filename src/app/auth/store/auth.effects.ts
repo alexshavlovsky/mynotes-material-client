@@ -6,7 +6,7 @@ import {AuthActions, AuthActionTypes, LoginFailure, LoginSuccess} from './auth.a
 import {HttpService} from "../../services/http.service";
 import {of} from "rxjs";
 import {adaptErrorMessage, AppPropertiesService} from "../../services/app-properties.service";
-
+import {MatSnackBar} from "@angular/material";
 
 @Injectable()
 export class AuthEffects {
@@ -16,16 +16,20 @@ export class AuthEffects {
       ofType(AuthActionTypes.LoginRequest),
       exhaustMap(action => this.http.postLoginRequest(action.payload.userLoginRequest).pipe(
         map(userLoginResponse => new LoginSuccess({userLoginResponse})),
-        catchError(error =>
-          of(new LoginFailure({userLoginErrorMessage: adaptErrorMessage(error, this.appProps.msgLoginFailure)}))
-        ))
+        catchError(error => {
+          const userLoginErrorMessage = adaptErrorMessage(error, this.appProps.msgLoginFailure);
+          this.snackbar.open(userLoginErrorMessage, this.appProps.snackbarErrorAction,
+            {duration: this.appProps.snackbarErrorDelay});
+          return of(new LoginFailure({userLoginErrorMessage}))
+        }))
       )
     ),
   );
 
   constructor(private actions$: Actions<AuthActions>,
               private http: HttpService,
-              private appProps: AppPropertiesService) {
+              private appProps: AppPropertiesService,
+              private snackbar: MatSnackBar) {
   }
 
 }
