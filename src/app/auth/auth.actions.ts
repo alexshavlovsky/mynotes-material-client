@@ -3,13 +3,13 @@ import {UserLoginRequest} from "./model/user-login-request.model";
 import {UserLoginResponse} from "./model/user-login-response.model";
 
 export enum AuthActionTypes {
-  LoginRequested = '[Auth LoginPage] Login Requested',
+  LoginRequest = '[Auth LoginPage] Login Request',
   LoginSuccess = '[Auth API] Login Success',
-  LoginError = '[Auth API] Login Error',
+  LoginFailure = '[Auth API] Login Failure',
 }
 
-export class LoginRequested implements Action {
-  readonly type = AuthActionTypes.LoginRequested;
+export class LoginRequest implements Action {
+  readonly type = AuthActionTypes.LoginRequest;
 
   constructor(public payload: { userLoginRequest: UserLoginRequest }) {
   }
@@ -22,11 +22,11 @@ export class LoginSuccess implements Action {
   }
 }
 
-export class LoginError implements Action {
-  readonly type = AuthActionTypes.LoginError;
+export class LoginFailure implements Action {
+  readonly type = AuthActionTypes.LoginFailure;
 
   constructor(public payload: { userLoginErrorMessage: string }) {
   }
 }
 
-export type AuthActions = LoginRequested | LoginSuccess | LoginError;
+export type AuthActions = LoginRequest | LoginSuccess | LoginFailure;

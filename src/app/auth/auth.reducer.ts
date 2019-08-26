@@ -8,15 +8,13 @@ export const selectAuthState = createFeatureSelector<AuthState>(authStateKey);
 
 export interface AuthState {
   isLoginRequestInProgress: boolean
-  isAuthenticated: boolean
-  loginErrorMessage: string | null
-  token: string | null
-  user: UserRegisterResponse | null
+  loginErrorMessage: string
+  token: string
+  user: UserRegisterResponse
 }
 
 export const initialAuthState: AuthState = {
   isLoginRequestInProgress: false,
-  isAuthenticated: false,
   loginErrorMessage: null,
   token: null,
   user: null
@@ -25,8 +23,29 @@ export const initialAuthState: AuthState = {
 export function reducer(state = initialAuthState, action: AuthActions): AuthState {
   switch (action.type) {
 
-    case AuthActionTypes.LoginRequested:
-      return state;
+    case AuthActionTypes.LoginRequest:
+      return {
+        ...state,
+        isLoginRequestInProgress: true,
+        loginErrorMessage: null,
+      };
+
+    case AuthActionTypes.LoginSuccess:
+      const response = action.payload.userLoginResponse;
+      return {
+        ...state,
+        isLoginRequestInProgress: false,
+        token: response.token,
+        user: response.user,
+      };
+
+    case AuthActionTypes.LoginFailure:
+      const message = action.payload.userLoginErrorMessage;
+      return {
+        ...state,
+        isLoginRequestInProgress: false,
+        loginErrorMessage: message,
+      };
 
     default:
       return state;

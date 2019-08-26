@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {selectAuthState} from './auth.reducer';
 
-export const isAuthenticated = createSelector(
+export const authToken = createSelector(
   selectAuthState,
-  auth => auth.isAuthenticated
+  auth => auth.token
 );

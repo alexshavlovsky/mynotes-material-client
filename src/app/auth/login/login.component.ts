@@ -3,6 +3,9 @@ import {AppPropertiesService} from '../../services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {authAnimation} from '../shared/auth.animation';
 import {FormValidationService} from "../../services/form-validation.service";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../reducers";
+import {LoginRequest} from "../auth.actions";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private appProps: AppPropertiesService,
               private formBuilder: FormBuilder,
-              private formValidationService: FormValidationService) {
+              private formValidationService: FormValidationService,
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -41,7 +45,7 @@ export class LoginComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    console.log(this.form.value);
+    this.store.dispatch(new LoginRequest({userLoginRequest: this.form.value}));
   }
 
 }
