@@ -16,7 +16,8 @@ import {CustomSerializer} from "./services/custom-route-serializer";
 import {StoreModule} from '@ngrx/store';
 import {metaReducers, reducers} from './reducers';
 import {EffectsModule} from '@ngrx/effects';
-
+import {HttpService} from "./services/http.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {EffectsModule} from '@ngrx/effects';
     ErrorComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -39,7 +41,7 @@ import {EffectsModule} from '@ngrx/effects';
     StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
     EffectsModule.forRoot([]),
   ],
-  providers: [AppPropertiesService, FormValidationService],
+  providers: [AppPropertiesService, FormValidationService, HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
