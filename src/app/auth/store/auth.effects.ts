@@ -25,7 +25,7 @@ export class AuthEffects {
         map(response => new LoginSuccess({response})),
         catchError(error => {
           const message = adaptErrorMessage(error, this.appProps.msgLoginFailure);
-          this.openSnackbar(message);
+          this.openErrorSnackbar(message);
           return of(new LoginFailure({message}))
         }))
       )
@@ -37,12 +37,12 @@ export class AuthEffects {
       ofType(AuthActionTypes.REGISTER_REQUEST),
       exhaustMap(action => this.http.postRegisterRequest(action.payload.request).pipe(
         map(response => {
-          this.openSnackbar(this.appProps.msgRegisterSuccess);
+          this.openSuccessSnackbar(this.appProps.msgRegisterSuccess);
           return new RegisterSuccess({response});
         }),
         catchError(error => {
           const message = adaptErrorMessage(error, this.appProps.msgRegisterFailure);
-          this.openSnackbar(message);
+          this.openErrorSnackbar(message);
           return of(new RegisterFailure({message}))
         }))
       )
@@ -55,9 +55,14 @@ export class AuthEffects {
               private snackbar: MatSnackBar) {
   }
 
-  openSnackbar(message: string) {
+  openSuccessSnackbar(message: string) {
     this.snackbar.open(message, this.appProps.snackbarDefaultAction,
-      {duration: this.appProps.snackbarDefaultDelay});
+      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['success-snackbar']});
+  }
+
+  openErrorSnackbar(message: string) {
+    this.snackbar.open(message, this.appProps.snackbarDefaultAction,
+      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['error-snackbar']});
   }
 
 }

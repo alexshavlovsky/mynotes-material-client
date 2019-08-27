@@ -30,7 +30,7 @@ export class AppPropertiesService {
   readonly msgLoginFailure = 'Failed to sign in';
   readonly msgRegisterFailure = 'Failed to sign up';
   readonly msgRegisterSuccess = 'Your account has been created';
-  readonly snackbarDefaultAction = 'hide';
+  readonly snackbarDefaultAction = 'close';
   readonly snackbarDefaultDelay = 5000;
 
   readonly API_USERS = 'users';

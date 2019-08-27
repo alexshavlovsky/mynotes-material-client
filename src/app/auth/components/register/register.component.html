@@ -26,7 +26,7 @@
         <mat-error>{{confirmPasswordError}}</mat-error>
       </mat-form-field>
       <button type="submit" mat-raised-button color="primary"
-              matBadge="!" matBadgeColor="accent"
+              matBadge="!" matBadgeColor="warn"
               [matBadgeHidden]="!(lastErrorMessage$|async)"
               [disabled]="isInProgress$|async"
               [matTooltip]="lastErrorMessage$|async|prefix:'Last error: '">
