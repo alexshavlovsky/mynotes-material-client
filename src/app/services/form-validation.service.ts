@@ -8,7 +8,7 @@ export class CrossFieldErrorMatcher implements ErrorStateMatcher {
   }
 
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return (control.dirty || control.touched) && form.hasError(this.errorKey);
+    return (control.dirty || control.touched || form.submitted) && form.hasError(this.errorKey);
   }
 }
 
