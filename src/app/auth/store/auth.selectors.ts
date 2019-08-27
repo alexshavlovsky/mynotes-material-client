@@ -6,12 +6,12 @@ export const authToken = createSelector(
   auth => auth.token
 );
 
-export const loginInProgress = createSelector(
+export const isLoginInProgress = createSelector(
   selectAuthState,
   auth => auth.isLoginRequestInProgress
 );
 
 export const loginLastErrorMessage = createSelector(
   selectAuthState,
-  auth => auth.loginErrorMessage
+  auth => auth.loginLastErrorMessage
 );

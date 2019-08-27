@@ -6,7 +6,7 @@ import {FormValidationService} from "../../../services/form-validation.service";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../reducers";
 import {LoginRequest} from "../../store/auth.actions";
-import {loginInProgress, loginLastErrorMessage} from "../../store/auth.selectors";
+import {isLoginInProgress, loginLastErrorMessage} from "../../store/auth.selectors";
 import {Observable} from "rxjs";
 
 @Component({
@@ -17,7 +17,7 @@ import {Observable} from "rxjs";
 })
 export class LoginComponent implements OnInit {
   @HostBinding('@animations') animation = true;
-  isInProgress$: Observable<boolean> = this.store.select(loginInProgress);
+  isInProgress$: Observable<boolean> = this.store.select(isLoginInProgress);
   lastErrorMessage$: Observable<string> = this.store.select(loginLastErrorMessage);
 
   form: FormGroup;
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (!this.form.valid) return;
-    this.store.dispatch(new LoginRequest({userLoginRequest: this.form.value}));
+    this.store.dispatch(new LoginRequest({request: this.form.value}));
   }
 
 }

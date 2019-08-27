@@ -13,14 +13,14 @@ export class AuthEffects {
 
   loginRequest$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActionTypes.LoginRequest),
-      exhaustMap(action => this.http.postLoginRequest(action.payload.userLoginRequest).pipe(
-        map(userLoginResponse => new LoginSuccess({userLoginResponse})),
+      ofType(AuthActionTypes.LOGIN_REQUEST),
+      exhaustMap(action => this.http.postLoginRequest(action.payload.request).pipe(
+        map(response => new LoginSuccess({response})),
         catchError(error => {
-          const userLoginErrorMessage = adaptErrorMessage(error, this.appProps.msgLoginFailure);
-          this.snackbar.open(userLoginErrorMessage, this.appProps.snackbarErrorAction,
+          const message = adaptErrorMessage(error, this.appProps.msgLoginFailure);
+          this.snackbar.open(message, this.appProps.snackbarErrorAction,
             {duration: this.appProps.snackbarErrorDelay});
-          return of(new LoginFailure({userLoginErrorMessage}))
+          return of(new LoginFailure({message}))
         }))
       )
     ),

@@ -8,14 +8,14 @@ export const selectAuthState = createFeatureSelector<AuthState>(authStateKey);
 
 export interface AuthState {
   isLoginRequestInProgress: boolean
-  loginErrorMessage: string
+  loginLastErrorMessage: string
   token: string
   user: UserRegisterResponse
 }
 
 export const initialAuthState: AuthState = {
   isLoginRequestInProgress: false,
-  loginErrorMessage: null,
+  loginLastErrorMessage: null,
   token: null,
   user: null
 };
@@ -23,15 +23,15 @@ export const initialAuthState: AuthState = {
 export function reducer(state = initialAuthState, action: AuthActions): AuthState {
   switch (action.type) {
 
-    case AuthActionTypes.LoginRequest:
+    case AuthActionTypes.LOGIN_REQUEST:
       return {
         ...state,
         isLoginRequestInProgress: true,
-        loginErrorMessage: null,
+        loginLastErrorMessage: null,
       };
 
-    case AuthActionTypes.LoginSuccess:
-      const response = action.payload.userLoginResponse;
+    case AuthActionTypes.LOGIN_SUCCESS:
+      const response = action.payload.response;
       return {
         ...state,
         isLoginRequestInProgress: false,
@@ -39,12 +39,12 @@ export function reducer(state = initialAuthState, action: AuthActions): AuthStat
         user: response.user,
       };
 
-    case AuthActionTypes.LoginFailure:
-      const message = action.payload.userLoginErrorMessage;
+    case AuthActionTypes.LOGIN_FAILURE:
+      const message = action.payload.message;
       return {
         ...state,
         isLoginRequestInProgress: false,
-        loginErrorMessage: message,
+        loginLastErrorMessage: message,
       };
 
     default:

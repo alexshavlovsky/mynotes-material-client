@@ -3,29 +3,29 @@ import {UserLoginRequest} from "../model/user-login-request.model";
 import {UserLoginResponse} from "../model/user-login-response.model";
 
 export enum AuthActionTypes {
-  LoginRequest = '[Auth LoginPage] Login Request',
-  LoginSuccess = '[Auth API] Login Success',
-  LoginFailure = '[Auth API] Login Failure',
+  LOGIN_REQUEST = '[Auth LoginPage] Login Request',
+  LOGIN_SUCCESS = '[Auth API] Login Success',
+  LOGIN_FAILURE = '[Auth API] Login Failure',
 }
 
 export class LoginRequest implements Action {
-  readonly type = AuthActionTypes.LoginRequest;
+  readonly type = AuthActionTypes.LOGIN_REQUEST;
 
-  constructor(public payload: { userLoginRequest: UserLoginRequest }) {
+  constructor(public payload: { request: UserLoginRequest }) {
   }
 }
 
 export class LoginSuccess implements Action {
-  readonly type = AuthActionTypes.LoginSuccess;
+  readonly type = AuthActionTypes.LOGIN_SUCCESS;
 
-  constructor(public payload: { userLoginResponse: UserLoginResponse }) {
+  constructor(public payload: { response: UserLoginResponse }) {
   }
 }
 
 export class LoginFailure implements Action {
-  readonly type = AuthActionTypes.LoginFailure;
+  readonly type = AuthActionTypes.LOGIN_FAILURE;
 
-  constructor(public payload: { userLoginErrorMessage: string }) {
+  constructor(public payload: { message: string }) {
   }
 }
 
