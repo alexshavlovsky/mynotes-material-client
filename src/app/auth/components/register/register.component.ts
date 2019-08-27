@@ -3,6 +3,11 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AppPropertiesService} from "../../../services/app-properties.service";
 import {animations} from '../animations';
 import {CrossFieldErrorMatcher, FormValidationService} from "../../../services/form-validation.service";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../../reducers";
+import {Observable} from "rxjs";
+import {isRegisterInProgress, registerLastErrorMessage} from "../../store/auth.selectors";
+import {RegisterRequest} from "../../store/auth.actions";
 
 @Component({
   selector: 'app-register',
@@ -12,13 +17,16 @@ import {CrossFieldErrorMatcher, FormValidationService} from "../../../services/f
 })
 export class RegisterComponent implements OnInit {
   @HostBinding('@animations') animation = true;
+  isInProgress$: Observable<boolean> = this.store.select(isRegisterInProgress);
+  lastErrorMessage$: Observable<string> = this.store.select(registerLastErrorMessage);
 
   form: FormGroup;
   errorMatcher = new CrossFieldErrorMatcher(this.appProps.passwordCrossFieldValidatorErrorKey);
 
   constructor(private appProps: AppPropertiesService,
               private formBuilder: FormBuilder,
-              private formValidationService: FormValidationService) {
+              private formValidationService: FormValidationService,
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -53,10 +61,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.form.valid) {
-      return;
-    }
-    console.log(this.form.value);
+    if (!this.form.valid) return;
+    this.store.dispatch(new RegisterRequest({request: this.form.value}));
   }
 
 }

@@ -9,6 +9,8 @@ export const selectAuthState = createFeatureSelector<AuthState>(authStateKey);
 export interface AuthState {
   isLoginRequestInProgress: boolean
   loginLastErrorMessage: string
+  isRegisterRequestInProgress: boolean
+  registerLastErrorMessage: string
   token: string
   user: UserRegisterResponse
 }
@@ -16,6 +18,8 @@ export interface AuthState {
 export const initialAuthState: AuthState = {
   isLoginRequestInProgress: false,
   loginLastErrorMessage: null,
+  isRegisterRequestInProgress: false,
+  registerLastErrorMessage: null,
   token: null,
   user: null
 };
@@ -40,11 +44,30 @@ export function reducer(state = initialAuthState, action: AuthActions): AuthStat
       };
 
     case AuthActionTypes.LOGIN_FAILURE:
-      const message = action.payload.message;
       return {
         ...state,
         isLoginRequestInProgress: false,
-        loginLastErrorMessage: message,
+        loginLastErrorMessage: action.payload.message,
+      };
+
+    case AuthActionTypes.REGISTER_REQUEST:
+      return {
+        ...state,
+        isRegisterRequestInProgress: true,
+        registerLastErrorMessage: null,
+      };
+
+    case AuthActionTypes.REGISTER_SUCCESS:
+      return {
+        ...state,
+        isRegisterRequestInProgress: false,
+      };
+
+    case AuthActionTypes.REGISTER_FAILURE:
+      return {
+        ...state,
+        isRegisterRequestInProgress: false,
+        registerLastErrorMessage: action.payload.message,
       };
 
     default:

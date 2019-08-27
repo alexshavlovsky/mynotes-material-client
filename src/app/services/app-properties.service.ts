@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpHeaders} from "@angular/common/http";
 
-export interface validationMessageEntry {
+export interface ValidationMessageEntry {
   name: string;
   message: string | ((options: any) => string);
 }
@@ -21,15 +21,17 @@ export class AppPropertiesService {
   readonly appName = 'MyNotes';
   readonly passwordCrossFieldValidatorErrorKey = 'passwords';
   readonly userPasswordMinLength = 5;
-  readonly validationMessages: validationMessageEntry[] = [
+  readonly validationMessages: ValidationMessageEntry[] = [
     {name: 'required', message: 'This field is required'},
     {name: 'minlength', message: f => `Please enter at least ${f.minlength} characters`},
     {name: 'email', message: 'Please enter a valid email address'},
     {name: this.passwordCrossFieldValidatorErrorKey, message: 'Passwords do not match'}
   ];
-  readonly msgLoginFailure = 'Failed to login';
-  readonly snackbarErrorAction = 'Hide';
-  readonly snackbarErrorDelay = 5000;
+  readonly msgLoginFailure = 'Failed to sign in';
+  readonly msgRegisterFailure = 'Failed to sign up';
+  readonly msgRegisterSuccess = 'Your account has been created';
+  readonly snackbarDefaultAction = 'hide';
+  readonly snackbarDefaultDelay = 5000;
 
   readonly API_USERS = 'users';
   readonly API_CURRENT_USER = 'current';

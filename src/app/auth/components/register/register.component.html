@@ -25,7 +25,13 @@
                formControlName="confirmPassword" [errorStateMatcher]="errorMatcher">
         <mat-error>{{confirmPasswordError}}</mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary">Sing up</button>
+      <button type="submit" mat-raised-button color="primary"
+              matBadge="!" matBadgeColor="accent"
+              [matBadgeHidden]="!(lastErrorMessage$|async)"
+              [disabled]="isInProgress$|async"
+              [matTooltip]="lastErrorMessage$|async|prefix:'Last error: '">
+        Sing up
+      </button>
     </form>
   </mat-card>
   <mat-card class="mt-16">
