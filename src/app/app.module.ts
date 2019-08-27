@@ -17,6 +17,8 @@ import {metaReducers, reducers} from './reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from "./services/http.service";
 import {HttpClientModule} from "@angular/common/http";
+import {SnackBarService} from "./services/snack-bar.service";
+import {MatSnackBarModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MatSnackBarModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -39,7 +42,7 @@ import {HttpClientModule} from "@angular/common/http";
     StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
     EffectsModule.forRoot([]),
   ],
-  providers: [AppPropertiesService, FormValidationService, HttpService],
+  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

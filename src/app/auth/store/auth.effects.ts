@@ -13,7 +13,7 @@ import {
 import {HttpService} from "../../services/http.service";
 import {of} from "rxjs";
 import {adaptErrorMessage, AppPropertiesService} from "../../services/app-properties.service";
-import {MatSnackBar} from "@angular/material";
+import {SnackBarService} from "../../services/snack-bar.service";
 
 @Injectable()
 export class AuthEffects {
@@ -25,7 +25,7 @@ export class AuthEffects {
         map(response => new LoginSuccess({response})),
         catchError(error => {
           const message = adaptErrorMessage(error, this.appProps.msgLoginFailure);
-          this.openErrorSnackbar(message);
+          this.snackBar.openError(message);
           return of(new LoginFailure({message}))
         }))
       )
@@ -37,12 +37,12 @@ export class AuthEffects {
       ofType(AuthActionTypes.REGISTER_REQUEST),
       exhaustMap(action => this.http.postRegisterRequest(action.payload.request).pipe(
         map(response => {
-          this.openSuccessSnackbar(this.appProps.msgRegisterSuccess);
+          this.snackBar.openSuccess(this.appProps.msgRegisterSuccess);
           return new RegisterSuccess({response});
         }),
         catchError(error => {
           const message = adaptErrorMessage(error, this.appProps.msgRegisterFailure);
-          this.openErrorSnackbar(message);
+          this.snackBar.openError(message);
           return of(new RegisterFailure({message}))
         }))
       )
@@ -52,17 +52,7 @@ export class AuthEffects {
   constructor(private actions$: Actions<AuthActions>,
               private http: HttpService,
               private appProps: AppPropertiesService,
-              private snackbar: MatSnackBar) {
-  }
-
-  openSuccessSnackbar(message: string) {
-    this.snackbar.open(message, this.appProps.snackbarDefaultAction,
-      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['success-snackbar']});
-  }
-
-  openErrorSnackbar(message: string) {
-    this.snackbar.open(message, this.appProps.snackbarDefaultAction,
-      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['error-snackbar']});
+              private snackBar: SnackBarService) {
   }
 
 }
