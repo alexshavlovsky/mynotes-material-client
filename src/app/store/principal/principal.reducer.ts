@@ -30,6 +30,11 @@ export function reducer(state = initialState, action: PrincipalActions): Princip
         token: null,
         user: null,
       };
+    case PrincipalActionTypes.SET_TOKEN_AND_FETCH_USER:
+      return {
+        ...state,
+        token: action.payload.token,
+      };
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -12,8 +12,8 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from "./services/custom-route-serializer";
-import {StoreModule} from '@ngrx/store';
-import {metaReducers, reducers} from './store';
+import {Store, StoreModule} from '@ngrx/store';
+import {AppState, metaReducers, reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from "./services/http.service";
 import {HttpClientModule} from "@angular/common/http";
@@ -21,6 +21,7 @@ import {SnackBarService} from "./services/snack-bar.service";
 import {MatSnackBarModule} from "@angular/material";
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from "./store/principal/principal.effects";
+import {AppInit} from "./store/principal/principal.actions";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,16 @@ import {PrincipalEffects} from "./store/principal/principal.effects";
     EffectsModule.forRoot([PrincipalEffects]),
     StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
   ],
-  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService],
+  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (store: Store<AppState>) => {
+        return () => store.dispatch(new AppInit());
+      },
+      multi: true,
+      deps: [Store]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

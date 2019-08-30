@@ -5,9 +5,10 @@ import {UserRegisterResponse} from "../../auth/model/user-register-response.mode
 export enum PrincipalActionTypes {
   LOGIN = '[AuthModule] Login',
   LOGOUT = '[UI] Logout',
-  APPROVE_TOKEN_ON_APP_INIT = '[AppInit Core] Approve token',
-  FETCH_USER_SUCCESS = '[AppInit API] Fetch current user success',
-  FETCH_USER_FAILURE = '[AppInit API] Fetch current user failure',
+  APP_INIT = '[AppInit Core] Init',
+  SET_TOKEN_AND_FETCH_USER = '[AppInit Core] Set token and fetch user',
+  FETCH_USER_SUCCESS = '[Auth API] Fetch current user success',
+  FETCH_USER_FAILURE = '[Auth API] Fetch current user failure',
   PRINCIPAL_APPROVED = '[AppInit Core] Principal approved',
   PRINCIPAL_REJECTED = '[AppInit Core] Principal rejected',
   TOKEN_REJECTED = '[Auth Core] Token rejected',
@@ -24,11 +25,15 @@ export class Logout implements Action {
   readonly type = PrincipalActionTypes.LOGOUT;
 }
 
-export class ApproveTokenOnAppInit implements Action {
-  readonly type = PrincipalActionTypes.APPROVE_TOKEN_ON_APP_INIT;
+export class SetTokenAndFetchUser implements Action {
+  readonly type = PrincipalActionTypes.SET_TOKEN_AND_FETCH_USER;
 
   constructor(public payload: { token: string }) {
   }
+}
+
+export class AppInit implements Action {
+  readonly type = PrincipalActionTypes.APP_INIT;
 }
 
 export class FetchUserSuccess implements Action {
@@ -62,7 +67,7 @@ export class TokenRejected implements Action {
 
 export type PrincipalActions =
   Login | Logout |
-  ApproveTokenOnAppInit |
+  AppInit | SetTokenAndFetchUser |
   FetchUserSuccess | FetchUserFailure |
   PrincipalApproved | PrincipalRejected |
   TokenRejected;

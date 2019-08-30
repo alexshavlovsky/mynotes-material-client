@@ -1,16 +1,26 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {SnackBarService} from "../../services/snack-bar.service";
-import {PrincipalActions, PrincipalActionTypes} from "./principal.actions";
-import {tap} from "rxjs/operators";
+import {PrincipalActions, PrincipalActionTypes, SetTokenAndFetchUser} from "./principal.actions";
+import {filter, map, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 
 @Injectable()
 export class PrincipalEffects {
 
+  init$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PrincipalActionTypes.APP_INIT),
+      map(() => localStorage.getItem('token')),
+      filter(token => token !== null),
+      map(token => new SetTokenAndFetchUser({token}))
+    )
+  );
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PrincipalActionTypes.LOGIN),
+      tap(action => localStorage.setItem('token', action.payload.principal.token)),
       tap(action => this.snackBar.openSuccess('You logged in as ' + action.payload.principal.user.firstName)),
       tap(() => this.router.navigate(['/'])),
     ), {dispatch: false}
@@ -19,6 +29,7 @@ export class PrincipalEffects {
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PrincipalActionTypes.LOGOUT),
+      tap(() => localStorage.removeItem('token')),
       tap(() => this.router.navigate(['/'])),
     ), {dispatch: false}
   );
