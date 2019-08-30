@@ -10,11 +10,11 @@ import {
   RegisterFailure,
   RegisterSuccess
 } from './auth.actions';
-import {HttpService} from "../../services/http.service";
-import {of} from "rxjs";
-import {adaptErrorMessage, AppPropertiesService} from "../../services/app-properties.service";
-import {SnackBarService} from "../../services/snack-bar.service";
-import {Login} from "../../store/principal/principal.actions";
+import {HttpService} from '../../core/services/http.service';
+import {of} from 'rxjs';
+import {adaptErrorMessage, AppPropertiesService} from '../../core/services/app-properties.service';
+import {SnackBarService} from '../../core/services/snack-bar.service';
+import {Login} from '../../store/principal/principal.actions';
 
 @Injectable()
 export class AuthEffects {

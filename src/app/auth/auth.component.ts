@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from "@angular/router";
-import {authRoutingAnimation} from "./auth-routing.animation";
+import {RouterOutlet} from '@angular/router';
+import {authRoutingAnimation} from './auth-routing.animation';
 
 @Component({
-  selector: 'auth-wrapper',
+  selector: 'app-auth',
   templateUrl: './auth.component.html',
   animations: [authRoutingAnimation]
 })

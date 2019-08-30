@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AppState} from "../store";
-import {Store} from "@ngrx/store";
-import {Logout} from "../store/principal/principal.actions";
+import {AppState} from '../store';
+import {Store} from '@ngrx/store';
+import {Logout} from '../store/principal/principal.actions';
 
 @Component({
   selector: 'app-notebooks',

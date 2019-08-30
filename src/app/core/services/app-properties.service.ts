@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpHeaders} from "@angular/common/http";
+import {HttpHeaders} from '@angular/common/http';
 
 export interface ValidationMessageEntry {
   name: string;

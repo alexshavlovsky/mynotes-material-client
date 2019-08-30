@@ -8,9 +8,9 @@ import {
   UrlSegment
 } from '@angular/router';
 import {Observable} from 'rxjs';
-import {AppState} from "../store";
-import {MemoizedSelector, select, Store} from "@ngrx/store";
-import {take, tap} from "rxjs/operators";
+import {AppState} from '../../store';
+import {MemoizedSelector, select, Store} from '@ngrx/store';
+import {take, tap} from 'rxjs/operators';
 
 export abstract class AbstractAuthGuard implements CanLoad, CanActivate {
 
@@ -27,7 +27,7 @@ export abstract class AbstractAuthGuard implements CanLoad, CanActivate {
     tap(t => {
       // all redirects are handled by AuthDispatcherGuard which listens on the '/' route
       // so we navigate to the '/' url
-      if (!t) this.router.navigate(['/'])
+      if (!t) this.router.navigate(['/']);
     })
   );
 

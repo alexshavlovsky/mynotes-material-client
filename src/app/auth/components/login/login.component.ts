@@ -1,13 +1,13 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {AppPropertiesService} from '../../../services/app-properties.service';
+import {AppPropertiesService} from '../../../core/services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {animations} from '../animations';
-import {FormValidationService} from "../../../services/form-validation.service";
-import {Store} from "@ngrx/store";
-import {Observable} from "rxjs";
-import {isLoginInProgress, loginLastErrorMessage} from "../../store/auth.selectors";
-import {LoginRequest} from "../../store/auth.actions";
-import {AuthState} from "../../store/auth.reducer";
+import {FormValidationService} from '../../../core/services/form-validation.service';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {isLoginInProgress, loginLastErrorMessage} from '../../store/auth.selectors';
+import {LoginRequest} from '../../store/auth.actions';
+import {AuthState} from '../../store/auth.reducer';
 
 @Component({
   selector: 'app-login',

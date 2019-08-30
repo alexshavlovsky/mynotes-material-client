@@ -1,6 +1,6 @@
 import {Action} from '@ngrx/store';
-import {UserLoginResponse} from "../../auth/model/user-login-response.model";
-import {UserRegisterResponse} from "../../auth/model/user-register-response.model";
+import {UserLoginResponse} from '../../auth/model/user-login-response.model';
+import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 
 export enum PrincipalActionTypes {
   LOGIN = '[AuthModule] Login',

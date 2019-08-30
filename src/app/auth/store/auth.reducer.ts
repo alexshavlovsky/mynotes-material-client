@@ -1,15 +1,15 @@
 import {AuthActions, AuthActionTypes} from './auth.actions';
-import {createFeatureSelector} from "@ngrx/store";
+import {createFeatureSelector} from '@ngrx/store';
 
 export const authStateKey = 'auth';
 
 export const selectAuthState = createFeatureSelector<AuthState>(authStateKey);
 
 export interface AuthState {
-  isLoginRequestInProgress: boolean
-  loginLastErrorMessage: string
-  isRegisterRequestInProgress: boolean
-  registerLastErrorMessage: string
+  isLoginRequestInProgress: boolean;
+  loginLastErrorMessage: string;
+  isRegisterRequestInProgress: boolean;
+  registerLastErrorMessage: string;
 }
 
 export const initialAuthState: AuthState = {

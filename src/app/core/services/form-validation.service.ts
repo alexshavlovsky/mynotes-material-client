@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {AppPropertiesService} from "./app-properties.service";
-import {ErrorStateMatcher} from "@angular/material";
+import {Injectable} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
+import {AppPropertiesService} from './app-properties.service';
+import {ErrorStateMatcher} from '@angular/material';
 
 export class CrossFieldErrorMatcher implements ErrorStateMatcher {
   constructor(private errorKey: string) {
@@ -25,14 +25,14 @@ export class FormValidationService {
       const value1 = group.controls[field1].value;
       const value2 = group.controls[field2].value;
       return value1 === value2 ? null : {[errorKey]: true};
-    }
+    };
   }
 
   getValidationMessage(control: AbstractControl, options?: {}): string | null {
-    for (let entry of this.appProperties.validationMessages)
+    for (const entry of this.appProperties.validationMessages)
       if (control.hasError(entry.name)) {
         const message = entry.message;
-        if (message) return (typeof message === "function") ? message(options === undefined ? {} : options) : message;
+        if (message) return (typeof message === 'function') ? message(options === undefined ? {} : options) : message;
       }
     return null;
   }

@@ -5,23 +5,23 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {AppPropertiesService} from './services/app-properties.service';
-import {FormValidationService} from "./services/form-validation.service";
+import {AppPropertiesService} from './core/services/app-properties.service';
+import {FormValidationService} from './core/services/form-validation.service';
 import {ErrorComponent} from './error.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
-import {CustomSerializer} from "./services/custom-route-serializer";
+import {CustomRouterStateSerializer} from './store/custom-router-sate-serializer';
 import {Store, StoreModule} from '@ngrx/store';
 import {AppState, metaReducers, reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
-import {HttpService} from "./services/http.service";
-import {HttpClientModule} from "@angular/common/http";
-import {SnackBarService} from "./services/snack-bar.service";
-import {MatSnackBarModule} from "@angular/material";
+import {HttpService} from './core/services/http.service';
+import {HttpClientModule} from '@angular/common/http';
+import {SnackBarService} from './core/services/snack-bar.service';
+import {MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
-import {PrincipalEffects} from "./store/principal/principal.effects";
-import {AppInit} from "./store/principal/principal.actions";
+import {PrincipalEffects} from './store/principal/principal.effects';
+import {AppInit} from './store/principal/principal.actions';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import {AppInit} from "./store/principal/principal.actions";
       }
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
+    StoreRouterConnectingModule.forRoot({serializer: CustomRouterStateSerializer}),
     EffectsModule.forRoot([PrincipalEffects]),
     StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
   ],

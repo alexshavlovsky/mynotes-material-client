@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {SnackBarService} from "../../services/snack-bar.service";
-import {PrincipalActions, PrincipalActionTypes, SetTokenAndFetchUser} from "./principal.actions";
-import {filter, map, tap} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {SnackBarService} from '../../core/services/snack-bar.service';
+import {PrincipalActions, PrincipalActionTypes, SetTokenAndFetchUser} from './principal.actions';
+import {filter, map, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class PrincipalEffects {

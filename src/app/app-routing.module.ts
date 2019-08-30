@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ErrorComponent} from "./error.component";
-import {AuthGuard} from "./guards/auth.guard";
-import {AuthDispatcherGuard} from "./guards/auth-dispatcher.guard";
-import {AuthInverseGuard} from "./guards/auth-inverse.guard";
+import {ErrorComponent} from './error.component';
+import {AuthGuard} from './core/guards/auth.guard';
+import {AuthDispatcherGuard} from './core/guards/auth-dispatcher.guard';
+import {AuthInverseGuard} from './core/guards/auth-inverse.guard';
 
 const routes: Routes = [
   {

@@ -1,13 +1,13 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AppPropertiesService} from "../../../services/app-properties.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AppPropertiesService} from '../../../core/services/app-properties.service';
 import {animations} from '../animations';
-import {CrossFieldErrorMatcher, FormValidationService} from "../../../services/form-validation.service";
-import {Store} from "@ngrx/store";
-import {Observable} from "rxjs";
-import {isRegisterInProgress, registerLastErrorMessage} from "../../store/auth.selectors";
-import {RegisterRequest} from "../../store/auth.actions";
-import {AuthState} from "../../store/auth.reducer";
+import {CrossFieldErrorMatcher, FormValidationService} from '../../../core/services/form-validation.service';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {isRegisterInProgress, registerLastErrorMessage} from '../../store/auth.selectors';
+import {RegisterRequest} from '../../store/auth.actions';
+import {AuthState} from '../../store/auth.reducer';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +37,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(this.appProps.userPasswordMinLength)]],
       confirmPassword: ''
     }, {
-      validator: this.formValidationService.getCrossFieldEqualityValidator('password', 'confirmPassword', this.appProps.passwordCrossFieldValidatorErrorKey)
+      validator: this.formValidationService.getCrossFieldEqualityValidator('password', 'confirmPassword',
+        this.appProps.passwordCrossFieldValidatorErrorKey)
     });
   }
 

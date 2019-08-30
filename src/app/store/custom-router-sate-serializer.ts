@@ -7,13 +7,11 @@ export interface RouterStateUrl {
   queryParams: Params;
 }
 
-export class CustomSerializer implements RouterStateSerializer<RouterStateUrl> {
+export class CustomRouterStateSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
 
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
+    while (route.firstChild) route = route.firstChild;
 
     const {
       url,
