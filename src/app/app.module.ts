@@ -13,12 +13,14 @@ import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from "./services/custom-route-serializer";
 import {StoreModule} from '@ngrx/store';
-import {metaReducers, reducers} from './reducers';
+import {metaReducers, reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from "./services/http.service";
 import {HttpClientModule} from "@angular/common/http";
 import {SnackBarService} from "./services/snack-bar.service";
 import {MatSnackBarModule} from "@angular/material";
+import * as fromPrincipal from './store/principal/principal.reducer';
+import {PrincipalEffects} from "./store/principal/principal.effects";
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import {MatSnackBarModule} from "@angular/material";
     }),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot({serializer: CustomSerializer}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([PrincipalEffects]),
+    StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
   ],
   providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService],
   bootstrap: [AppComponent]
