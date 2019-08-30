@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, exhaustMap, map} from 'rxjs/operators';
+import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {
   AuthActions,
   AuthActionTypes,
@@ -14,6 +14,7 @@ import {HttpService} from "../../services/http.service";
 import {of} from "rxjs";
 import {adaptErrorMessage, AppPropertiesService} from "../../services/app-properties.service";
 import {SnackBarService} from "../../services/snack-bar.service";
+import {Login} from "../../store/principal/principal.actions";
 
 @Injectable()
 export class AuthEffects {
@@ -23,30 +24,51 @@ export class AuthEffects {
       ofType(AuthActionTypes.LOGIN_REQUEST),
       exhaustMap(action => this.http.postLoginRequest(action.payload.request).pipe(
         map(response => new LoginSuccess({response})),
-        catchError(error => {
-          const message = adaptErrorMessage(error, this.appProps.msgLoginFailure);
-          this.snackBar.openError(message);
-          return of(new LoginFailure({message}))
-        }))
+        catchError(error =>
+          of(new LoginFailure({message: adaptErrorMessage(error, this.appProps.msgLoginFailure)}))
+        ))
       )
     ),
+  );
+
+  loginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.LOGIN_SUCCESS),
+      map(action => new Login({principal: action.payload.response}))
+    )
+  );
+
+  loginFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.LOGIN_FAILURE),
+      tap(action => this.snackBar.openError(action.payload.message))
+    ), {dispatch: false}
   );
 
   registerRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionTypes.REGISTER_REQUEST),
       exhaustMap(action => this.http.postRegisterRequest(action.payload.request).pipe(
-        map(response => {
-          this.snackBar.openSuccess(this.appProps.msgRegisterSuccess);
-          return new RegisterSuccess({response});
-        }),
-        catchError(error => {
-          const message = adaptErrorMessage(error, this.appProps.msgRegisterFailure);
-          this.snackBar.openError(message);
-          return of(new RegisterFailure({message}))
-        }))
+        map(response => new RegisterSuccess({response})),
+        catchError(error =>
+          of(new RegisterFailure({message: adaptErrorMessage(error, this.appProps.msgRegisterFailure)}))
+        ))
       )
     ),
+  );
+
+  registerSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.REGISTER_SUCCESS),
+      tap(() => this.snackBar.openSuccess(this.appProps.msgRegisterSuccess))
+    ), {dispatch: false}
+  );
+
+  registerFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.REGISTER_FAILURE),
+      tap(action => this.snackBar.openError(action.payload.message))
+    ), {dispatch: false}
   );
 
   constructor(private actions$: Actions<AuthActions>,
