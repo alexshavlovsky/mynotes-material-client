@@ -4,10 +4,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {animations} from '../animations';
 import {FormValidationService} from "../../../services/form-validation.service";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../../reducers";
-import {LoginRequest} from "../../store/auth.actions";
-import {isLoginInProgress, loginLastErrorMessage} from "../../store/auth.selectors";
 import {Observable} from "rxjs";
+import {isLoginInProgress, loginLastErrorMessage} from "../../store/auth.selectors";
+import {LoginRequest} from "../../store/auth.actions";
+import {AuthState} from "../../store/auth.reducer";
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(private appProps: AppPropertiesService,
               private formBuilder: FormBuilder,
               private formValidationService: FormValidationService,
-              private store: Store<AppState>) {
+              private store: Store<AuthState>) {
   }
 
   ngOnInit() {

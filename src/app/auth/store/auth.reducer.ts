@@ -1,6 +1,5 @@
 import {AuthActions, AuthActionTypes} from './auth.actions';
 import {createFeatureSelector} from "@ngrx/store";
-import {UserRegisterResponse} from "../model/user-register-response.model";
 
 export const authStateKey = 'auth';
 
@@ -11,8 +10,6 @@ export interface AuthState {
   loginLastErrorMessage: string
   isRegisterRequestInProgress: boolean
   registerLastErrorMessage: string
-  token: string
-  user: UserRegisterResponse
 }
 
 export const initialAuthState: AuthState = {
@@ -20,8 +17,6 @@ export const initialAuthState: AuthState = {
   loginLastErrorMessage: null,
   isRegisterRequestInProgress: false,
   registerLastErrorMessage: null,
-  token: null,
-  user: null
 };
 
 export function reducer(state = initialAuthState, action: AuthActions): AuthState {
@@ -35,12 +30,9 @@ export function reducer(state = initialAuthState, action: AuthActions): AuthStat
       };
 
     case AuthActionTypes.LOGIN_SUCCESS:
-      const response = action.payload.response;
       return {
         ...state,
         isLoginRequestInProgress: false,
-        token: response.token,
-        user: response.user,
       };
 
     case AuthActionTypes.LOGIN_FAILURE:

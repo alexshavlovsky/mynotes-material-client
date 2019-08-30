@@ -4,10 +4,10 @@ import {AppPropertiesService} from "../../../services/app-properties.service";
 import {animations} from '../animations';
 import {CrossFieldErrorMatcher, FormValidationService} from "../../../services/form-validation.service";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../../reducers";
 import {Observable} from "rxjs";
 import {isRegisterInProgress, registerLastErrorMessage} from "../../store/auth.selectors";
 import {RegisterRequest} from "../../store/auth.actions";
+import {AuthState} from "../../store/auth.reducer";
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
   constructor(private appProps: AppPropertiesService,
               private formBuilder: FormBuilder,
               private formValidationService: FormValidationService,
-              private store: Store<AppState>) {
+              private store: Store<AuthState>) {
   }
 
   ngOnInit() {
