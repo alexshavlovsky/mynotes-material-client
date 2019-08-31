@@ -1,2 +1,4 @@
-<p>notebooks works!</p>
-<button mat-raised-button color="primary" (click)="onLogout()"> Logout</button>
+<button mat-raised-button color="primary" (click)="onLogout()">Logout</button>
+<div [@notebooksRoutingAnimation]="prepareRoute(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>

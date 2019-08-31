@@ -10,7 +10,7 @@ import {authRoutingAnimation} from './auth-routing.animation';
 export class AuthComponent {
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
 }

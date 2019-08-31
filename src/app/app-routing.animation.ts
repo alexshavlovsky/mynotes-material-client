@@ -2,12 +2,11 @@ import {animateChild, query as q, style, transition, trigger} from '@angular/ani
 
 const query = (s, a, o = {optional: true}) => q(s, a, o);
 
-export const authRoutingAnimation = trigger('authRoutingAnimation', [
+export const appRoutingAnimation = trigger('appRoutingAnimation', [
   transition('* => *', [
     query(':enter, :leave', style({position: 'fixed', width: '100%'})),
-    query(':leave', style({zIndex: 3})),
-    query(':enter', style({zIndex: 4})),
-    query(':leave', animateChild()),
-    query(':enter', animateChild()),
-  ])
+    query(':leave', style({zIndex: 1})),
+    query(':enter', style({zIndex: 2})),
+    query('@*', animateChild()),
+  ]),
 ]);
