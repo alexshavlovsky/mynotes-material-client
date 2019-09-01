@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AppPropertiesService} from '../../../core/services/app-properties.service';
 import {CrossFieldErrorMatcher, FormValidationService} from '../../../core/services/form-validation.service';
@@ -7,16 +7,13 @@ import {Observable} from 'rxjs';
 import {isRegisterInProgress, registerLastErrorMessage} from '../../store/auth.selectors';
 import {RegisterRequest} from '../../store/auth.actions';
 import {AuthState} from '../../store/auth.reducer';
-import {authSharedAnimations} from '../auth-shared.animations';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../styles.css'],
-  animations: [authSharedAnimations],
 })
 export class RegisterComponent implements OnInit {
-  @HostBinding('@authSharedAnimations') animation = true;
   isInProgress$: Observable<boolean> = this.store.select(isRegisterInProgress);
   lastErrorMessage$: Observable<string> = this.store.select(registerLastErrorMessage);
 

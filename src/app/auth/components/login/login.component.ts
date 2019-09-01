@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AppPropertiesService} from '../../../core/services/app-properties.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FormValidationService} from '../../../core/services/form-validation.service';
@@ -7,16 +7,13 @@ import {Observable} from 'rxjs';
 import {isLoginInProgress, loginLastErrorMessage} from '../../store/auth.selectors';
 import {LoginRequest} from '../../store/auth.actions';
 import {AuthState} from '../../store/auth.reducer';
-import {authSharedAnimations} from '../auth-shared.animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['../styles.css'],
-  animations: [authSharedAnimations],
 })
 export class LoginComponent implements OnInit {
-  @HostBinding('@authSharedAnimations') animation = true;
   isInProgress$: Observable<boolean> = this.store.select(isLoginInProgress);
   lastErrorMessage$: Observable<string> = this.store.select(loginLastErrorMessage);
 

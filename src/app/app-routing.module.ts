@@ -10,15 +10,13 @@ const routes: Routes = [
     path: 'auth',
     canLoad: [AuthInverseGuard],
     canActivate: [AuthInverseGuard],
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-    data: {animation: 'auth'}
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: 'notebooks',
     canLoad: [AuthGuard],
     canActivate: [AuthGuard],
-    loadChildren: () => import('./notebooks/notebooks.module').then(m => m.NotebooksModule),
-    data: {animation: 'notebooks'}
+    loadChildren: () => import('./notebooks/notebooks.module').then(m => m.NotebooksModule)
   },
   {path: '**', component: ErrorComponent, canActivate: [AuthDispatcherGuard]},
 ];

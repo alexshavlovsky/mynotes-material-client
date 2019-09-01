@@ -1,4 +1,3 @@
-<div [@notebooksRoutingAnimation]="prepareRoute(outlet)">
-  <app-nav-bar @navBarAnimation (logout)="onLogout()" [appName]="appProps.appName"></app-nav-bar>
-  <router-outlet #outlet="outlet"></router-outlet>
-</div>
+<app-nav-bar @navBarAnimation (logout)="onLogout()" [appName]="appProps.appName"></app-nav-bar>
+<router-outlet></router-outlet>
+

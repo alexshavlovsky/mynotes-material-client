@@ -7,7 +7,7 @@ import {NotebooksListComponent} from './notebooks-list/notebooks-list.component'
 const routes: Routes = [
   {
     path: '', component: NotebooksComponent, children: [
-      {path: 'notebooks-list', component: NotebooksListComponent, data: {animation: 'NotebooksList'}},
+      {path: 'notebooks-list', component: NotebooksListComponent},
       {path: '', pathMatch: 'full', redirectTo: 'notebooks-list'},
     ]
   }
