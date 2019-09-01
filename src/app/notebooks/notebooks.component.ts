@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store';
 import {Logout} from '../store/principal/principal.actions';
 import {RouterOutlet} from '@angular/router';
 import {notebooksRoutingAnimation} from './notebooks-routing.animation';
+import {AppPropertiesService} from '../core/services/app-properties.service';
 
 @Component({
   selector: 'app-notebooks',
@@ -13,7 +14,8 @@ import {notebooksRoutingAnimation} from './notebooks-routing.animation';
 })
 export class NotebooksComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+              private appProps: AppPropertiesService) {
   }
 
   prepareRoute(outlet: RouterOutlet) {

@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span>{{appName}}</span>
+
+  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+
+    <ul fxLayout style="list-style: none">
+
+      <li>
+        <button mat-button>
+          <mat-icon>settings</mat-icon>
+          <span fxHide.xs> Settings</span>
+        </button>
+      </li>
+
+      <li>
+        <button mat-button>
+          <mat-icon>help_outline</mat-icon>
+          <span fxHide.xs> Help</span>
+        </button>
+      </li>
+
+      <li>
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>person_outline</mat-icon>
+          <span fxHide.xs> Account</span>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item (click)="logout.emit()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Sign out</span>
+          </button>
+        </mat-menu>
+      </li>
+
+    </ul>
+
+  </div>
+
+</mat-toolbar>
