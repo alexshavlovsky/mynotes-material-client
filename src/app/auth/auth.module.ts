@@ -10,13 +10,11 @@ import {StoreModule} from '@ngrx/store';
 import * as fromAuth from './store/auth.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/auth.effects';
-import {PrefixPipe} from '../core/prefix.pipe';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    PrefixPipe,
   ],
   imports: [
     CommonModule,

@@ -14,16 +14,15 @@
 
   <ul fxLayout>
     <li>
-      <button mat-button [matMenuTriggerFor]="userMenu">
+      <button mat-button *ngIf="user$|async as user"
+              [matTooltip]="user.email|prefix:'Email: '"
+              #tooltip="matTooltip" (click)="tooltip.toggle()">
         <mat-icon>account_circle</mat-icon>
-        <span fxHide.xs> {{(user$|async)?.firstName}}</span>
+        <span fxHide.xs> {{[user.firstName, user.lastName].join(' ')}}</span>
       </button>
-      <mat-menu #userMenu="matMenu">
-        <button mat-menu-item (click)="logout.emit()">
-          <mat-icon>exit_to_app</mat-icon>
-          <span>Sign out</span>
-        </button>
-      </mat-menu>
+      <button mat-button (click)="logout.emit()" [matTooltip]="'Sign out'">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
     </li>
   </ul>
 

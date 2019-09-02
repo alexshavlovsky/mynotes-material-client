@@ -11,8 +11,12 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
+import {PrefixPipe} from './core/prefix.pipe';
 
 @NgModule({
+  declarations: [
+    PrefixPipe
+  ],
   imports: [
     MatButtonModule,
     MatCardModule,
@@ -26,6 +30,7 @@ import {NgModule} from '@angular/core';
     MatListModule,
   ],
   exports: [
+    PrefixPipe,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
