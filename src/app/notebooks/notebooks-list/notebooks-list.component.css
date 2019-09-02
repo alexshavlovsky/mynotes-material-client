@@ -10,14 +10,12 @@ mat-card {
   text-align: center;
 }
 
-mat-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
-}
-
 h1 {
   font-size: 24px;
   font-weight: 300;
   letter-spacing: -.5px;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
 }
