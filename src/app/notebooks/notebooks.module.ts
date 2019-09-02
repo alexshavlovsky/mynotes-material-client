@@ -6,7 +6,7 @@ import {NotebooksComponent} from './notebooks.component';
 import {NotebooksListComponent} from './notebooks-list/notebooks-list.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material.module';
-import {NavBarComponent} from '../core/components/navigation/nav-bar/nav-bar.component';
+import {NavBarComponent} from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [

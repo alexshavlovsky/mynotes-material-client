@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserRegisterResponse} from '../../../../auth/model/user-register-response.model';
+import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,7 +9,7 @@ import {UserRegisterResponse} from '../../../../auth/model/user-register-respons
 })
 export class NavBarComponent implements OnInit {
   @Input() appName: string;
-  @Input() user: UserRegisterResponse;
+  @Input() user$: Observable<UserRegisterResponse>;
   @Output() logout = new EventEmitter<void>();
 
   constructor() {

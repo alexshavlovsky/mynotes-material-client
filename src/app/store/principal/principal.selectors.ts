@@ -10,3 +10,8 @@ export const isTokenAbsent = createSelector(
   selectPrincipalState,
   principal => principal.token == null
 );
+
+export const userDetails = createSelector(
+  selectPrincipalState,
+  principal => principal.user
+);
