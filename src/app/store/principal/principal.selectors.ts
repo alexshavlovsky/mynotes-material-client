@@ -1,14 +1,19 @@
 import {createSelector} from '@ngrx/store';
 import {selectPrincipalState} from './principal.reducer';
 
-export const isTokenPresent = createSelector(
+export const getToken = createSelector(
   selectPrincipalState,
-  principal => principal.token !== null
+  principal => principal.token
+);
+
+export const isTokenPresent = createSelector(
+  getToken,
+  token => token !== null
 );
 
 export const isTokenAbsent = createSelector(
-  selectPrincipalState,
-  principal => principal.token == null
+  getToken,
+  token => token === null
 );
 
 export const userDetails = createSelector(

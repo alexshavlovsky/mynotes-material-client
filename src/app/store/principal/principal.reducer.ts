@@ -35,6 +35,11 @@ export function reducer(state = initialState, action: PrincipalActions): Princip
         ...state,
         token: action.payload.token,
       };
+    case PrincipalActionTypes.FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.response,
+      };
     default:
       return state;
   }
