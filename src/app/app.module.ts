@@ -16,12 +16,13 @@ import {Store, StoreModule} from '@ngrx/store';
 import {AppState, metaReducers, reducers} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
 import {MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
+import {AuthTokenInterceptor} from './core/auth-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {AppInit} from './store/principal/principal.actions';
       },
       multi: true,
       deps: [Store]
-    }
+    },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
