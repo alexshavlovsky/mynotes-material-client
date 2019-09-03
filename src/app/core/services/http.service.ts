@@ -20,12 +20,20 @@ export class HttpService {
     return this.http.post<T>(url, body, {headers: this.appProps.API_DEFAULT_HEADERS});
   }
 
+  private get<T>(url): Observable<T> {
+    return this.http.get<T>(url, {headers: this.appProps.API_DEFAULT_HEADERS});
+  }
+
   postLoginRequest(body: UserLoginRequest): Observable<UserLoginResponse> {
     return this.post<UserLoginResponse>(this.appProps.API_LOGIN_PATH, body);
   }
 
   postRegisterRequest(body: UserRegisterRequest): Observable<UserRegisterResponse> {
     return this.post<UserRegisterResponse>(this.appProps.API_USERS_PATH, body);
+  }
+
+  getCurrentUserRequest(): Observable<UserRegisterResponse> {
+    return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
   }
 
 }
