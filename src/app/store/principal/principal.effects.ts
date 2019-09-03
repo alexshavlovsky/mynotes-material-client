@@ -54,7 +54,7 @@ export class PrincipalEffects {
     this.actions$.pipe(
       ofType(PrincipalActionTypes.LOGIN),
       tap(action => localStorage.setItem('token', action.payload.principal.token)),
-      tap(action => this.snackBar.openSuccess('You logged in as ' + action.payload.principal.user.firstName)),
+//      tap(action => this.snackBar.openSuccess('You logged in as ' + action.payload.principal.user.firstName)),
       tap(() => this.router.navigate(['/'])),
     ), {dispatch: false}
   );
