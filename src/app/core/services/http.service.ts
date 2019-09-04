@@ -6,6 +6,7 @@ import {UserLoginRequest} from '../../auth/model/user-login-request.model';
 import {UserLoginResponse} from '../../auth/model/user-login-response.model';
 import {UserRegisterRequest} from '../../auth/model/user-register-request.model';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
+import {Notebook} from '../../notebooks/store/notebook/notebook.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,10 @@ export class HttpService {
 
   getCurrentUserRequest(): Observable<UserRegisterResponse> {
     return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
+  }
+
+  getAllNotebooks(): Observable<Notebook[]> {
+    return this.get<Notebook[]>(this.appProps.API_NOTEBOOKS_PATH);
   }
 
 }

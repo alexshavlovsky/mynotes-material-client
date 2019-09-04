@@ -1,24 +1,42 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Notebook } from './notebook.model';
-import { NotebookActions, NotebookActionTypes } from './notebook.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {Notebook} from './notebook.model';
+import {NotebookActions, NotebookActionTypes} from './notebook.actions';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 export const notebooksFeatureKey = 'notebooks';
 
+export const selectNotebooksState = createFeatureSelector<State>(notebooksFeatureKey);
+
+export const notebooksRelevance = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.relevance
+);
+
+export interface RelevanceHash {
+  fetchedWithToken: string;
+  fetchedTimestamp: number;
+}
+
 export interface State extends EntityState<Notebook> {
-  // additional entities state properties
+  relevance: RelevanceHash;
 }
 
 export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
 
 export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+  relevance: null
 });
 
-export function reducer(
-  state = initialState,
-  action: NotebookActions
-): State {
+export function reducer(state = initialState, action: NotebookActions): State {
   switch (action.type) {
+
+    case NotebookActionTypes.FetchAllNotebooksSuccess: {
+      return {
+        ...state,
+        relevance: {fetchedWithToken: action.payload.withToken, fetchedTimestamp: new Date().getTime()}
+      };
+    }
+
     case NotebookActionTypes.AddNotebook: {
       return adapter.addOne(action.payload.notebook, state);
     }

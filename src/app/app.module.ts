@@ -23,8 +23,6 @@ import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
 import {AuthTokenInterceptor} from './core/auth-token.interceptor';
-import * as fromNotebook from './store/notebook/notebook.reducer';
-import * as fromNote from './store/note/note.reducer';
 
 @NgModule({
   declarations: [
@@ -44,12 +42,11 @@ import * as fromNote from './store/note/note.reducer';
         strictActionImmutability: true,
       }
     }),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreRouterConnectingModule.forRoot({serializer: CustomRouterStateSerializer}),
-    EffectsModule.forRoot([PrincipalEffects]),
+    EffectsModule.forFeature([PrincipalEffects]),
     StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
-    StoreModule.forFeature(fromNotebook.notebooksFeatureKey, fromNotebook.reducer),
-    StoreModule.forFeature(fromNote.notesFeatureKey, fromNote.reducer),
   ],
   providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService,
     {
