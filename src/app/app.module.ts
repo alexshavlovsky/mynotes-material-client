@@ -23,6 +23,7 @@ import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
 import {AuthTokenInterceptor} from './core/auth-token.interceptor';
+import {AuthService} from './core/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import {AuthTokenInterceptor} from './core/auth-token.interceptor';
     EffectsModule.forFeature([PrincipalEffects]),
     StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
   ],
-  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService,
+  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService, AuthService,
     {
       provide: APP_INITIALIZER,
       useFactory: (store: Store<AppState>) => {
