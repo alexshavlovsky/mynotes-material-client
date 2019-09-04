@@ -13,6 +13,7 @@ import {catchError, filter, map, switchMap, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {of} from 'rxjs';
 import {HttpService} from '../../core/services/http.service';
+import {AuthService} from '../../core/services/auth.service';
 
 @Injectable()
 export class PrincipalEffects {
@@ -22,7 +23,7 @@ export class PrincipalEffects {
       ofType(PrincipalActionTypes.APP_INIT),
       map(() => localStorage.getItem('token')),
       filter(token => token !== null),
-      map(token => new SetTokenAndFetchUser({token}))
+      map(token => new SetTokenAndFetchUser({token, tokenDecoded: this.auth.getDecodedToken(token)}))
     )
   );
 
@@ -70,7 +71,8 @@ export class PrincipalEffects {
   constructor(private actions$: Actions<PrincipalActions>,
               private snackBar: SnackBarService,
               private router: Router,
-              private http: HttpService) {
+              private http: HttpService,
+              private auth: AuthService) {
   }
 
 }

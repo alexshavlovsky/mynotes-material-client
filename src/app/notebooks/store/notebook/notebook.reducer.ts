@@ -13,7 +13,7 @@ export const notebooksRelevance = createSelector(
 );
 
 export interface RelevanceHash {
-  fetchedWithToken: string;
+  fetchedWithUserId: string;
   fetchedTimestamp: number;
 }
 
@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: NotebookActions): State {
     case NotebookActionTypes.FetchAllNotebooksSuccess: {
       return {
         ...state,
-        relevance: {fetchedWithToken: action.payload.withToken, fetchedTimestamp: new Date().getTime()}
+        relevance: {fetchedWithUserId: action.payload.withUserId, fetchedTimestamp: new Date().getTime()}
       };
     }
 

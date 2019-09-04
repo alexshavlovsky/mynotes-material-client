@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {UserLoginResponse} from '../../auth/model/user-login-response.model';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
+import {JwtTokenDetails} from '../../core/services/auth.service';
 
 export enum PrincipalActionTypes {
   LOGIN = '[AuthModule] Login',
@@ -15,7 +16,7 @@ export enum PrincipalActionTypes {
 export class Login implements Action {
   readonly type = PrincipalActionTypes.LOGIN;
 
-  constructor(public payload: { principal: UserLoginResponse }) {
+  constructor(public payload: { principal: UserLoginResponse, tokenDecoded: JwtTokenDetails }) {
   }
 }
 
@@ -26,7 +27,7 @@ export class Logout implements Action {
 export class SetTokenAndFetchUser implements Action {
   readonly type = PrincipalActionTypes.SET_TOKEN_AND_FETCH_USER;
 
-  constructor(public payload: { token: string }) {
+  constructor(public payload: { token: string, tokenDecoded: JwtTokenDetails }) {
   }
 }
 

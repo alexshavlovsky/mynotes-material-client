@@ -3,10 +3,10 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
-import {FetchAllNotebooksSuccess, NotebookActions, NotebookActionTypes, UpsertNotebooks} from './notebook.actions';
+import {FetchAllNotebooksSuccess, LoadNotebooks, NotebookActions, NotebookActionTypes} from './notebook.actions';
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
-import {getToken} from '../../../store/principal/principal.selectors';
+import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {notebooksRelevance} from './notebook.reducer';
 
 
@@ -17,11 +17,11 @@ export class NotebookEffects {
     this.actions$.pipe(
       ofType(NotebookActionTypes.FetchAllNotebooksRequest),
       withLatestFrom(this.store.select(notebooksRelevance)),
-      withLatestFrom(this.store.select(getToken),
-        ([_, relevance], token) => ({relevance, token})),
-      filter(p => p.relevance === null || p.relevance.fetchedWithToken !== p.token),
+      withLatestFrom(this.store.select(getTokenDecoded),
+        ([_, relevance], tokenDecoded) => ({relevance, tokenDecoded})),
+      filter(p => p.relevance === null || p.tokenDecoded === null || p.relevance.fetchedWithUserId !== p.tokenDecoded.userId),
       switchMap(p => this.http.getAllNotebooks().pipe(
-        map(notebooks => new FetchAllNotebooksSuccess(({notebooks, withToken: p.token})))
+        map(notebooks => new FetchAllNotebooksSuccess(({notebooks, withUserId: p.tokenDecoded.userId})))
       )),
     )
   );
@@ -29,8 +29,7 @@ export class NotebookEffects {
   fetchAllNotebooksSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.FetchAllNotebooksSuccess),
-      map(action => action.payload.notebooks),
-      map(notebooks => new UpsertNotebooks({notebooks})),
+      map(action => new LoadNotebooks({notebooks: action.payload.notebooks})),
     )
   );
 

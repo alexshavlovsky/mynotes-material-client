@@ -2,19 +2,13 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
-import {
-  AuthActions,
-  AuthActionTypes,
-  LoginFailure,
-  LoginSuccess,
-  RegisterFailure,
-  RegisterSuccess
-} from './auth.actions';
+import {AuthActions, AuthActionTypes, LoginFailure, LoginSuccess, RegisterFailure, RegisterSuccess} from './auth.actions';
 import {HttpService} from '../../core/services/http.service';
 import {of} from 'rxjs';
 import {adaptErrorMessage, AppPropertiesService} from '../../core/services/app-properties.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
 import {Login} from '../../store/principal/principal.actions';
+import {AuthService} from '../../core/services/auth.service';
 
 @Injectable()
 export class AuthEffects {
@@ -34,7 +28,10 @@ export class AuthEffects {
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionTypes.LOGIN_SUCCESS),
-      map(action => new Login({principal: action.payload.response}))
+      map(action => new Login({
+        principal: action.payload.response,
+        tokenDecoded: this.auth.getDecodedToken(action.payload.response.token)
+      }))
     )
   );
 
@@ -74,7 +71,8 @@ export class AuthEffects {
   constructor(private actions$: Actions<AuthActions>,
               private http: HttpService,
               private appProps: AppPropertiesService,
-              private snackBar: SnackBarService) {
+              private snackBar: SnackBarService,
+              private auth: AuthService) {
   }
 
 }

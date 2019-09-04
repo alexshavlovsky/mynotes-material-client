@@ -6,6 +6,11 @@ export const getToken = createSelector(
   principal => principal.token
 );
 
+export const getTokenDecoded = createSelector(
+  selectPrincipalState,
+  principal => principal.tokenDecoded
+);
+
 export const isTokenPresent = createSelector(
   getToken,
   token => token !== null

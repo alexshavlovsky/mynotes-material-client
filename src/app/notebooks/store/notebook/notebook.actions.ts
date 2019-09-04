@@ -25,7 +25,7 @@ export class FetchAllNotebooksRequest implements Action {
 export class FetchAllNotebooksSuccess implements Action {
   readonly type = NotebookActionTypes.FetchAllNotebooksSuccess;
 
-  constructor(public payload: { notebooks: Notebook[], withToken: string }) {
+  constructor(public payload: { notebooks: Notebook[], withUserId: string }) {
   }
 }
 
