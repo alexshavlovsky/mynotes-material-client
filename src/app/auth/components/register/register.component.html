@@ -2,9 +2,7 @@
   <mat-card>
     <mat-icon>how_to_reg</mat-icon>
     <h1>Sign up for {{appProps.appName}}</h1>
-  </mat-card>
-  <mat-card class="mt-16">
-    <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-16">
       <mat-form-field>
         <input type="text" matInput placeholder="Your first name" class="form-control" formControlName="firstName">
         <mat-error>{{firstNameError}}</mat-error>
@@ -33,8 +31,6 @@
         Sing up
       </button>
     </form>
-  </mat-card>
-  <mat-card class="mt-16">
     <mat-card-content>
       Already registered?
       <a mat-button color="primary" routerLink="../login">Log in</a>.
