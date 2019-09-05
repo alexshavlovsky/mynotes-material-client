@@ -16,4 +16,6 @@ Package manager      | NPM
 JS framework         | Angular 8
 Styles and templates | Angular Material 8 / Angular Flex Layout
 Forms                | Angular Reactive Forms
-Animation            | Angular Animation / Angular Router Animation
+Authentication       | JWT role based
+JWT parser           | [@auth0/angular-jwt](https://github.com/auth0/angular2-jwt)
+State management     | NgRx 8 (store, effects, entity)
