@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
+import {DeleteNotebookRequest} from '../store/notebook/notebook.actions';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -17,6 +18,10 @@ export class NotebooksListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  deleteNotebook(notebookId: number) {
+    this.store.dispatch(new DeleteNotebookRequest({id: notebookId.toString()}));
   }
 
 }

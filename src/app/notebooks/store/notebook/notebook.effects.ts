@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, exhaustMap, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
-import {FetchAllNotebooksSuccess, LoadNotebooks, NotebookActions, NotebookActionTypes} from './notebook.actions';
+import {DeleteNotebook, FetchAllNotebooksSuccess, LoadNotebooks, NotebookActions, NotebookActionTypes} from './notebook.actions';
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {notebooksRelevance} from './notebook.reducer';
+import {SnackBarService} from '../../../core/services/snack-bar.service';
+import {adaptErrorMessage} from '../../../core/services/app-properties.service';
+import {EMPTY} from 'rxjs';
 
 
 @Injectable()
@@ -33,9 +36,24 @@ export class NotebookEffects {
     )
   );
 
+  deleteNotebookRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.DeleteNotebookRequest),
+      exhaustMap(action => this.http.deleteNotebook(action.payload.id).pipe(
+        tap(response => this.snackBar.openSuccess(response.message)),
+        map(() => new DeleteNotebook({id: action.payload.id.toString()})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to delete notebook'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
   constructor(private actions$: Actions<NotebookActions>,
               private http: HttpService,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private snackBar: SnackBarService) {
   }
 
 }

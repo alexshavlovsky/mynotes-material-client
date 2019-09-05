@@ -5,6 +5,7 @@ import {Notebook} from './notebook.model';
 export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
   FetchAllNotebooksSuccess = '[Notebooks Container] Fetch All Notebooks Success',
+  DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
 
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
@@ -26,6 +27,13 @@ export class FetchAllNotebooksSuccess implements Action {
   readonly type = NotebookActionTypes.FetchAllNotebooksSuccess;
 
   constructor(public payload: { notebooks: Notebook[], withUserId: string }) {
+  }
+}
+
+export class DeleteNotebookRequest implements Action {
+  readonly type = NotebookActionTypes.DeleteNotebookRequest;
+
+  constructor(public payload: { id: string }) {
   }
 }
 
@@ -97,7 +105,7 @@ export class ClearNotebooks implements Action {
 }
 
 export type NotebookActions =
-  FetchAllNotebooksRequest | FetchAllNotebooksSuccess
+  FetchAllNotebooksRequest | FetchAllNotebooksSuccess | DeleteNotebookRequest
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook
