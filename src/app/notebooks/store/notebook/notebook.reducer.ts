@@ -5,7 +5,7 @@ import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 export const notebooksFeatureKey = 'notebooks';
 
-export const selectNotebooksState = createFeatureSelector<State>(notebooksFeatureKey);
+export const selectNotebooksState = createFeatureSelector<NotebooksState>(notebooksFeatureKey);
 
 export const notebooksRelevance = createSelector(
   selectNotebooksState,
@@ -17,17 +17,17 @@ export interface RelevanceHash {
   fetchedTimestamp: number;
 }
 
-export interface State extends EntityState<Notebook> {
+export interface NotebooksState extends EntityState<Notebook> {
   relevance: RelevanceHash;
 }
 
 export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: NotebooksState = adapter.getInitialState({
   relevance: null
 });
 
-export function reducer(state = initialState, action: NotebookActions): State {
+export function reducer(state = initialState, action: NotebookActions): NotebooksState {
   switch (action.type) {
 
     case NotebookActionTypes.FetchAllNotebooksSuccess: {
@@ -89,3 +89,8 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors();
+
+export const getAllNotebooks = createSelector(
+  selectNotebooksState,
+  selectAll
+);

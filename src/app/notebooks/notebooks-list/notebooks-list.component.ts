@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-
-export interface Section {
-  name: string;
-  updated: Date;
-}
+import {Observable} from 'rxjs';
+import {Notebook} from '../store/notebook/notebook.model';
+import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -12,32 +11,9 @@ export interface Section {
 })
 export class NotebooksListComponent implements OnInit {
 
-  folders: Section[] = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    }
-  ];
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    }
-  ];
+  notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
 
-  constructor() {
+  constructor(private store: Store<NotebooksState>) {
   }
 
   ngOnInit() {
