@@ -12,12 +12,16 @@ import * as fromNotebook from './store/notebook/notebook.reducer';
 import * as fromNote from './store/note/note.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotebookEffects} from './store/notebook/notebook.effects';
+import {ConfirmDialogComponent} from './notebooks-list/confirm-dialog/confirm-dialog.component';
+import {NotebookOperationsMenuComponent} from './notebooks-list/notebook-operations-menu/notebook-operations-menu.component';
 
 @NgModule({
   declarations: [
     NavBarComponent,
     NotebooksComponent,
     NotebooksListComponent,
+    NotebookOperationsMenuComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +31,8 @@ import {NotebookEffects} from './store/notebook/notebook.effects';
     EffectsModule.forFeature([NotebookEffects]),
     StoreModule.forFeature(fromNotebook.notebooksFeatureKey, fromNotebook.reducer),
     StoreModule.forFeature(fromNote.notesFeatureKey, fromNote.reducer),
-  ]
+  ],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class NotebooksModule {
 }
