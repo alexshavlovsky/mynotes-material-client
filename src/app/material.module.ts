@@ -2,13 +2,14 @@ import {
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {PrefixPipe} from './core/prefix.pipe';
@@ -28,6 +29,7 @@ import {PrefixPipe} from './core/prefix.pipe';
     MatToolbarModule,
     MatMenuModule,
     MatListModule,
+    MatDialogModule,
   ],
   exports: [
     PrefixPipe,
@@ -41,6 +43,7 @@ import {PrefixPipe} from './core/prefix.pipe';
     MatToolbarModule,
     MatMenuModule,
     MatListModule,
+    MatDialogModule,
   ],
 })
 export class MaterialModule {
