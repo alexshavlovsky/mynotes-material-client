@@ -1,9 +1,25 @@
 <mat-card>
-  <h1>My notebooks</h1>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="0 0 40px"></div>
+    <h1 fxFlex="1 1 100%">My notebooks</h1>
+    <button fxFlex="0 0 auto" mat-icon-button [matMenuTriggerFor]="actionsMenu" class="actions-menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+  <mat-menu #actionsMenu="matMenu">
+    <button mat-menu-item (click)="openCreateNotebookDialog()">
+      <mat-icon color="primary">create_new_folder</mat-icon>
+      <span>Create a notebook</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon color="primary">search</mat-icon>
+      <span>Search</span>
+    </button>
+  </mat-menu>
   <mat-nav-list>
     <div *ngFor="let notebook of notebooks$ | async" fxLayout fxLayoutAlign="space-between center">
       <a mat-list-item [routerLink]="[notebook.id, 'notes']">
-        <mat-icon mat-list-icon color="primary">book</mat-icon>
+        <mat-icon mat-list-icon color="primary">folder</mat-icon>
         <span class="nb-items">{{notebook.name}}</span>
       </a>
       <app-notebook-operations-menu

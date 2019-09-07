@@ -61,4 +61,8 @@ export class HttpService {
     return this.put<Notebook>(path, body);
   }
 
+  createNotebook(body: NotebookRequest): Observable<Notebook> {
+    return this.post<Notebook>(this.appProps.API_NOTEBOOKS_PATH, body);
+  }
+
 }

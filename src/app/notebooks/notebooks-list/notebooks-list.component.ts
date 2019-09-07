@@ -3,7 +3,10 @@ import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
-import {DeleteNotebookRequest, RenameNotebookRequest} from '../store/notebook/notebook.actions';
+import {CreateNotebookRequest, DeleteNotebookRequest, RenameNotebookRequest} from '../store/notebook/notebook.actions';
+import {RenameDialogComponent, RenameDialogData} from './rename-dialog/rename-dialog.component';
+import {filter, map} from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -14,7 +17,8 @@ export class NotebooksListComponent implements OnInit {
 
   notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
 
-  constructor(private store: Store<NotebooksState>) {
+  constructor(private store: Store<NotebooksState>,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -27,5 +31,20 @@ export class NotebooksListComponent implements OnInit {
   renameNotebook(notebookId: number, name: string) {
     this.store.dispatch(new RenameNotebookRequest({id: notebookId.toString(), name}));
   }
+
+  openCreateNotebookDialog() {
+    const data: RenameDialogData = {
+      title: 'Create a notebook',
+      placeholder: 'Notebook name',
+      initialValue: '',
+      cancelButton: 'Cancel',
+      confirmButton: 'Create',
+    };
+    this.dialog.open(RenameDialogComponent, {data}).afterClosed().pipe(
+      filter(value => value !== undefined),
+      map(value => this.store.dispatch(new CreateNotebookRequest({notebook: {name: value}})))
+    ).subscribe();
+  }
+
 
 }

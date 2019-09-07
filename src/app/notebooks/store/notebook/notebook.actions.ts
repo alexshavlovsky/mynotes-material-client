@@ -1,12 +1,14 @@
 import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {Notebook} from './notebook.model';
+import {NotebookRequest} from '../../../core/model/notebook-request.model';
 
 export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
   FetchAllNotebooksSuccess = '[Notebooks Container] Fetch All Notebooks Success',
   DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
   RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
+  CreateNotebookRequest = '[Notebooks Container] Create Notebook Request',
 
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
@@ -42,6 +44,13 @@ export class RenameNotebookRequest implements Action {
   readonly type = NotebookActionTypes.RenameNotebookRequest;
 
   constructor(public payload: { id: string, name: string }) {
+  }
+}
+
+export class CreateNotebookRequest implements Action {
+  readonly type = NotebookActionTypes.CreateNotebookRequest;
+
+  constructor(public payload: { notebook: NotebookRequest }) {
   }
 }
 
@@ -114,7 +123,7 @@ export class ClearNotebooks implements Action {
 
 export type NotebookActions =
   FetchAllNotebooksRequest | FetchAllNotebooksSuccess
-  | DeleteNotebookRequest | RenameNotebookRequest
+  | DeleteNotebookRequest | RenameNotebookRequest | CreateNotebookRequest
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook

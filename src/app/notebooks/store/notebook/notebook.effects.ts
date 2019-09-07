@@ -4,6 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, exhaustMap, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
+  AddNotebook,
   DeleteNotebook,
   FetchAllNotebooksSuccess,
   LoadNotebooks,
@@ -63,6 +64,19 @@ export class NotebookEffects {
         map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to rename notebook'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
+  createNotebookRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.CreateNotebookRequest),
+      exhaustMap(action => this.http.createNotebook(action.payload.notebook).pipe(
+        map(notebook => new AddNotebook({notebook})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to create notebook'));
           return EMPTY;
         }))
       )
