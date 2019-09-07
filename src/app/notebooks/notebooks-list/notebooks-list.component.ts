@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
-import {DeleteNotebookRequest} from '../store/notebook/notebook.actions';
+import {DeleteNotebookRequest, RenameNotebookRequest} from '../store/notebook/notebook.actions';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -22,6 +22,10 @@ export class NotebooksListComponent implements OnInit {
 
   deleteNotebook(notebookId: number) {
     this.store.dispatch(new DeleteNotebookRequest({id: notebookId.toString()}));
+  }
+
+  renameNotebook(notebookId: number, name: string) {
+    this.store.dispatch(new RenameNotebookRequest({id: notebookId.toString(), name}));
   }
 
 }

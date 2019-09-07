@@ -6,6 +6,7 @@ export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
   FetchAllNotebooksSuccess = '[Notebooks Container] Fetch All Notebooks Success',
   DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
+  RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
 
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
@@ -34,6 +35,13 @@ export class DeleteNotebookRequest implements Action {
   readonly type = NotebookActionTypes.DeleteNotebookRequest;
 
   constructor(public payload: { id: string }) {
+  }
+}
+
+export class RenameNotebookRequest implements Action {
+  readonly type = NotebookActionTypes.RenameNotebookRequest;
+
+  constructor(public payload: { id: string, name: string }) {
   }
 }
 
@@ -105,7 +113,8 @@ export class ClearNotebooks implements Action {
 }
 
 export type NotebookActions =
-  FetchAllNotebooksRequest | FetchAllNotebooksSuccess | DeleteNotebookRequest
+  FetchAllNotebooksRequest | FetchAllNotebooksSuccess
+  | DeleteNotebookRequest | RenameNotebookRequest
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook

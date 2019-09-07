@@ -1,9 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, exhaustMap, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, exhaustMap, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
-import {DeleteNotebook, FetchAllNotebooksSuccess, LoadNotebooks, NotebookActions, NotebookActionTypes} from './notebook.actions';
+import {
+  DeleteNotebook,
+  FetchAllNotebooksSuccess,
+  LoadNotebooks,
+  NotebookActions,
+  NotebookActionTypes,
+  UpdateNotebook
+} from './notebook.actions';
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
@@ -40,10 +47,22 @@ export class NotebookEffects {
     this.actions$.pipe(
       ofType(NotebookActionTypes.DeleteNotebookRequest),
       exhaustMap(action => this.http.deleteNotebook(action.payload.id).pipe(
-        tap(response => this.snackBar.openSuccess(response.message)),
         map(() => new DeleteNotebook({id: action.payload.id.toString()})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to delete notebook'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
+  renameNotebookRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.RenameNotebookRequest),
+      exhaustMap(action => this.http.renameNotebook(action.payload.id, {name: action.payload.name}).pipe(
+        map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to rename notebook'));
           return EMPTY;
         }))
       )

@@ -8,7 +8,7 @@ import {UserRegisterRequest} from '../../auth/model/user-register-request.model'
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {Notebook} from '../../notebooks/store/notebook/notebook.model';
 import {ApiMessage} from '../model/api-message.model';
-
+import {NotebookRequest} from '../model/notebook-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,10 @@ export class HttpService {
     return this.http.delete<T>(url, {headers: this.appProps.API_DEFAULT_HEADERS});
   }
 
+  private put<T>(url, body): Observable<T> {
+    return this.http.put<T>(url, body, {headers: this.appProps.API_DEFAULT_HEADERS});
+  }
+
   postLoginRequest(body: UserLoginRequest): Observable<UserLoginResponse> {
     return this.post<UserLoginResponse>(this.appProps.API_LOGIN_PATH, body);
   }
@@ -50,6 +54,11 @@ export class HttpService {
   deleteNotebook(id: string): Observable<ApiMessage> {
     const path = pathJoin([this.appProps.API_NOTEBOOKS_PATH, String(id)]);
     return this.delete<ApiMessage>(path);
+  }
+
+  renameNotebook(id: string, body: NotebookRequest): Observable<Notebook> {
+    const path = pathJoin([this.appProps.API_NOTEBOOKS_PATH, String(id)]);
+    return this.put<Notebook>(path, body);
   }
 
 }
