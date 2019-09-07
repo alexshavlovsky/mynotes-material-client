@@ -7,7 +7,6 @@
 mat-card {
   margin: 16px;
   min-width: 270px;
-  text-align: center;
 }
 
 .mat-list-base .mat-list-item {
@@ -19,10 +18,24 @@ mat-card {
   margin: 16px 0 16px 16px;
 }
 
+.nb-size {
+  position: absolute;
+  left: 22px;
+  width: 20px;
+  color: white;
+  font-size: 11px;
+  text-align: center;
+}
+
+.icon-mb {
+  margin-bottom: 2px;
+}
+
 h1 {
   font-size: 24px;
   font-weight: 300;
   letter-spacing: -.5px;
   margin: 16px;
+  text-align: center;
 }
 
