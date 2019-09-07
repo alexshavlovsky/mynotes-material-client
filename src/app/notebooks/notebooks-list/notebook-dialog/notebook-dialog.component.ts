@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
-export interface RenameDialogData {
+export interface NotebookDialogData {
   title: string;
   placeholder: string;
   initialValue: string;
@@ -11,19 +11,19 @@ export interface RenameDialogData {
 }
 
 @Component({
-  selector: 'app-rename-dialog',
-  templateUrl: './rename-dialog.component.html',
-  styleUrls: ['./rename-dialog.component.css']
+  selector: 'app-notebook-dialog',
+  templateUrl: './notebook-dialog.component.html',
+  styleUrls: ['./notebook-dialog.component.css']
 })
-export class RenameDialogComponent implements OnInit {
+export class NotebookDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  data: RenameDialogData;
+  data: NotebookDialogData;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<RenameDialogComponent>,
+    private dialogRef: MatDialogRef<NotebookDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
     this.data = data;
   }

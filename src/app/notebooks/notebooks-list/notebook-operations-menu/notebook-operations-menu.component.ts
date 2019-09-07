@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {ConfirmDialogComponent, ConfirmDialogData} from '../confirm-dialog/confirm-dialog.component';
 import {filter, map} from 'rxjs/operators';
-import {RenameDialogComponent, RenameDialogData} from '../rename-dialog/rename-dialog.component';
+import {NotebookDialogComponent, NotebookDialogData} from '../notebook-dialog/notebook-dialog.component';
 import {Notebook} from '../../store/notebook/notebook.model';
 
 export interface NotebookOperationsMenuRenamePayload {
@@ -40,14 +40,14 @@ export class NotebookOperationsMenuComponent implements OnInit {
   }
 
   openEditDialog() {
-    const data: RenameDialogData = {
+    const data: NotebookDialogData = {
       title: 'Rename notebook',
       placeholder: 'New name',
       initialValue: this.notebook.name,
       cancelButton: 'Cancel',
       confirmButton: 'Rename',
     };
-    this.dialog.open(RenameDialogComponent, {data}).afterClosed().pipe(
+    this.dialog.open(NotebookDialogComponent, {data}).afterClosed().pipe(
       filter(value => value !== undefined && value !== this.notebook.name),
       map(value => this.rename.emit({name: value}))
     ).subscribe();

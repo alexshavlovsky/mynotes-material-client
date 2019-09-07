@@ -4,7 +4,7 @@ import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
 import {CreateNotebookRequest, DeleteNotebookRequest, RenameNotebookRequest} from '../store/notebook/notebook.actions';
-import {RenameDialogComponent, RenameDialogData} from './rename-dialog/rename-dialog.component';
+import {NotebookDialogComponent, NotebookDialogData} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 
@@ -33,14 +33,14 @@ export class NotebooksListComponent implements OnInit {
   }
 
   openCreateNotebookDialog() {
-    const data: RenameDialogData = {
+    const data: NotebookDialogData = {
       title: 'Create a notebook',
       placeholder: 'Notebook name',
       initialValue: '',
       cancelButton: 'Cancel',
       confirmButton: 'Create',
     };
-    this.dialog.open(RenameDialogComponent, {data}).afterClosed().pipe(
+    this.dialog.open(NotebookDialogComponent, {data}).afterClosed().pipe(
       filter(value => value !== undefined),
       map(value => this.store.dispatch(new CreateNotebookRequest({notebook: {name: value}})))
     ).subscribe();
