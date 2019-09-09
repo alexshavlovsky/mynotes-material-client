@@ -1,23 +1,23 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Note } from './note.model';
-import { NoteActions, NoteActionTypes } from './note.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {Note} from './note.model';
+import {NoteActions, NoteActionTypes} from './note.actions';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 
 export const notesFeatureKey = 'notes';
 
-export interface State extends EntityState<Note> {
+export const selectNotesState = createFeatureSelector<NotesState>(notesFeatureKey);
+
+export interface NotesState extends EntityState<Note> {
   // additional entities state properties
 }
 
 export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: NotesState = adapter.getInitialState({
   // additional entity state properties
 });
 
-export function reducer(
-  state = initialState,
-  action: NoteActions
-): State {
+export function reducer(state = initialState, action: NoteActions): NotesState {
   switch (action.type) {
     case NoteActionTypes.AddNote: {
       return adapter.addOne(action.payload.note, state);
@@ -71,3 +71,8 @@ export const {
   selectAll,
   selectTotal,
 } = adapter.getSelectors();
+
+export const getAllNotes = createSelector(
+  selectNotesState,
+  selectAll
+);

@@ -16,6 +16,7 @@ import {ConfirmDialogComponent} from './notebooks-list/confirm-dialog/confirm-di
 import {NotebookOperationsMenuComponent} from './notebooks-list/notebook-operations-menu/notebook-operations-menu.component';
 import {NotebookDialogComponent} from './notebooks-list/notebook-dialog/notebook-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { NotesListComponent } from './notes-list/notes-list.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     NotebookOperationsMenuComponent,
     ConfirmDialogComponent,
     NotebookDialogComponent,
+    NotesListComponent,
   ],
   imports: [
     CommonModule,
