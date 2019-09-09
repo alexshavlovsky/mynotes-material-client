@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
-import {CreateNotebookRequest, DeleteNotebookRequest, RenameNotebookRequest} from '../store/notebook/notebook.actions';
+import {CreateNotebookRequest} from '../store/notebook/notebook.actions';
 import {NotebookDialogComponent, NotebookDialogData} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
@@ -24,14 +24,6 @@ export class NotebooksListComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteNotebook(notebookId: number) {
-    this.store.dispatch(new DeleteNotebookRequest({id: notebookId.toString()}));
-  }
-
-  renameNotebook(notebookId: number, name: string) {
-    this.store.dispatch(new RenameNotebookRequest({id: notebookId.toString(), name}));
-  }
-
   openCreateNotebookDialog() {
     const data: NotebookDialogData = {
       title: 'Create a notebook',
@@ -45,6 +37,5 @@ export class NotebooksListComponent implements OnInit {
       map(value => this.store.dispatch(new CreateNotebookRequest({notebook: {name: value}})))
     ).subscribe();
   }
-
 
 }

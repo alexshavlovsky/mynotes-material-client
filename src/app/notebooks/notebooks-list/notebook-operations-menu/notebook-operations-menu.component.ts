@@ -4,10 +4,9 @@ import {ConfirmDialogComponent, ConfirmDialogData} from '../confirm-dialog/confi
 import {filter, map} from 'rxjs/operators';
 import {NotebookDialogComponent, NotebookDialogData} from '../notebook-dialog/notebook-dialog.component';
 import {Notebook} from '../../store/notebook/notebook.model';
-
-export interface NotebookOperationsMenuRenamePayload {
-  name: string;
-}
+import {DeleteNotebookRequest, RenameNotebookRequest} from '../../store/notebook/notebook.actions';
+import {AppState} from '../../../store';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-notebook-operations-menu',
@@ -17,10 +16,9 @@ export interface NotebookOperationsMenuRenamePayload {
 export class NotebookOperationsMenuComponent implements OnInit {
   @Input() notebook: Notebook;
   @Output() add = new EventEmitter<void>();
-  @Output() rename = new EventEmitter<NotebookOperationsMenuRenamePayload>();
-  @Output() remove = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -35,7 +33,7 @@ export class NotebookOperationsMenuComponent implements OnInit {
     };
     this.dialog.open(ConfirmDialogComponent, {data, autoFocus: false}).afterClosed().pipe(
       filter(result => result === true),
-      map(() => this.remove.emit())
+      map(() => this.store.dispatch(new DeleteNotebookRequest({id: this.notebook.id.toString()})))
     ).subscribe();
   }
 
@@ -49,7 +47,8 @@ export class NotebookOperationsMenuComponent implements OnInit {
     };
     this.dialog.open(NotebookDialogComponent, {data}).afterClosed().pipe(
       filter(value => value !== undefined && value !== this.notebook.name),
-      map(value => this.rename.emit({name: value}))
+      map(value => this.store.dispatch(new RenameNotebookRequest({id: this.notebook.id.toString(), name: value})))
     ).subscribe();
   }
+
 }

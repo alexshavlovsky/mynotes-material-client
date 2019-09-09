@@ -23,11 +23,7 @@
         <span class="nb-size">{{notebook.size}}</span>
         <span class="nb-items">{{notebook.name}}</span>
       </a>
-      <app-notebook-operations-menu class="icon-mb"
-        [notebook]="notebook"
-        (rename)="renameNotebook(notebook.id, $event.name)"
-        (remove)="deleteNotebook(notebook.id)">
-      </app-notebook-operations-menu>
+      <app-notebook-operations-menu class="icon-mb" [notebook]="notebook"></app-notebook-operations-menu>
     </div>
   </mat-nav-list>
 </mat-card>
