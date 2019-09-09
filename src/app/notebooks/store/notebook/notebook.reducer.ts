@@ -94,3 +94,13 @@ export const getAllNotebooks = createSelector(
   selectNotebooksState,
   selectAll
 );
+
+export const getAllNotebookEntities = createSelector(
+  selectNotebooksState,
+  selectEntities
+);
+
+export const getNotebookById = createSelector(
+  getAllNotebookEntities,
+  (notebooks, props) => notebooks[props.id]
+);
