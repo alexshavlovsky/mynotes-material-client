@@ -76,3 +76,10 @@ export const getAllNotes = createSelector(
   selectNotesState,
   selectAll
 );
+
+export const getNotesByNotebookId = createSelector(
+  getAllNotes,
+  (notes, props: { notebookId: string }) => {
+    return notes.filter((note: Note) => note.notebookId.toString() === props.notebookId);
+  }
+);

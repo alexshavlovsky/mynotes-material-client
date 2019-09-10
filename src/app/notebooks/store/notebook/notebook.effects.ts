@@ -40,6 +40,7 @@ export class NotebookEffects {
   fetchAllNotebooksSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.FetchAllNotebooksSuccess),
+      // TODO: clear notes store before
       map(action => new LoadNotebooks({notebooks: action.payload.notebooks})),
     )
   );

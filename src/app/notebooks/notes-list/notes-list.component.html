@@ -2,31 +2,21 @@
   <div fxLayout="row" fxLayoutAlign="center center" *ngIf="notebook$ | async as notebook">
     <div fxFlex="0 0 40px"></div>
     <h1 fxFlex="1 1 100%">{{notebook.name}}</h1>
-    <app-notebook-operations-menu fxFlex="0 0 auto" class="icon-mb"   [notebook]="notebook"></app-notebook-operations-menu>
+    <app-notebook-operations-menu fxFlex="0 0 auto" class="icon-mb"
+                                  [notebook]="notebook"></app-notebook-operations-menu>
   </div>
-  <mat-menu #actionsMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon color="primary">create_new_folder</mat-icon>
-      <span>Create a notebook</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon color="primary">search</mat-icon>
-      <span>Search</span>
-    </button>
-  </mat-menu>
   <mat-nav-list>
     <div *ngFor="let note of notes$ | async" fxLayout fxLayoutAlign="space-between center">
-      <a mat-list-item [routerLink]="[note.id, 'notes']">
-        <mat-icon mat-list-icon color="primary" class="icon-mb">folder</mat-icon>
-        <span class="nb-items">{{note.title}}</span>
+      <a mat-list-item [routerLink]="['..', '..', '..', 'notes', note.id]">
+        <mat-icon mat-list-icon color="primary" class="icon-mb">description</mat-icon>
+        <span class="nb-item">
+          <span class="nb-title">{{note.title}}</span><br>
+          {{note.text}}<br>
+          <span class="nb-time">{{note.lastModifiedOn|date:'MM/dd/yy hh:mm'}}</span>
+          </span>
       </a>
-      <!--
-            <app-notebook-operations-menu class="icon-mb"
-                                          [notebook]="notebook"
-                                          (rename)="renameNotebook(notebook.id, $event.name)"
-                                          (remove)="deleteNotebook(notebook.id)">
-            </app-notebook-operations-menu>
-      -->
+      <app-notebook-operations-menu class="icon-mb" [notebook]="note">
+      </app-notebook-operations-menu>
     </div>
   </mat-nav-list>
 </mat-card>

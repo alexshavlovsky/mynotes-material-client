@@ -5,7 +5,7 @@ import {NotebookRequest} from '../../../core/model/notebook-request.model';
 
 export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
-  FetchAllNotebooksSuccess = '[Notebooks Container] Fetch All Notebooks Success',
+  FetchAllNotebooksSuccess = '[API] Fetch All Notebooks Success',
   DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
   RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
   CreateNotebookRequest = '[Notebooks Container] Create Notebook Request',

@@ -1,8 +1,11 @@
-import { Action } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
-import { Note } from './note.model';
+import {Action} from '@ngrx/store';
+import {Update} from '@ngrx/entity';
+import {Note} from './note.model';
 
 export enum NoteActionTypes {
+  FetchNotesByNotebookIdRequest = '[Notes List Page] Fetch Notes By Notebook Id Request',
+  FetchNotesByNotebookIdSuccess = '[API] Fetch Notes By Notebook Id Success',
+
   LoadNotes = '[Note] Load Notes',
   AddNote = '[Note] Add Note',
   UpsertNote = '[Note] Upsert Note',
@@ -15,58 +18,81 @@ export enum NoteActionTypes {
   ClearNotes = '[Note] Clear Notes'
 }
 
+export class FetchNotesByNotebookIdRequest implements Action {
+  readonly type = NoteActionTypes.FetchNotesByNotebookIdRequest;
+
+  constructor(public payload: { notebookId: string }) {
+  }
+}
+
+export class FetchNotesByNotebookIdSuccess implements Action {
+  readonly type = NoteActionTypes.FetchNotesByNotebookIdSuccess;
+
+  constructor(public payload: { notes: Note[] }) {
+  }
+}
+
 export class LoadNotes implements Action {
   readonly type = NoteActionTypes.LoadNotes;
 
-  constructor(public payload: { notes: Note[] }) {}
+  constructor(public payload: { notes: Note[] }) {
+  }
 }
 
 export class AddNote implements Action {
   readonly type = NoteActionTypes.AddNote;
 
-  constructor(public payload: { note: Note }) {}
+  constructor(public payload: { note: Note }) {
+  }
 }
 
 export class UpsertNote implements Action {
   readonly type = NoteActionTypes.UpsertNote;
 
-  constructor(public payload: { note: Note }) {}
+  constructor(public payload: { note: Note }) {
+  }
 }
 
 export class AddNotes implements Action {
   readonly type = NoteActionTypes.AddNotes;
 
-  constructor(public payload: { notes: Note[] }) {}
+  constructor(public payload: { notes: Note[] }) {
+  }
 }
 
 export class UpsertNotes implements Action {
   readonly type = NoteActionTypes.UpsertNotes;
 
-  constructor(public payload: { notes: Note[] }) {}
+  constructor(public payload: { notes: Note[] }) {
+  }
 }
 
 export class UpdateNote implements Action {
   readonly type = NoteActionTypes.UpdateNote;
 
-  constructor(public payload: { note: Update<Note> }) {}
+  constructor(public payload: { note: Update<Note> }) {
+  }
 }
 
 export class UpdateNotes implements Action {
   readonly type = NoteActionTypes.UpdateNotes;
 
-  constructor(public payload: { notes: Update<Note>[] }) {}
+  constructor(public payload: { notes: Update<Note>[] }) {
+  }
 }
 
 export class DeleteNote implements Action {
   readonly type = NoteActionTypes.DeleteNote;
 
-  constructor(public payload: { id: string }) {}
+  constructor(public payload: { id: string }) {
+  }
 }
 
 export class DeleteNotes implements Action {
   readonly type = NoteActionTypes.DeleteNotes;
 
-  constructor(public payload: { ids: string[] }) {}
+  constructor(public payload: { ids: string[] }) {
+  }
 }
 
 export class ClearNotes implements Action {
@@ -74,13 +100,14 @@ export class ClearNotes implements Action {
 }
 
 export type NoteActions =
- LoadNotes
- | AddNote
- | UpsertNote
- | AddNotes
- | UpsertNotes
- | UpdateNote
- | UpdateNotes
- | DeleteNote
- | DeleteNotes
- | ClearNotes;
+  FetchNotesByNotebookIdRequest | FetchNotesByNotebookIdSuccess
+  | LoadNotes
+  | AddNote
+  | UpsertNote
+  | AddNotes
+  | UpsertNotes
+  | UpdateNote
+  | UpdateNotes
+  | DeleteNote
+  | DeleteNotes
+  | ClearNotes;
