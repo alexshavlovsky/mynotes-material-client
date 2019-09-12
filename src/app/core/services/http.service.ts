@@ -6,10 +6,10 @@ import {UserLoginRequest} from '../../auth/model/user-login-request.model';
 import {UserLoginResponse} from '../../auth/model/user-login-response.model';
 import {UserRegisterRequest} from '../../auth/model/user-register-request.model';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
-import {Notebook} from '../../notebooks/store/notebook/notebook.model';
 import {ApiMessage} from '../model/api-message.model';
 import {NotebookRequest} from '../model/notebook-request.model';
-import {Note} from '../../notebooks/store/note/note.model';
+import {NotebookResponse} from '../model/notebook-response.model';
+import {NoteResponse} from '../model/note-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +48,8 @@ export class HttpService {
     return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
   }
 
-  getAllNotebooks(): Observable<Notebook[]> {
-    return this.get<Notebook[]>(this.appProps.API_NOTEBOOKS_PATH);
+  getAllNotebooks(): Observable<NotebookResponse[]> {
+    return this.get<NotebookResponse[]>(this.appProps.API_NOTEBOOKS_PATH);
   }
 
   deleteNotebook(id: string): Observable<ApiMessage> {
@@ -57,17 +57,17 @@ export class HttpService {
     return this.delete<ApiMessage>(path);
   }
 
-  renameNotebook(id: string, body: NotebookRequest): Observable<Notebook> {
+  renameNotebook(id: string, body: NotebookRequest): Observable<NotebookResponse> {
     const path = pathJoin([this.appProps.API_NOTEBOOKS_PATH, String(id)]);
-    return this.put<Notebook>(path, body);
+    return this.put<NotebookResponse>(path, body);
   }
 
-  createNotebook(body: NotebookRequest): Observable<Notebook> {
-    return this.post<Notebook>(this.appProps.API_NOTEBOOKS_PATH, body);
+  createNotebook(body: NotebookRequest): Observable<NotebookResponse> {
+    return this.post<NotebookResponse>(this.appProps.API_NOTEBOOKS_PATH, body);
   }
 
-  getNotesByNotebookId(id: string): Observable<Note[]> {
-    return this.get<Note[]>(pathJoin([this.appProps.API_NOTEBOOKS_PATH, id, this.appProps.API_NOTES]));
+  getNotesByNotebookId(id: string): Observable<NoteResponse[]> {
+    return this.get<NoteResponse[]>(pathJoin([this.appProps.API_NOTEBOOKS_PATH, id, this.appProps.API_NOTES]));
   }
 
 }
