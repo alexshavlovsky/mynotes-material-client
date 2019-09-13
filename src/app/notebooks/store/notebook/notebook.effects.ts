@@ -19,6 +19,8 @@ import {notebooksRelevance} from './notebook.reducer';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {EMPTY} from 'rxjs';
+import {notebookResponseAdapter} from './notebook.model';
+import {newRelevance} from '../store-relevance';
 
 
 @Injectable()
@@ -29,10 +31,10 @@ export class NotebookEffects {
       ofType(NotebookActionTypes.FetchAllNotebooksRequest),
       withLatestFrom(this.store.select(notebooksRelevance)),
       withLatestFrom(this.store.select(getTokenDecoded),
-        ([_, relevance], tokenDecoded) => ({relevance, tokenDecoded})),
-      filter(p => p.relevance === null || p.tokenDecoded === null || p.relevance.fetchedWithUserId !== p.tokenDecoded.userId),
+        ([action, relevance], tokenDecoded) => ({relevance, newRelevance: newRelevance(tokenDecoded.userId)})),
+      filter(p => p.relevance === null || p.relevance.userId !== p.newRelevance.userId),
       switchMap(p => this.http.getAllNotebooks().pipe(
-        map(notebooks => new FetchAllNotebooksSuccess(({notebooks, withUserId: p.tokenDecoded.userId})))
+        map(response => new FetchAllNotebooksSuccess({response, relevance: p.newRelevance}))
       )),
     )
   );
@@ -41,13 +43,17 @@ export class NotebookEffects {
     this.actions$.pipe(
       ofType(NotebookActionTypes.FetchAllNotebooksSuccess),
       // TODO: clear notes store before
-      map(action => new LoadNotebooks({notebooks: action.payload.notebooks})),
+      map(action => {
+        const notebooks = action.payload.response.map(response => notebookResponseAdapter(response));
+        return new LoadNotebooks({notebooks});
+      }),
     )
   );
 
   deleteNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.DeleteNotebookRequest),
+      // TODO: implement cascade deletion of notes in the store
       exhaustMap(action => this.http.deleteNotebook(action.payload.id).pipe(
         map(() => new DeleteNotebook({id: action.payload.id.toString()})),
         catchError(error => {
@@ -62,6 +68,7 @@ export class NotebookEffects {
     this.actions$.pipe(
       ofType(NotebookActionTypes.RenameNotebookRequest),
       exhaustMap(action => this.http.renameNotebook(action.payload.id, {name: action.payload.name}).pipe(
+        // TODO: update relevance
         map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to rename notebook'));
@@ -74,8 +81,10 @@ export class NotebookEffects {
   createNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.CreateNotebookRequest),
-      exhaustMap(action => this.http.createNotebook(action.payload.notebook).pipe(
-        map(notebook => new AddNotebook({notebook})),
+      withLatestFrom(this.store.select(getTokenDecoded),
+        (action, tokenDecoded) => ({action, tokenDecoded})),
+      exhaustMap(p => this.http.createNotebook(p.action.payload.notebook).pipe(
+        map(response => new AddNotebook({notebook: notebookResponseAdapter(response)})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to create notebook'));
           return EMPTY;

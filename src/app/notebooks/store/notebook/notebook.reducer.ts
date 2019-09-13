@@ -2,6 +2,7 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Notebook} from './notebook.model';
 import {NotebookActions, NotebookActionTypes} from './notebook.actions';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {StoreRelevance} from '../store-relevance';
 
 export const notebooksFeatureKey = 'notebooks';
 
@@ -12,13 +13,8 @@ export const notebooksRelevance = createSelector(
   notebooks => notebooks.relevance
 );
 
-export interface RelevanceHash {
-  fetchedWithUserId: string;
-  fetchedTimestamp: number;
-}
-
 export interface NotebooksState extends EntityState<Notebook> {
-  relevance: RelevanceHash;
+  relevance: StoreRelevance;
 }
 
 export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
@@ -33,7 +29,7 @@ export function reducer(state = initialState, action: NotebookActions): Notebook
     case NotebookActionTypes.FetchAllNotebooksSuccess: {
       return {
         ...state,
-        relevance: {fetchedWithUserId: action.payload.withUserId, fetchedTimestamp: new Date().getTime()}
+        relevance: action.payload.relevance
       };
     }
 

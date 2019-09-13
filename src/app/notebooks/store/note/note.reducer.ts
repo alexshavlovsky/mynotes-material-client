@@ -2,23 +2,37 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteActions, NoteActionTypes} from './note.actions';
 import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {StoreRelevance} from '../store-relevance';
 
 export const notesFeatureKey = 'notes';
 
 export const selectNotesState = createFeatureSelector<NotesState>(notesFeatureKey);
 
+export const notesRelevance = createSelector(
+  selectNotesState,
+  notes => notes.relevance
+);
+
 export interface NotesState extends EntityState<Note> {
-  // additional entities state properties
+  relevance: { [id: string]: StoreRelevance };
 }
 
 export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
 
 export const initialState: NotesState = adapter.getInitialState({
-  // additional entity state properties
+  relevance: {}
 });
 
 export function reducer(state = initialState, action: NoteActions): NotesState {
   switch (action.type) {
+
+    case NoteActionTypes.FetchNotesByNotebookIdSuccess: {
+      return {
+        ...state,
+        relevance: {...state.relevance, [action.payload.notebookId]: action.payload.relevance}
+      };
+    }
+
     case NoteActionTypes.AddNote: {
       return adapter.addOne(action.payload.note, state);
     }

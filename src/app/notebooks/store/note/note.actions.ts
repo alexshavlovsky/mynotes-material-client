@@ -1,6 +1,8 @@
 import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {Note} from './note.model';
+import {NoteResponse} from '../../../core/model/note-response.model';
+import {StoreRelevance} from '../store-relevance';
 
 export enum NoteActionTypes {
   FetchNotesByNotebookIdRequest = '[Notes List Page] Fetch Notes By Notebook Id Request',
@@ -28,7 +30,7 @@ export class FetchNotesByNotebookIdRequest implements Action {
 export class FetchNotesByNotebookIdSuccess implements Action {
   readonly type = NoteActionTypes.FetchNotesByNotebookIdSuccess;
 
-  constructor(public payload: { notes: Note[] }) {
+  constructor(public payload: { response: NoteResponse[], notebookId: string, relevance: StoreRelevance }) {
   }
 }
 

@@ -1,30 +1,51 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {exhaustMap, map} from 'rxjs/operators';
+import {exhaustMap, filter, map, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {FetchNotesByNotebookIdSuccess, NoteActions, NoteActionTypes, UpsertNotes} from './note.actions';
+import {noteResponseAdapter} from './note.model';
+import {getTokenDecoded} from '../../../store/principal/principal.selectors';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../store';
+import {notesRelevance} from './note.reducer';
+import {newRelevance} from '../store-relevance';
 
 @Injectable()
 export class NoteEffects {
 
-  fetchAllNotesRequest$ = createEffect(() =>
+  fetchNotesByNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NoteActionTypes.FetchNotesByNotebookIdRequest),
-      exhaustMap(action => this.http.getNotesByNotebookId(action.payload.notebookId).pipe(
-        map(notes => new FetchNotesByNotebookIdSuccess({notes}))
+      withLatestFrom(this.store.select(notesRelevance)),
+      withLatestFrom(this.store.select(getTokenDecoded),
+        ([action, relevance], tokenDecoded) => ({
+          notebookId: action.payload.notebookId,
+          relevance,
+          newRelevance: newRelevance(tokenDecoded.userId)
+        })),
+      filter(p => p.relevance[p.notebookId] === undefined || p.relevance[p.notebookId].userId !== p.newRelevance.userId),
+      exhaustMap(p => this.http.getNotesByNotebookId(p.notebookId).pipe(
+        map(response => new FetchNotesByNotebookIdSuccess({
+          response, notebookId: p.notebookId, relevance: p.newRelevance
+        }))
       )),
     )
   );
 
-  fetchAllNotesSuccess$ = createEffect(() =>
+  fetchNotesByNotebookSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NoteActionTypes.FetchNotesByNotebookIdSuccess),
-      map(action => new UpsertNotes({notes: action.payload.notes})),
+      map(action => {
+        // TODO: remove notes before upsert?
+        const notes = action.payload.response.map(note => noteResponseAdapter(note));
+        return new UpsertNotes({notes});
+      })
     )
   );
 
   constructor(private actions$: Actions<NoteActions>,
+              private store: Store<AppState>,
               private http: HttpService) {
   }
 

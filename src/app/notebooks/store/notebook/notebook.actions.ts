@@ -2,6 +2,8 @@ import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {Notebook} from './notebook.model';
 import {NotebookRequest} from '../../../core/model/notebook-request.model';
+import {NotebookResponse} from '../../../core/model/notebook-response.model';
+import {StoreRelevance} from '../store-relevance';
 
 export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
@@ -29,7 +31,7 @@ export class FetchAllNotebooksRequest implements Action {
 export class FetchAllNotebooksSuccess implements Action {
   readonly type = NotebookActionTypes.FetchAllNotebooksSuccess;
 
-  constructor(public payload: { notebooks: Notebook[], withUserId: string }) {
+  constructor(public payload: { response: NotebookResponse[], relevance: StoreRelevance }) {
   }
 }
 
