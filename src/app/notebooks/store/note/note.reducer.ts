@@ -13,23 +13,48 @@ export const notesRelevance = createSelector(
   notes => notes.relevance
 );
 
+export const notesSpinner = createSelector(
+  selectNotesState,
+  (notes, props: { notebookId: string }) => {
+    const spinner = notes.spinner[props.notebookId];
+    return spinner === undefined ? false : spinner;
+  }
+);
+
 export interface NotesState extends EntityState<Note> {
   relevance: { [id: string]: StoreRelevance };
+  spinner: { [id: string]: boolean };
 }
 
 export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
 
 export const initialState: NotesState = adapter.getInitialState({
-  relevance: {}
+  relevance: {},
+  spinner: {}
 });
 
 export function reducer(state = initialState, action: NoteActions): NotesState {
   switch (action.type) {
 
+    case NoteActionTypes.FetchNotesByNotebookIdApiCall: {
+      return {
+        ...state,
+        spinner: {...state.spinner, [action.payload.notebookId]: true}
+      };
+    }
+
+    case NoteActionTypes.FetchNotesByNotebookIdFailure: {
+      return {
+        ...state,
+        spinner: {...state.spinner, [action.payload.notebookId]: false}
+      };
+    }
+
     case NoteActionTypes.FetchNotesByNotebookIdSuccess: {
       return {
         ...state,
-        relevance: {...state.relevance, [action.payload.notebookId]: action.payload.relevance}
+        relevance: {...state.relevance, [action.payload.notebookId]: action.payload.relevance},
+        spinner: {...state.spinner, [action.payload.notebookId]: false}
       };
     }
 

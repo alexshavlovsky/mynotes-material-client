@@ -13,23 +13,51 @@ export const notebooksRelevance = createSelector(
   notebooks => notebooks.relevance
 );
 
+export const notebooksSpinner = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.spinner
+);
+
 export interface NotebooksState extends EntityState<Notebook> {
   relevance: StoreRelevance;
+  spinner: boolean;
 }
 
 export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
 
 export const initialState: NotebooksState = adapter.getInitialState({
-  relevance: null
+  relevance: null,
+  spinner: false
 });
 
 export function reducer(state = initialState, action: NotebookActions): NotebooksState {
   switch (action.type) {
+    case NotebookActionTypes.InvalidateNotebooksStore: {
+      return {
+        ...state,
+        relevance: null
+      };
+    }
+
+    case NotebookActionTypes.FetchAllNotebooksApiCall: {
+      return {
+        ...state,
+        spinner: true
+      };
+    }
 
     case NotebookActionTypes.FetchAllNotebooksSuccess: {
       return {
         ...state,
-        relevance: action.payload.relevance
+        relevance: action.payload.relevance,
+        spinner: false
+      };
+    }
+
+    case NotebookActionTypes.FetchAllNotebooksFailure: {
+      return {
+        ...state,
+        spinner: false
       };
     }
 

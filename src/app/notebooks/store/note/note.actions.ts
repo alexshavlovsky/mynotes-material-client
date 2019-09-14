@@ -6,7 +6,10 @@ import {StoreRelevance} from '../store-relevance';
 
 export enum NoteActionTypes {
   FetchNotesByNotebookIdRequest = '[Notes List Page] Fetch Notes By Notebook Id Request',
+  FetchNotesByNotebookIdApiCall = '[Store Cache Core] Fetch Notes By Notebook Id API call',
   FetchNotesByNotebookIdSuccess = '[API] Fetch Notes By Notebook Id Success',
+  FetchNotesByNotebookIdFailure = '[API] Fetch Notes By Notebook Id Failure',
+  FetchAllNotes = '[Notebooks Container] Fetch All Notes',
 
   LoadNotes = '[Note] Load Notes',
   AddNote = '[Note] Add Note',
@@ -27,11 +30,29 @@ export class FetchNotesByNotebookIdRequest implements Action {
   }
 }
 
+export class FetchNotesByNotebookIdApiCall implements Action {
+  readonly type = NoteActionTypes.FetchNotesByNotebookIdApiCall;
+
+  constructor(public payload: { notebookId: string }) {
+  }
+}
+
 export class FetchNotesByNotebookIdSuccess implements Action {
   readonly type = NoteActionTypes.FetchNotesByNotebookIdSuccess;
 
   constructor(public payload: { response: NoteResponse[], notebookId: string, relevance: StoreRelevance }) {
   }
+}
+
+export class FetchNotesByNotebookIdFailure implements Action {
+  readonly type = NoteActionTypes.FetchNotesByNotebookIdFailure;
+
+  constructor(public payload: { message: string, notebookId: string }) {
+  }
+}
+
+export class FetchAllNotes implements Action {
+  readonly type = NoteActionTypes.FetchAllNotes;
 }
 
 export class LoadNotes implements Action {
@@ -102,7 +123,11 @@ export class ClearNotes implements Action {
 }
 
 export type NoteActions =
-  FetchNotesByNotebookIdRequest | FetchNotesByNotebookIdSuccess
+  FetchNotesByNotebookIdRequest
+  | FetchNotesByNotebookIdApiCall
+  | FetchNotesByNotebookIdSuccess
+  | FetchNotesByNotebookIdFailure
+  | FetchAllNotes
   | LoadNotes
   | AddNote
   | UpsertNote

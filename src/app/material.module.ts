@@ -8,6 +8,7 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';
@@ -30,6 +31,7 @@ import {PrefixPipe} from './core/prefix.pipe';
     MatMenuModule,
     MatListModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     PrefixPipe,
@@ -44,6 +46,7 @@ import {PrefixPipe} from './core/prefix.pipe';
     MatMenuModule,
     MatListModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MaterialModule {

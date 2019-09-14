@@ -18,6 +18,10 @@ mat-card {
   margin: 16px 0 16px 16px;
 }
 
+.nb-fetched {
+  font-weight: 500;
+}
+
 .nb-size {
   position: absolute;
   left: 22px;

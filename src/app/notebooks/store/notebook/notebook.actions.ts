@@ -7,7 +7,11 @@ import {StoreRelevance} from '../store-relevance';
 
 export enum NotebookActionTypes {
   FetchAllNotebooksRequest = '[Notebooks Container] Fetch All Notebooks Request',
+  FetchAllNotebooksApiCall = '[Store Cache Core] Fetch All Notebooks API call',
   FetchAllNotebooksSuccess = '[API] Fetch All Notebooks Success',
+  FetchAllNotebooksFailure = '[API] Fetch All Notebooks Failure',
+  InvalidateNotebooksStore = '[Notebooks Container/UI] Invalidate Notebooks Store',
+
   DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
   RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
   CreateNotebookRequest = '[Notebooks Container] Create Notebook Request',
@@ -24,14 +28,29 @@ export enum NotebookActionTypes {
   ClearNotebooks = '[Notebook] Clear Notebooks',
 }
 
+export class InvalidateNotebooksStore implements Action {
+  readonly type = NotebookActionTypes.InvalidateNotebooksStore;
+}
+
 export class FetchAllNotebooksRequest implements Action {
   readonly type = NotebookActionTypes.FetchAllNotebooksRequest;
+}
+
+export class FetchAllNotebooksApiCall implements Action {
+  readonly type = NotebookActionTypes.FetchAllNotebooksApiCall;
 }
 
 export class FetchAllNotebooksSuccess implements Action {
   readonly type = NotebookActionTypes.FetchAllNotebooksSuccess;
 
   constructor(public payload: { response: NotebookResponse[], relevance: StoreRelevance }) {
+  }
+}
+
+export class FetchAllNotebooksFailure implements Action {
+  readonly type = NotebookActionTypes.FetchAllNotebooksFailure;
+
+  constructor(public payload: { message: string }) {
   }
 }
 
@@ -124,8 +143,14 @@ export class ClearNotebooks implements Action {
 }
 
 export type NotebookActions =
-  FetchAllNotebooksRequest | FetchAllNotebooksSuccess
-  | DeleteNotebookRequest | RenameNotebookRequest | CreateNotebookRequest
+  FetchAllNotebooksRequest
+  | FetchAllNotebooksApiCall
+  | FetchAllNotebooksSuccess
+  | FetchAllNotebooksFailure
+  | DeleteNotebookRequest
+  | RenameNotebookRequest
+  | CreateNotebookRequest
+  | InvalidateNotebooksStore
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook
@@ -135,4 +160,4 @@ export type NotebookActions =
   | UpdateNotebooks
   | DeleteNotebook
   | DeleteNotebooks
-  | ClearNotebooks  ;
+  | ClearNotebooks;

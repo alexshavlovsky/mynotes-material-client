@@ -1,12 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
-import {getAllNotebooks, NotebooksState} from '../store/notebook/notebook.reducer';
+import {getAllNotebooks, notebooksSpinner, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
 import {CreateNotebookRequest} from '../store/notebook/notebook.actions';
 import {NotebookDialogComponent, NotebookDialogData} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
+import {notesRelevance} from '../store/note/note.reducer';
+import {StoreRelevance} from '../store/store-relevance';
+import {FetchAllNotes} from '../store/note/note.actions';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -16,6 +19,8 @@ import {MatDialog} from '@angular/material';
 export class NotebooksListComponent implements OnInit {
 
   notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
+  spinner$: Observable<boolean> = this.store.select(notebooksSpinner);
+  notesRelevance$: Observable<{ [notebookId: string]: StoreRelevance }> = this.store.select(notesRelevance);
 
   constructor(private store: Store<NotebooksState>,
               private dialog: MatDialog) {
@@ -38,4 +43,9 @@ export class NotebooksListComponent implements OnInit {
     ).subscribe();
   }
 
+  refreshNotebooks() {
+//    this.store.dispatch(new InvalidateNotebooksStore());
+//    this.store.dispatch(new FetchAllNotebooksRequest());
+    this.store.dispatch(new FetchAllNotes());
+  }
 }

@@ -1,6 +1,8 @@
 <mat-card>
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <div fxFlex="0 0 40px"></div>
+  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="((notebooks$ | async).length) && !(spinner$|async)">
+    <button mat-button fxFlex="0 0 auto" (click)="refreshNotebooks()">
+      <mat-icon>refresh</mat-icon>
+    </button>
     <h1 fxFlex="1 1 100%">My notebooks</h1>
     <button fxFlex="0 0 auto" mat-icon-button [matMenuTriggerFor]="actionsMenu" class="actions-menu">
       <mat-icon>more_vert</mat-icon>
@@ -16,14 +18,25 @@
       <span>Search</span>
     </button>
   </mat-menu>
-  <mat-nav-list>
+
+  <mat-spinner style="margin:0 auto" *ngIf="spinner$|async"></mat-spinner>
+
+  <div *ngIf="!(spinner$|async) && !(notebooks$ | async).length">
+    <button mat-menu-item (click)="openCreateNotebookDialog()">
+      <mat-icon color="primary">create_new_folder</mat-icon>
+      <span>Create a notebook</span>
+    </button>
+  </div>
+
+  <mat-nav-list *ngIf="!(spinner$|async) && (notebooks$ | async).length">
     <div *ngFor="let notebook of notebooks$ | async" fxLayout fxLayoutAlign="space-between center">
       <a mat-list-item [routerLink]="[notebook.id, 'notes']">
         <mat-icon mat-list-icon color="primary" class="icon-mb">folder</mat-icon>
         <span class="nb-size">{{notebook.size}}</span>
-        <span class="nb-items">{{notebook.name}}</span>
+        <span class="nb-items" [ngClass]="{'nb-fetched':(notesRelevance$|async)[notebook.id]}">{{notebook.name}}</span>
       </a>
       <app-notebook-operations-menu class="icon-mb" [notebook]="notebook"></app-notebook-operations-menu>
     </div>
   </mat-nav-list>
+
 </mat-card>

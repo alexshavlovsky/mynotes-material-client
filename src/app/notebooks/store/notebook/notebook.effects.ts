@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, exhaustMap, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, exhaustMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
   AddNotebook,
   DeleteNotebook,
+  FetchAllNotebooksApiCall,
+  FetchAllNotebooksFailure,
   FetchAllNotebooksSuccess,
   LoadNotebooks,
   NotebookActions,
@@ -18,7 +20,7 @@ import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {notebooksRelevance} from './notebook.reducer';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
-import {EMPTY} from 'rxjs';
+import {EMPTY, of} from 'rxjs';
 import {notebookResponseAdapter} from './notebook.model';
 import {newRelevance} from '../store-relevance';
 
@@ -33,8 +35,12 @@ export class NotebookEffects {
       withLatestFrom(this.store.select(getTokenDecoded),
         ([action, relevance], tokenDecoded) => ({relevance, newRelevance: newRelevance(tokenDecoded.userId)})),
       filter(p => p.relevance === null || p.relevance.userId !== p.newRelevance.userId),
-      switchMap(p => this.http.getAllNotebooks().pipe(
-        map(response => new FetchAllNotebooksSuccess({response, relevance: p.newRelevance}))
+      tap(() => this.store.dispatch(new FetchAllNotebooksApiCall())),
+      exhaustMap(p => this.http.getAllNotebooks().pipe(
+        map(response => new FetchAllNotebooksSuccess({response, relevance: p.newRelevance})),
+        catchError(error =>
+          of(new FetchAllNotebooksFailure({message: adaptErrorMessage(error, 'Unknown error')}))
+        )
       )),
     )
   );
@@ -48,6 +54,13 @@ export class NotebookEffects {
         return new LoadNotebooks({notebooks});
       }),
     )
+  );
+
+  fetchAllNotebooksFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.FetchAllNotebooksFailure),
+      tap(action => this.snackBar.openError(action.payload.message))
+    ), {dispatch: false}
   );
 
   deleteNotebookRequest$ = createEffect(() =>
