@@ -48,6 +48,10 @@ export class HttpService {
     return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
   }
 
+  getAllNotes(): Observable<NoteResponse[]> {
+    return this.get<NoteResponse[]>(this.appProps.API_NOTES_PATH);
+  }
+
   getAllNotebooks(): Observable<NotebookResponse[]> {
     return this.get<NotebookResponse[]>(this.appProps.API_NOTEBOOKS_PATH);
   }

@@ -13,6 +13,11 @@ export const notesRelevance = createSelector(
   notes => notes.relevance
 );
 
+export const notesRelevanceAll = createSelector(
+  selectNotesState,
+  notes => notes.relevanceAll
+);
+
 export const notesSpinner = createSelector(
   selectNotesState,
   (notes, props: { notebookId: string }) => {
@@ -24,13 +29,17 @@ export const notesSpinner = createSelector(
 export interface NotesState extends EntityState<Note> {
   relevance: { [id: string]: StoreRelevance };
   spinner: { [id: string]: boolean };
+  relevanceAll: StoreRelevance;
+  spinnerAll: boolean;
 }
 
 export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
 
 export const initialState: NotesState = adapter.getInitialState({
   relevance: {},
-  spinner: {}
+  spinner: {},
+  relevanceAll: null,
+  spinnerAll: false,
 });
 
 export function reducer(state = initialState, action: NoteActions): NotesState {
@@ -55,6 +64,29 @@ export function reducer(state = initialState, action: NoteActions): NotesState {
         ...state,
         relevance: {...state.relevance, [action.payload.notebookId]: action.payload.relevance},
         spinner: {...state.spinner, [action.payload.notebookId]: false}
+      };
+    }
+
+    case NoteActionTypes.FetchAllNotesApiCall: {
+      return {
+        ...state,
+        spinnerAll: true
+      };
+    }
+
+    case NoteActionTypes.FetchAllNotesFailure: {
+      return {
+        ...state,
+        spinnerAll: false
+      };
+    }
+
+    case NoteActionTypes.FetchAllNotesSuccess: {
+      return {
+        ...state,
+        relevance: action.payload.relevance,
+        relevanceAll: action.payload.relevanceAll,
+        spinnerAll: false
       };
     }
 

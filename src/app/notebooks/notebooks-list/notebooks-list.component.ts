@@ -9,7 +9,7 @@ import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {notesRelevance} from '../store/note/note.reducer';
 import {StoreRelevance} from '../store/store-relevance';
-import {FetchAllNotes} from '../store/note/note.actions';
+import {FetchAllNotesRequest} from '../store/note/note.actions';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -46,6 +46,6 @@ export class NotebooksListComponent implements OnInit {
   refreshNotebooks() {
 //    this.store.dispatch(new InvalidateNotebooksStore());
 //    this.store.dispatch(new FetchAllNotebooksRequest());
-    this.store.dispatch(new FetchAllNotes());
+    this.store.dispatch(new FetchAllNotesRequest());
   }
 }

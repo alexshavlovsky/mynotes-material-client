@@ -1,13 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, concatMap, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, exhaustMap, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
+  FetchAllNotesApiCall,
+  FetchAllNotesFailure,
+  FetchAllNotesSuccess,
   FetchNotesByNotebookIdApiCall,
   FetchNotesByNotebookIdFailure,
-  FetchNotesByNotebookIdRequest,
   FetchNotesByNotebookIdSuccess,
+  LoadNotes,
   NoteActions,
   NoteActionTypes,
   UpsertNotes
@@ -16,9 +19,8 @@ import {noteResponseAdapter} from './note.model';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
-import {notesRelevance} from './note.reducer';
+import {notesRelevance, notesRelevanceAll} from './note.reducer';
 import {newRelevance} from '../store-relevance';
-import {getAllNotebooks} from '../notebook/notebook.reducer';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {of} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
@@ -67,13 +69,48 @@ export class NoteEffects {
     ), {dispatch: false}
   );
 
-  fetchAllNotes$ = createEffect(() =>
+  fetchAllNotesRequest$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(NoteActionTypes.FetchAllNotes),
-      withLatestFrom(this.store.select(getAllNotebooks)),
-      map(([action, notebooks]) => notebooks.map(notebook => new FetchNotesByNotebookIdRequest({notebookId: notebook.id.toString()}))),
-      concatMap(actions => actions)
+      ofType(NoteActionTypes.FetchAllNotesRequest),
+      withLatestFrom(this.store.select(notesRelevanceAll)),
+      withLatestFrom(this.store.select(getTokenDecoded),
+        ([action, relevance], tokenDecoded) => ({
+          relevance,
+          newRelevance: newRelevance(tokenDecoded.userId)
+        })),
+      filter(p => p.relevance === null || p.relevance.userId !== p.newRelevance.userId),
+      tap(() => this.store.dispatch(new FetchAllNotesApiCall())),
+      exhaustMap(p => this.http.getAllNotes().pipe(
+        map(response => {
+          const relevance = {};
+          // create a distinct array of notebook ids
+          const nbIds = [...new Set(response.map(note => note.notebookId))];
+          // create a relevance dictionary
+          nbIds.forEach(id => relevance[id] = p.newRelevance);
+          return new FetchAllNotesSuccess({response, relevance, relevanceAll: p.newRelevance});
+        }),
+        catchError(error =>
+          of(new FetchAllNotesFailure({message: adaptErrorMessage(error, 'Unknown error')}))
+        )
+      ))
     ),
+  );
+
+  fetchAllNotesSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NoteActionTypes.FetchAllNotesSuccess),
+      map(action => {
+        const notes = action.payload.response.map(note => noteResponseAdapter(note));
+        return new LoadNotes({notes});
+      })
+    )
+  );
+
+  fetchAllNotesFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NoteActionTypes.FetchAllNotesFailure),
+      tap(action => this.snackBar.openError(action.payload.message))
+    ), {dispatch: false}
   );
 
   constructor(private actions$: Actions<NoteActions>,
