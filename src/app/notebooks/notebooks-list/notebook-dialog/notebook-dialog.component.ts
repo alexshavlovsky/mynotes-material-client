@@ -4,10 +4,14 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 export interface NotebookDialogData {
   title: string;
-  placeholder: string;
-  initialValue: string;
+  namePlaceholder: string;
+  nameCurrent: string;
   cancelButton: string;
   confirmButton: string;
+}
+
+export interface NotebookDialogPayload {
+  newName: string;
 }
 
 @Component({
@@ -16,9 +20,7 @@ export interface NotebookDialogData {
   styleUrls: ['./notebook-dialog.component.css']
 })
 export class NotebookDialogComponent implements OnInit {
-
   form: FormGroup;
-
   data: NotebookDialogData;
 
   constructor(
@@ -30,12 +32,15 @@ export class NotebookDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      value: [this.data.initialValue, []],
+      nameInput: [this.data.nameCurrent, []],
     });
   }
 
   confirm() {
-    this.dialogRef.close(this.form.value.value);
+    const payload: NotebookDialogPayload = {
+      newName: this.form.value.nameInput
+    };
+    this.dialogRef.close(payload);
   }
 
   close() {

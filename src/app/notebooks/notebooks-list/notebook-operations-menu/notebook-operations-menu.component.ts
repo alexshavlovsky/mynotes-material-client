@@ -2,11 +2,17 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {ConfirmDialogComponent, ConfirmDialogData} from '../confirm-dialog/confirm-dialog.component';
 import {filter, map} from 'rxjs/operators';
-import {NotebookDialogComponent, NotebookDialogData} from '../notebook-dialog/notebook-dialog.component';
+import {
+  NotebookDialogComponent,
+  NotebookDialogData,
+  NotebookDialogPayload
+} from '../notebook-dialog/notebook-dialog.component';
 import {Notebook} from '../../store/notebook/notebook.model';
 import {DeleteNotebookRequest, RenameNotebookRequest} from '../../store/notebook/notebook.actions';
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
+import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../note-dialog/note-dialog.component';
+import {CreateNoteRequest} from '../../store/note/note.actions';
 
 @Component({
   selector: 'app-notebook-operations-menu',
@@ -40,14 +46,39 @@ export class NotebookOperationsMenuComponent implements OnInit {
   openEditDialog() {
     const data: NotebookDialogData = {
       title: 'Rename notebook',
-      placeholder: 'New name',
-      initialValue: this.notebook.name,
+      namePlaceholder: 'New name',
+      nameCurrent: this.notebook.name,
       cancelButton: 'Cancel',
       confirmButton: 'Rename',
     };
     this.dialog.open(NotebookDialogComponent, {data}).afterClosed().pipe(
-      filter(value => value !== undefined && value !== this.notebook.name),
-      map(value => this.store.dispatch(new RenameNotebookRequest({id: this.notebook.id.toString(), name: value})))
+      filter((payload: NotebookDialogPayload) => payload !== undefined && payload.newName !== this.notebook.name),
+      map(payload => this.store.dispatch(new RenameNotebookRequest({
+        id: this.notebook.id.toString(),
+        name: payload.newName
+      })))
+    ).subscribe();
+  }
+
+  openCreateNoteDialog() {
+    const data: NoteDialogData = {
+      title: 'Create a note',
+      titlePlaceholder: 'Note title',
+      titleCurrent: '',
+      textPlaceholder: 'Note content',
+      textCurrent: '',
+      cancelButton: 'Cancel',
+      confirmButton: 'Create',
+    };
+    this.dialog.open(NoteDialogComponent, {data}).afterClosed().pipe(
+      filter((payload: NoteDialogPayload) => payload !== undefined),
+      map(payload => this.store.dispatch(new CreateNoteRequest({
+        note: {
+          title: payload.newTitle,
+          text: payload.newText,
+          notebookId: this.notebook.id
+        }
+      })))
     ).subscribe();
   }
 

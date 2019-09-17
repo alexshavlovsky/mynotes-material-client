@@ -4,7 +4,11 @@ import {Notebook} from '../store/notebook/notebook.model';
 import {getAllNotebooks, notebooksSpinner, NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
 import {CreateNotebookRequest} from '../store/notebook/notebook.actions';
-import {NotebookDialogComponent, NotebookDialogData} from './notebook-dialog/notebook-dialog.component';
+import {
+  NotebookDialogComponent,
+  NotebookDialogData,
+  NotebookDialogPayload
+} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
 import {notesRelevance} from '../store/note/note.reducer';
@@ -32,14 +36,14 @@ export class NotebooksListComponent implements OnInit {
   openCreateNotebookDialog() {
     const data: NotebookDialogData = {
       title: 'Create a notebook',
-      placeholder: 'Notebook name',
-      initialValue: '',
+      namePlaceholder: 'Notebook name',
+      nameCurrent: '',
       cancelButton: 'Cancel',
       confirmButton: 'Create',
     };
     this.dialog.open(NotebookDialogComponent, {data}).afterClosed().pipe(
-      filter(value => value !== undefined),
-      map(value => this.store.dispatch(new CreateNotebookRequest({notebook: {name: value}})))
+      filter((payload: NotebookDialogPayload) => payload !== undefined),
+      map(payload => this.store.dispatch(new CreateNotebookRequest({notebook: {name: payload.newName}})))
     ).subscribe();
   }
 
