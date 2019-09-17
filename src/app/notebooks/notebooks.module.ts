@@ -18,6 +18,7 @@ import {NotebookDialogComponent} from './notebooks-list/notebook-dialog/notebook
 import {ReactiveFormsModule} from '@angular/forms';
 import {NotesListComponent} from './notes-list/notes-list.component';
 import {NoteEffects} from './store/note/note.effects';
+import {NoteDialogComponent} from './notebooks-list/note-dialog/note-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {NoteEffects} from './store/note/note.effects';
     NotebooksListComponent,
     NotebookOperationsMenuComponent,
     ConfirmDialogComponent,
+    NoteDialogComponent,
     NotebookDialogComponent,
     NotesListComponent,
   ],
@@ -39,7 +41,7 @@ import {NoteEffects} from './store/note/note.effects';
     StoreModule.forFeature(fromNotebook.notebooksFeatureKey, fromNotebook.reducer),
     StoreModule.forFeature(fromNote.notesFeatureKey, fromNote.reducer),
   ],
-  entryComponents: [ConfirmDialogComponent, NotebookDialogComponent]
+  entryComponents: [ConfirmDialogComponent, NotebookDialogComponent, NoteDialogComponent]
 })
 export class NotebooksModule {
 }
