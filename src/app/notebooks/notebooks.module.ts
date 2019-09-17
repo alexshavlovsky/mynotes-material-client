@@ -18,7 +18,8 @@ import {NotebookDialogComponent} from './notebooks-list/notebook-dialog/notebook
 import {ReactiveFormsModule} from '@angular/forms';
 import {NotesListComponent} from './notes-list/notes-list.component';
 import {NoteEffects} from './store/note/note.effects';
-import {NoteDialogComponent} from './notebooks-list/note-dialog/note-dialog.component';
+import {NoteDialogComponent} from './notes-list/note-dialog/note-dialog.component';
+import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/note-operations-menu.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {NoteDialogComponent} from './notebooks-list/note-dialog/note-dialog.comp
     NoteDialogComponent,
     NotebookDialogComponent,
     NotesListComponent,
+    NoteOperationsMenuComponent,
   ],
   imports: [
     CommonModule,

@@ -11,7 +11,7 @@ import {Notebook} from '../../store/notebook/notebook.model';
 import {DeleteNotebookRequest, RenameNotebookRequest} from '../../store/notebook/notebook.actions';
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
-import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../note-dialog/note-dialog.component';
+import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../../notes-list/note-dialog/note-dialog.component';
 import {CreateNoteRequest} from '../../store/note/note.actions';
 
 @Component({
