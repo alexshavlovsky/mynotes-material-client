@@ -16,6 +16,8 @@ export enum NotebookActionTypes {
   RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
   CreateNotebookRequest = '[Notebooks Container] Create Notebook Request',
 
+  AtomicParentUpdateNotebook = '[Child Note Effect] Atomic Parent Update Notebook',
+
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
   UpsertNotebook = '[Notebook] Upsert Notebook',
@@ -72,6 +74,13 @@ export class CreateNotebookRequest implements Action {
   readonly type = NotebookActionTypes.CreateNotebookRequest;
 
   constructor(public payload: { notebook: NotebookRequest }) {
+  }
+}
+
+export class AtomicParentUpdateNotebook implements Action {
+  readonly type = NotebookActionTypes.AtomicParentUpdateNotebook;
+
+  constructor(public payload: { notebookId: string, sizeDelta: number }) {
   }
 }
 
@@ -151,6 +160,7 @@ export type NotebookActions =
   | RenameNotebookRequest
   | CreateNotebookRequest
   | InvalidateNotebooksStore
+  | AtomicParentUpdateNotebook
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook

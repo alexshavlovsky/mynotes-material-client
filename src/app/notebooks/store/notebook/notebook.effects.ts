@@ -94,9 +94,7 @@ export class NotebookEffects {
   createNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.CreateNotebookRequest),
-      withLatestFrom(this.store.select(getTokenDecoded),
-        (action, tokenDecoded) => ({action, tokenDecoded})),
-      exhaustMap(p => this.http.createNotebook(p.action.payload.notebook).pipe(
+      exhaustMap(action => this.http.createNotebook(action.payload.notebook).pipe(
         map(response => new AddNotebook({notebook: notebookResponseAdapter(response)})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to create notebook'));

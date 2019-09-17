@@ -3,6 +3,7 @@ import {Update} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteResponse} from '../../../core/model/note-response.model';
 import {StoreRelevance} from '../store-relevance';
+import {NoteRequest} from '../../../core/model/note-request.model';
 
 export enum NoteActionTypes {
   FetchNotesByNotebookIdRequest = '[Notes List Page] Fetch Notes By Notebook Id Request',
@@ -13,6 +14,7 @@ export enum NoteActionTypes {
   FetchAllNotesApiCall = '[Store Cache Core] Fetch All Notes API call',
   FetchAllNotesSuccess = '[API] Fetch All Notes Success',
   FetchAllNotesFailure = '[API] Fetch All Notes Failure',
+  CreateNoteRequest = '[Notebooks Container] Create Note Request',
 
   LoadNotes = '[Note] Load Notes',
   AddNote = '[Note] Add Note',
@@ -73,6 +75,13 @@ export class FetchAllNotesFailure implements Action {
   readonly type = NoteActionTypes.FetchAllNotesFailure;
 
   constructor(public payload: { message: string }) {
+  }
+}
+
+export class CreateNoteRequest implements Action {
+  readonly type = NoteActionTypes.CreateNoteRequest;
+
+  constructor(public payload: { note: NoteRequest }) {
   }
 }
 
@@ -152,6 +161,7 @@ export type NoteActions =
   | FetchAllNotesApiCall
   | FetchAllNotesSuccess
   | FetchAllNotesFailure
+  | CreateNoteRequest
   | LoadNotes
   | AddNote
   | UpsertNote

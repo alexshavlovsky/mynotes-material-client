@@ -61,6 +61,16 @@ export function reducer(state = initialState, action: NotebookActions): Notebook
       };
     }
 
+    case NotebookActionTypes.AtomicParentUpdateNotebook: {
+      const notebookId = action.payload.notebookId;
+      const notebook = state.entities[notebookId];
+      const newSize = notebook.size + action.payload.sizeDelta;
+      return {
+        ...state,
+        entities: {...state.entities, [notebookId]: {...notebook, size: newSize}}
+      };
+    }
+
     case NotebookActionTypes.AddNotebook: {
       return adapter.addOne(action.payload.notebook, state);
     }

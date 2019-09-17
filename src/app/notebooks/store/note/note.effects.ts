@@ -4,6 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, exhaustMap, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
+  AddNote,
   FetchAllNotesApiCall,
   FetchAllNotesFailure,
   FetchAllNotesSuccess,
@@ -22,8 +23,9 @@ import {AppState} from '../../../store';
 import {notesRelevance, notesRelevanceAll} from './note.reducer';
 import {newRelevance} from '../store-relevance';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
-import {of} from 'rxjs';
+import {EMPTY, of} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
+import {AtomicParentUpdateNotebook} from '../notebook/notebook.actions';
 
 @Injectable()
 export class NoteEffects {
@@ -45,7 +47,10 @@ export class NoteEffects {
           response, notebookId: p.notebookId, relevance: p.newRelevance
         })),
         catchError(error =>
-          of(new FetchNotesByNotebookIdFailure({message: adaptErrorMessage(error, 'Unknown error'), notebookId: p.notebookId}))
+          of(new FetchNotesByNotebookIdFailure({
+            message: adaptErrorMessage(error, 'Unknown error'),
+            notebookId: p.notebookId
+          }))
         )
       ))
     ),
@@ -112,6 +117,25 @@ export class NoteEffects {
       tap(action => this.snackBar.openError(action.payload.message))
     ), {dispatch: false}
   );
+
+  createNoteRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NoteActionTypes.CreateNoteRequest),
+      exhaustMap(action => this.http.createNote(action.payload.note).pipe(
+        tap(response => this.store.dispatch(new AtomicParentUpdateNotebook({
+          notebookId: response.notebookId.toString(),
+          sizeDelta: 1
+        }))),
+        map(response => new AddNote({note: noteResponseAdapter(response)})),
+        catchError(error => {
+          // TODO: review default error messages logic
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to create note'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
 
   constructor(private actions$: Actions<NoteActions>,
               private store: Store<AppState>,
