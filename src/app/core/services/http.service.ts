@@ -10,6 +10,7 @@ import {ApiMessage} from '../model/api-message.model';
 import {NotebookRequest} from '../model/notebook-request.model';
 import {NotebookResponse} from '../model/notebook-response.model';
 import {NoteResponse} from '../model/note-response.model';
+import {NoteRequest} from '../model/note-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,10 @@ export class HttpService {
 
   createNotebook(body: NotebookRequest): Observable<NotebookResponse> {
     return this.post<NotebookResponse>(this.appProps.API_NOTEBOOKS_PATH, body);
+  }
+
+  createNote(body: NoteRequest): Observable<NoteResponse> {
+    return this.post<NoteResponse>(this.appProps.API_NOTES_PATH, body);
   }
 
   getNotesByNotebookId(id: string): Observable<NoteResponse[]> {
