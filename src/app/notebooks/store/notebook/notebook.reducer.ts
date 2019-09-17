@@ -1,22 +1,12 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Notebook} from './notebook.model';
 import {NotebookActions, NotebookActionTypes} from './notebook.actions';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {createFeatureSelector} from '@ngrx/store';
 import {StoreRelevance} from '../store-relevance';
 
 export const notebooksFeatureKey = 'notebooks';
 
 export const selectNotebooksState = createFeatureSelector<NotebooksState>(notebooksFeatureKey);
-
-export const notebooksRelevance = createSelector(
-  selectNotebooksState,
-  notebooks => notebooks.relevance
-);
-
-export const notebooksSpinner = createSelector(
-  selectNotebooksState,
-  notebooks => notebooks.spinner
-);
 
 export interface NotebooksState extends EntityState<Notebook> {
   relevance: StoreRelevance;
@@ -116,25 +106,3 @@ export function reducer(state = initialState, action: NotebookActions): Notebook
     }
   }
 }
-
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors();
-
-export const getAllNotebooks = createSelector(
-  selectNotebooksState,
-  selectAll
-);
-
-export const getAllNotebookEntities = createSelector(
-  selectNotebooksState,
-  selectEntities
-);
-
-export const getNotebookById = createSelector(
-  getAllNotebookEntities,
-  (notebooks, props) => notebooks[props.id]
-);

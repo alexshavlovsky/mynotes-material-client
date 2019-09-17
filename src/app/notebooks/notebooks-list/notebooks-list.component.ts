@@ -1,19 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
-import {getAllNotebooks, notebooksSpinner, NotebooksState} from '../store/notebook/notebook.reducer';
+import {NotebooksState} from '../store/notebook/notebook.reducer';
 import {Store} from '@ngrx/store';
 import {CreateNotebookRequest} from '../store/notebook/notebook.actions';
-import {
-  NotebookDialogComponent,
-  NotebookDialogData,
-  NotebookDialogPayload
-} from './notebook-dialog/notebook-dialog.component';
+import {NotebookDialogComponent, NotebookDialogData, NotebookDialogPayload} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import {notesRelevance} from '../store/note/note.reducer';
+import {notesRelevance} from '../store/note/note.selectors';
 import {StoreRelevance} from '../store/store-relevance';
 import {FetchAllNotesRequest} from '../store/note/note.actions';
+import {getAllNotebooks, notebooksSpinner} from '../store/notebook/notebook.selectors';
 
 @Component({
   selector: 'app-notebooks-list',

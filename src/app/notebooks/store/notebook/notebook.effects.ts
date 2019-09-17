@@ -17,7 +17,7 @@ import {
 import {AppState} from '../../../store';
 import {Store} from '@ngrx/store';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
-import {notebooksRelevance} from './notebook.reducer';
+import {notebooksRelevance} from './notebook.selectors';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {EMPTY, of} from 'rxjs';

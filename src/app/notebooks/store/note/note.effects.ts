@@ -20,12 +20,13 @@ import {noteResponseAdapter} from './note.model';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
-import {notesRelevance, notesRelevanceAll} from './note.reducer';
+import {notesRelevanceAll} from './note.selectors';
 import {newRelevance} from '../store-relevance';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {EMPTY, of} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {AtomicParentUpdateNotebook} from '../notebook/notebook.actions';
+import {notesRelevance} from './note.selectors';
 
 @Injectable()
 export class NoteEffects {

@@ -1,30 +1,12 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteActions, NoteActionTypes} from './note.actions';
-import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {createFeatureSelector} from '@ngrx/store';
 import {StoreRelevance} from '../store-relevance';
 
 export const notesFeatureKey = 'notes';
 
 export const selectNotesState = createFeatureSelector<NotesState>(notesFeatureKey);
-
-export const notesRelevance = createSelector(
-  selectNotesState,
-  notes => notes.relevance
-);
-
-export const notesRelevanceAll = createSelector(
-  selectNotesState,
-  notes => notes.relevanceAll
-);
-
-export const notesSpinner = createSelector(
-  selectNotesState,
-  (notes, props: { notebookId: string }) => {
-    const spinner = notes.spinner[props.notebookId];
-    return spinner === undefined ? false : spinner;
-  }
-);
 
 export interface NotesState extends EntityState<Note> {
   relevance: { [id: string]: StoreRelevance };
@@ -135,22 +117,3 @@ export function reducer(state = initialState, action: NoteActions): NotesState {
     }
   }
 }
-
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors();
-
-export const getAllNotes = createSelector(
-  selectNotesState,
-  selectAll
-);
-
-export const getNotesByNotebookId = createSelector(
-  getAllNotes,
-  (notes, props: { notebookId: string }) => {
-    return notes.filter((note: Note) => note.notebookId.toString() === props.notebookId);
-  }
-);
