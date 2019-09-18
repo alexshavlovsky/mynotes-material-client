@@ -39,7 +39,7 @@ export class NotebookEffects {
       exhaustMap(p => this.http.getAllNotebooks().pipe(
         map(response => new FetchAllNotebooksSuccess({response, relevance: p.newRelevance})),
         catchError(error =>
-          of(new FetchAllNotebooksFailure({message: adaptErrorMessage(error, 'Unknown error')}))
+          of(new FetchAllNotebooksFailure({message: adaptErrorMessage(error, 'Failed to get all notebooks')}))
         )
       )),
     )
@@ -63,6 +63,33 @@ export class NotebookEffects {
     ), {dispatch: false}
   );
 
+  createNotebookRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.CreateNotebookRequest),
+      exhaustMap(action => this.http.createNotebook(action.payload.notebook).pipe(
+        map(response => new AddNotebook({notebook: notebookResponseAdapter(response)})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to create notebook'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
+  updateNotebookRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotebookActionTypes.UpdateNotebookRequest),
+      exhaustMap(action => this.http.updateNotebook(action.payload.id, action.payload.notebook).pipe(
+        // TODO: update relevance
+        map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to update notebook'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
   deleteNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.DeleteNotebookRequest),
@@ -71,33 +98,6 @@ export class NotebookEffects {
         map(() => new DeleteNotebook({id: action.payload.id.toString()})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to delete notebook'));
-          return EMPTY;
-        }))
-      )
-    )
-  );
-
-  renameNotebookRequest$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(NotebookActionTypes.RenameNotebookRequest),
-      exhaustMap(action => this.http.renameNotebook(action.payload.id, {name: action.payload.name}).pipe(
-        // TODO: update relevance
-        map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
-        catchError(error => {
-          this.snackBar.openError(adaptErrorMessage(error, 'Failed to rename notebook'));
-          return EMPTY;
-        }))
-      )
-    )
-  );
-
-  createNotebookRequest$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(NotebookActionTypes.CreateNotebookRequest),
-      exhaustMap(action => this.http.createNotebook(action.payload.notebook).pipe(
-        map(response => new AddNotebook({notebook: notebookResponseAdapter(response)})),
-        catchError(error => {
-          this.snackBar.openError(adaptErrorMessage(error, 'Failed to create notebook'));
           return EMPTY;
         }))
       )

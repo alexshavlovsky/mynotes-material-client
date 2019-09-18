@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: NotebookActions): Notebook
       };
     }
 
-    case NotebookActionTypes.AtomicParentUpdateNotebook: {
+    case NotebookActionTypes.ParentNotebookAtomicUpdate: {
       const notebookId = action.payload.notebookId;
       const notebook = state.entities[notebookId];
       const newSize = notebook.size + action.payload.sizeDelta;

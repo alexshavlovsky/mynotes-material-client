@@ -10,11 +10,15 @@ export enum NoteActionTypes {
   FetchNotesByNotebookIdApiCall = '[Store Cache Core] Fetch Notes By Notebook Id API call',
   FetchNotesByNotebookIdSuccess = '[API] Fetch Notes By Notebook Id Success',
   FetchNotesByNotebookIdFailure = '[API] Fetch Notes By Notebook Id Failure',
+
   FetchAllNotesRequest = '[Notebooks Container] Fetch All Notes Request',
   FetchAllNotesApiCall = '[Store Cache Core] Fetch All Notes API call',
   FetchAllNotesSuccess = '[API] Fetch All Notes Success',
   FetchAllNotesFailure = '[API] Fetch All Notes Failure',
+
   CreateNoteRequest = '[Notebooks Container] Create Note Request',
+  UpdateNoteRequest = '[Notebooks Container] Update Note Request',
+  DeleteNoteRequest = '[Notebooks Container] Delete Note Request',
 
   LoadNotes = '[Note] Load Notes',
   AddNote = '[Note] Add Note',
@@ -27,6 +31,7 @@ export enum NoteActionTypes {
   DeleteNotes = '[Note] Delete Notes',
   ClearNotes = '[Note] Clear Notes'
 }
+
 
 export class FetchNotesByNotebookIdRequest implements Action {
   readonly type = NoteActionTypes.FetchNotesByNotebookIdRequest;
@@ -82,6 +87,20 @@ export class CreateNoteRequest implements Action {
   readonly type = NoteActionTypes.CreateNoteRequest;
 
   constructor(public payload: { note: NoteRequest }) {
+  }
+}
+
+export class UpdateNoteRequest implements Action {
+  readonly type = NoteActionTypes.UpdateNoteRequest;
+
+  constructor(public payload: { id: string; note: NoteRequest }) {
+  }
+}
+
+export class DeleteNoteRequest implements Action {
+  readonly type = NoteActionTypes.DeleteNoteRequest;
+
+  constructor(public payload: { id: string, notebookId: string }) {
   }
 }
 
@@ -162,6 +181,8 @@ export type NoteActions =
   | FetchAllNotesSuccess
   | FetchAllNotesFailure
   | CreateNoteRequest
+  | UpdateNoteRequest
+  | DeleteNoteRequest
   | LoadNotes
   | AddNote
   | UpsertNote

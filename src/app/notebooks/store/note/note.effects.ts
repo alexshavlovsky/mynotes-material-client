@@ -5,6 +5,7 @@ import {catchError, exhaustMap, filter, map, mergeMap, tap, withLatestFrom} from
 import {HttpService} from '../../../core/services/http.service';
 import {
   AddNote,
+  DeleteNote,
   FetchAllNotesApiCall,
   FetchAllNotesFailure,
   FetchAllNotesSuccess,
@@ -14,19 +15,19 @@ import {
   LoadNotes,
   NoteActions,
   NoteActionTypes,
+  UpdateNote,
   UpsertNotes
 } from './note.actions';
 import {noteResponseAdapter} from './note.model';
 import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
-import {notesRelevanceAll} from './note.selectors';
+import {notesRelevance, notesRelevanceAll} from './note.selectors';
 import {newRelevance} from '../store-relevance';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {EMPTY, of} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
-import {AtomicParentUpdateNotebook} from '../notebook/notebook.actions';
-import {notesRelevance} from './note.selectors';
+import {ParentNotebookAtomicUpdate} from '../notebook/notebook.actions';
 
 @Injectable()
 export class NoteEffects {
@@ -49,7 +50,7 @@ export class NoteEffects {
         })),
         catchError(error =>
           of(new FetchNotesByNotebookIdFailure({
-            message: adaptErrorMessage(error, 'Unknown error'),
+            message: adaptErrorMessage(error, 'Failed to get notes by notebook'),
             notebookId: p.notebookId
           }))
         )
@@ -96,7 +97,7 @@ export class NoteEffects {
           return new FetchAllNotesSuccess({response, relevance, relevanceAll: p.newRelevance});
         }),
         catchError(error =>
-          of(new FetchAllNotesFailure({message: adaptErrorMessage(error, 'Unknown error')}))
+          of(new FetchAllNotesFailure({message: adaptErrorMessage(error, 'Failed to get all notes')}))
         )
       ))
     ),
@@ -123,7 +124,7 @@ export class NoteEffects {
     this.actions$.pipe(
       ofType(NoteActionTypes.CreateNoteRequest),
       exhaustMap(action => this.http.createNote(action.payload.note).pipe(
-        tap(response => this.store.dispatch(new AtomicParentUpdateNotebook({
+        tap(response => this.store.dispatch(new ParentNotebookAtomicUpdate({
           notebookId: response.notebookId.toString(),
           sizeDelta: 1
         }))),
@@ -137,6 +138,36 @@ export class NoteEffects {
     )
   );
 
+  updateNoteRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NoteActionTypes.UpdateNoteRequest),
+      exhaustMap(action => this.http.updateNote(action.payload.id, action.payload.note).pipe(
+        // TODO: update relevance
+        map(note => new UpdateNote({note: {id: note.id, changes: note}})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to update note'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
+
+  deleteNoteRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NoteActionTypes.DeleteNoteRequest),
+      exhaustMap(action => this.http.deleteNote(action.payload.id).pipe(
+        tap(() => this.store.dispatch(new ParentNotebookAtomicUpdate({
+          notebookId: action.payload.notebookId,
+          sizeDelta: -1
+        }))),
+        map(() => new DeleteNote({id: action.payload.id.toString()})),
+        catchError(error => {
+          this.snackBar.openError(adaptErrorMessage(error, 'Failed to delete note'));
+          return EMPTY;
+        }))
+      )
+    )
+  );
 
   constructor(private actions$: Actions<NoteActions>,
               private store: Store<AppState>,

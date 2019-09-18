@@ -10,13 +10,13 @@ export enum NotebookActionTypes {
   FetchAllNotebooksApiCall = '[Store Cache Core] Fetch All Notebooks API call',
   FetchAllNotebooksSuccess = '[API] Fetch All Notebooks Success',
   FetchAllNotebooksFailure = '[API] Fetch All Notebooks Failure',
-  InvalidateNotebooksStore = '[Notebooks Container/UI] Invalidate Notebooks Store',
 
-  DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
-  RenameNotebookRequest = '[Notebooks Container] Rename Notebook Request',
   CreateNotebookRequest = '[Notebooks Container] Create Notebook Request',
+  UpdateNotebookRequest = '[Notebooks Container] Rename Notebook Request',
+  DeleteNotebookRequest = '[Notebooks Container] Delete Notebook Request',
 
-  AtomicParentUpdateNotebook = '[Child Note Effect] Atomic Parent Update Notebook',
+  InvalidateNotebooksStore = '[Notebooks Container/UI] Invalidate Notebooks Store',
+  ParentNotebookAtomicUpdate = '[Child Note Effect] Parent Notebook Atomic Update',
 
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
@@ -28,10 +28,6 @@ export enum NotebookActionTypes {
   DeleteNotebook = '[Notebook] Delete Notebook',
   DeleteNotebooks = '[Notebook] Delete Notebooks',
   ClearNotebooks = '[Notebook] Clear Notebooks',
-}
-
-export class InvalidateNotebooksStore implements Action {
-  readonly type = NotebookActionTypes.InvalidateNotebooksStore;
 }
 
 export class FetchAllNotebooksRequest implements Action {
@@ -56,20 +52,6 @@ export class FetchAllNotebooksFailure implements Action {
   }
 }
 
-export class DeleteNotebookRequest implements Action {
-  readonly type = NotebookActionTypes.DeleteNotebookRequest;
-
-  constructor(public payload: { id: string }) {
-  }
-}
-
-export class RenameNotebookRequest implements Action {
-  readonly type = NotebookActionTypes.RenameNotebookRequest;
-
-  constructor(public payload: { id: string, name: string }) {
-  }
-}
-
 export class CreateNotebookRequest implements Action {
   readonly type = NotebookActionTypes.CreateNotebookRequest;
 
@@ -77,8 +59,26 @@ export class CreateNotebookRequest implements Action {
   }
 }
 
-export class AtomicParentUpdateNotebook implements Action {
-  readonly type = NotebookActionTypes.AtomicParentUpdateNotebook;
+export class UpdateNotebookRequest implements Action {
+  readonly type = NotebookActionTypes.UpdateNotebookRequest;
+
+  constructor(public payload: { id: string, notebook: NotebookRequest }) {
+  }
+}
+
+export class DeleteNotebookRequest implements Action {
+  readonly type = NotebookActionTypes.DeleteNotebookRequest;
+
+  constructor(public payload: { id: string }) {
+  }
+}
+
+export class InvalidateNotebooksStore implements Action {
+  readonly type = NotebookActionTypes.InvalidateNotebooksStore;
+}
+
+export class ParentNotebookAtomicUpdate implements Action {
+  readonly type = NotebookActionTypes.ParentNotebookAtomicUpdate;
 
   constructor(public payload: { notebookId: string, sizeDelta: number }) {
   }
@@ -157,10 +157,10 @@ export type NotebookActions =
   | FetchAllNotebooksSuccess
   | FetchAllNotebooksFailure
   | DeleteNotebookRequest
-  | RenameNotebookRequest
+  | UpdateNotebookRequest
   | CreateNotebookRequest
   | InvalidateNotebooksStore
-  | AtomicParentUpdateNotebook
+  | ParentNotebookAtomicUpdate
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook

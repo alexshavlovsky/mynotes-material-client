@@ -3,9 +3,10 @@ import {MatDialog} from '@angular/material';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
 import {ConfirmDialogComponent, ConfirmDialogData} from '../../notebooks-list/confirm-dialog/confirm-dialog.component';
-import {filter} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../note-dialog/note-dialog.component';
 import {Note} from '../../store/note/note.model';
+import {DeleteNoteRequest, UpdateNoteRequest} from '../../store/note/note.actions';
 
 @Component({
   selector: 'app-note-operations-menu',
@@ -31,14 +32,16 @@ export class NoteOperationsMenuComponent implements OnInit {
     };
     this.dialog.open(ConfirmDialogComponent, {data, autoFocus: false}).afterClosed().pipe(
       filter(result => result === true),
-// TODO: Implement delete note API call and Action
-//      map(() => this.store.dispatch(new DeleteNoteRequest({id: this.note.id.toString()})))
+      map(() => this.store.dispatch(new DeleteNoteRequest({
+        id: this.note.id.toString(),
+        notebookId: this.note.notebookId.toString()
+      })))
     ).subscribe();
   }
 
   openEditDialog() {
     const data: NoteDialogData = {
-      title: 'Edit note',
+      title: 'Edit the note',
       titlePlaceholder: 'Note title',
       titleCurrent: this.note.title,
       textPlaceholder: 'Note content',
@@ -48,14 +51,14 @@ export class NoteOperationsMenuComponent implements OnInit {
     };
     this.dialog.open(NoteDialogComponent, {data}).afterClosed().pipe(
       filter((payload: NoteDialogPayload) => payload !== undefined),
-      // TODO: Implement update note API call and Action
-      // map(payload => this.store.dispatch(new CreateNoteRequest({
-      //   note: {
-      //     title: payload.newTitle,
-      //     text: payload.newText,
-      //     notebookId: this.note.notebookId
-      //   }
-      // })))
+      map(payload => this.store.dispatch(new UpdateNoteRequest({
+        id: this.note.id.toString(),
+        note: {
+          title: payload.newTitle,
+          text: payload.newText,
+          notebookId: this.note.notebookId
+        }
+      })))
     ).subscribe();
   }
 

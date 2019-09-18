@@ -21,6 +21,8 @@ export class HttpService {
               private appProps: AppPropertiesService) {
   }
 
+  // HTTP CLIENT WRAPPERS
+
   private post<T>(url, body): Observable<T> {
     return this.http.post<T>(url, body, {headers: this.appProps.API_DEFAULT_HEADERS});
   }
@@ -37,6 +39,12 @@ export class HttpService {
     return this.http.put<T>(url, body, {headers: this.appProps.API_DEFAULT_HEADERS});
   }
 
+  // USERS ENDPOINT
+
+  getCurrentUserRequest(): Observable<UserRegisterResponse> {
+    return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
+  }
+
   postLoginRequest(body: UserLoginRequest): Observable<UserLoginResponse> {
     return this.post<UserLoginResponse>(this.appProps.API_LOGIN_PATH, body);
   }
@@ -45,16 +53,19 @@ export class HttpService {
     return this.post<UserRegisterResponse>(this.appProps.API_USERS_PATH, body);
   }
 
-  getCurrentUserRequest(): Observable<UserRegisterResponse> {
-    return this.get<UserRegisterResponse>(this.appProps.API_CURRENT_USER_PATH);
-  }
-
-  getAllNotes(): Observable<NoteResponse[]> {
-    return this.get<NoteResponse[]>(this.appProps.API_NOTES_PATH);
-  }
+  // NOTEBOOKS ENDPOINT
 
   getAllNotebooks(): Observable<NotebookResponse[]> {
     return this.get<NotebookResponse[]>(this.appProps.API_NOTEBOOKS_PATH);
+  }
+
+  createNotebook(body: NotebookRequest): Observable<NotebookResponse> {
+    return this.post<NotebookResponse>(this.appProps.API_NOTEBOOKS_PATH, body);
+  }
+
+  updateNotebook(id: string, body: NotebookRequest): Observable<NotebookResponse> {
+    const path = pathJoin([this.appProps.API_NOTEBOOKS_PATH, String(id)]);
+    return this.put<NotebookResponse>(path, body);
   }
 
   deleteNotebook(id: string): Observable<ApiMessage> {
@@ -62,21 +73,28 @@ export class HttpService {
     return this.delete<ApiMessage>(path);
   }
 
-  renameNotebook(id: string, body: NotebookRequest): Observable<NotebookResponse> {
-    const path = pathJoin([this.appProps.API_NOTEBOOKS_PATH, String(id)]);
-    return this.put<NotebookResponse>(path, body);
+  // NOTES ENDPOINT
+
+  getAllNotes(): Observable<NoteResponse[]> {
+    return this.get<NoteResponse[]>(this.appProps.API_NOTES_PATH);
   }
 
-  createNotebook(body: NotebookRequest): Observable<NotebookResponse> {
-    return this.post<NotebookResponse>(this.appProps.API_NOTEBOOKS_PATH, body);
+  getNotesByNotebookId(id: string): Observable<NoteResponse[]> {
+    return this.get<NoteResponse[]>(pathJoin([this.appProps.API_NOTEBOOKS_PATH, id, this.appProps.API_NOTES]));
   }
 
   createNote(body: NoteRequest): Observable<NoteResponse> {
     return this.post<NoteResponse>(this.appProps.API_NOTES_PATH, body);
   }
 
-  getNotesByNotebookId(id: string): Observable<NoteResponse[]> {
-    return this.get<NoteResponse[]>(pathJoin([this.appProps.API_NOTEBOOKS_PATH, id, this.appProps.API_NOTES]));
+  updateNote(id: string, body: NoteRequest): Observable<NoteResponse> {
+    const path = pathJoin([this.appProps.API_NOTES_PATH, String(id)]);
+    return this.put<NoteResponse>(path, body);
+  }
+
+  deleteNote(id: string): Observable<ApiMessage> {
+    const path = pathJoin([this.appProps.API_NOTES_PATH, String(id)]);
+    return this.delete<ApiMessage>(path);
   }
 
 }
