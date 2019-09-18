@@ -2,25 +2,20 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteActions, NoteActionTypes} from './note.actions';
 import {createFeatureSelector} from '@ngrx/store';
-import {StoreRelevance} from '../store-relevance';
 
 export const notesFeatureKey = 'notes';
 
 export const selectNotesState = createFeatureSelector<NotesState>(notesFeatureKey);
 
 export interface NotesState extends EntityState<Note> {
-  relevance: { [id: string]: StoreRelevance };
   spinner: { [id: string]: boolean };
-  relevanceAll: StoreRelevance;
   spinnerAll: boolean;
 }
 
 export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
 
 export const initialState: NotesState = adapter.getInitialState({
-  relevance: {},
   spinner: {},
-  relevanceAll: null,
   spinnerAll: false,
 });
 
@@ -44,7 +39,6 @@ export function reducer(state = initialState, action: NoteActions): NotesState {
     case NoteActionTypes.FetchNotesByNotebookIdSuccess: {
       return {
         ...state,
-        relevance: {...state.relevance, [action.payload.notebookId]: action.payload.relevance},
         spinner: {...state.spinner, [action.payload.notebookId]: false}
       };
     }
@@ -66,8 +60,6 @@ export function reducer(state = initialState, action: NoteActions): NotesState {
     case NoteActionTypes.FetchAllNotesSuccess: {
       return {
         ...state,
-        relevance: action.payload.relevance,
-        relevanceAll: action.payload.relevanceAll,
         spinnerAll: false
       };
     }

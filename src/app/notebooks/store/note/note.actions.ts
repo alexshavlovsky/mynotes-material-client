@@ -2,7 +2,6 @@ import {Action} from '@ngrx/store';
 import {Update} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteResponse} from '../../../core/model/note-response.model';
-import {StoreRelevance} from '../store-relevance';
 import {NoteRequest} from '../../../core/model/note-request.model';
 
 export enum NoteActionTypes {
@@ -50,7 +49,7 @@ export class FetchNotesByNotebookIdApiCall implements Action {
 export class FetchNotesByNotebookIdSuccess implements Action {
   readonly type = NoteActionTypes.FetchNotesByNotebookIdSuccess;
 
-  constructor(public payload: { response: NoteResponse[], notebookId: string, relevance: StoreRelevance }) {
+  constructor(public payload: { response: NoteResponse[], notebookId: string }) {
   }
 }
 
@@ -72,7 +71,7 @@ export class FetchAllNotesApiCall implements Action {
 export class FetchAllNotesSuccess implements Action {
   readonly type = NoteActionTypes.FetchAllNotesSuccess;
 
-  constructor(public payload: { response: NoteResponse[], relevance: { [id: string]: StoreRelevance }, relevanceAll: StoreRelevance }) {
+  constructor(public payload: { response: NoteResponse[] }) {
   }
 }
 

@@ -33,7 +33,7 @@
       <a mat-list-item [routerLink]="[notebook.id, 'notes']">
         <mat-icon mat-list-icon color="primary" class="icon-mb">folder</mat-icon>
         <span class="nb-size">{{notebook.size}}</span>
-        <span class="nb-items" [ngClass]="{'nb-fetched':(notesRelevance$|async)[notebook.id]}">{{notebook.name}}</span>
+        <span class="nb-items" [ngClass]="{'nb-fetched':(notebooksConsistency$|async)[notebook.id]}">{{notebook.name}}</span>
       </a>
       <app-notebook-operations-menu class="icon-mb" [notebook]="notebook"></app-notebook-operations-menu>
     </div>

@@ -5,6 +5,7 @@ import {catchError, exhaustMap, filter, map, tap, withLatestFrom} from 'rxjs/ope
 import {HttpService} from '../../../core/services/http.service';
 import {
   AddNotebook,
+  ClearNotebooks,
   DeleteNotebook,
   FetchAllNotebooksApiCall,
   FetchAllNotebooksFailure,
@@ -23,6 +24,7 @@ import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {EMPTY, of} from 'rxjs';
 import {notebookResponseAdapter} from './notebook.model';
 import {newRelevance} from '../store-relevance';
+import {ClearNotes} from '../note/note.actions';
 
 
 @Injectable()
@@ -35,6 +37,8 @@ export class NotebookEffects {
       withLatestFrom(this.store.select(getTokenDecoded),
         ([action, relevance], tokenDecoded) => ({relevance, newRelevance: newRelevance(tokenDecoded.userId)})),
       filter(p => p.relevance === null || p.relevance.userId !== p.newRelevance.userId),
+      tap(() => this.store.dispatch(new ClearNotebooks())),
+      tap(() => this.store.dispatch(new ClearNotes())),
       tap(() => this.store.dispatch(new FetchAllNotebooksApiCall())),
       exhaustMap(p => this.http.getAllNotebooks().pipe(
         map(response => new FetchAllNotebooksSuccess({response, relevance: p.newRelevance})),
@@ -48,7 +52,6 @@ export class NotebookEffects {
   fetchAllNotebooksSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.FetchAllNotebooksSuccess),
-      // TODO: clear notes store before
       map(action => {
         const notebooks = action.payload.response.map(response => notebookResponseAdapter(response));
         return new LoadNotebooks({notebooks});
@@ -80,7 +83,6 @@ export class NotebookEffects {
     this.actions$.pipe(
       ofType(NotebookActionTypes.UpdateNotebookRequest),
       exhaustMap(action => this.http.updateNotebook(action.payload.id, action.payload.notebook).pipe(
-        // TODO: update relevance
         map(notebook => new UpdateNotebook({notebook: {id: notebook.id, changes: notebook}})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to update notebook'));

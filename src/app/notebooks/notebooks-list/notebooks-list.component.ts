@@ -7,10 +7,8 @@ import {CreateNotebookRequest} from '../store/notebook/notebook.actions';
 import {NotebookDialogComponent, NotebookDialogData, NotebookDialogPayload} from './notebook-dialog/notebook-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material';
-import {notesRelevance} from '../store/note/note.selectors';
-import {StoreRelevance} from '../store/store-relevance';
 import {FetchAllNotesRequest} from '../store/note/note.actions';
-import {getAllNotebooks, notebooksSpinner} from '../store/notebook/notebook.selectors';
+import {getAllNotebooks, notebooksConsistency, notebooksSpinner} from '../store/notebook/notebook.selectors';
 
 @Component({
   selector: 'app-notebooks-list',
@@ -21,7 +19,7 @@ export class NotebooksListComponent implements OnInit {
 
   notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
   spinner$: Observable<boolean> = this.store.select(notebooksSpinner);
-  notesRelevance$: Observable<{ [notebookId: string]: StoreRelevance }> = this.store.select(notesRelevance);
+  notebooksConsistency$: Observable<{ [notebookId: string]: boolean }> = this.store.select(notebooksConsistency);
 
   constructor(private store: Store<NotebooksState>,
               private dialog: MatDialog) {

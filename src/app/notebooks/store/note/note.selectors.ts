@@ -8,16 +8,6 @@ export const {
   selectTotal,
 } = adapter.getSelectors();
 
-export const notesRelevance = createSelector(
-  selectNotesState,
-  notes => notes.relevance
-);
-
-export const notesRelevanceAll = createSelector(
-  selectNotesState,
-  notes => notes.relevanceAll
-);
-
 export const notesSpinner = createSelector(
   selectNotesState,
   (notes, props: { notebookId: string }) => {

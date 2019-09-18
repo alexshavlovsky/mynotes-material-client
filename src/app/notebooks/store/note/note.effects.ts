@@ -19,15 +19,13 @@ import {
   UpsertNotes
 } from './note.actions';
 import {noteResponseAdapter} from './note.model';
-import {getTokenDecoded} from '../../../store/principal/principal.selectors';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
-import {notesRelevance, notesRelevanceAll} from './note.selectors';
-import {newRelevance} from '../store-relevance';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {EMPTY, of} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {ParentNotebookAtomicUpdate} from '../notebook/notebook.actions';
+import {notebooksConsistency, storeConsistency} from '../notebook/notebook.selectors';
 
 @Injectable()
 export class NoteEffects {
@@ -35,19 +33,15 @@ export class NoteEffects {
   fetchNotesByNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NoteActionTypes.FetchNotesByNotebookIdRequest),
-      withLatestFrom(this.store.select(notesRelevance)),
-      withLatestFrom(this.store.select(getTokenDecoded),
-        ([action, relevance], tokenDecoded) => ({
+      withLatestFrom(this.store.select(notebooksConsistency),
+        (action, consistency) => ({
           notebookId: action.payload.notebookId,
-          relevance,
-          newRelevance: newRelevance(tokenDecoded.userId)
+          notConsistent: consistency[action.payload.notebookId] !== true
         })),
-      filter(p => p.relevance[p.notebookId] === undefined || p.relevance[p.notebookId].userId !== p.newRelevance.userId),
+      filter(p => p.notConsistent),
       tap(p => this.store.dispatch(new FetchNotesByNotebookIdApiCall({notebookId: p.notebookId}))),
       mergeMap(p => this.http.getNotesByNotebookId(p.notebookId).pipe(
-        map(response => new FetchNotesByNotebookIdSuccess({
-          response, notebookId: p.notebookId, relevance: p.newRelevance
-        })),
+        map(response => new FetchNotesByNotebookIdSuccess({response, notebookId: p.notebookId})),
         catchError(error =>
           of(new FetchNotesByNotebookIdFailure({
             message: adaptErrorMessage(error, 'Failed to get notes by notebook'),
@@ -79,23 +73,12 @@ export class NoteEffects {
   fetchAllNotesRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NoteActionTypes.FetchAllNotesRequest),
-      withLatestFrom(this.store.select(notesRelevanceAll)),
-      withLatestFrom(this.store.select(getTokenDecoded),
-        ([action, relevance], tokenDecoded) => ({
-          relevance,
-          newRelevance: newRelevance(tokenDecoded.userId)
-        })),
-      filter(p => p.relevance === null || p.relevance.userId !== p.newRelevance.userId),
+      withLatestFrom(this.store.select(storeConsistency),
+        (action, consistency) => consistency),
+      filter(consistency => !consistency),
       tap(() => this.store.dispatch(new FetchAllNotesApiCall())),
-      exhaustMap(p => this.http.getAllNotes().pipe(
-        map(response => {
-          const relevance = {};
-          // create a distinct array of notebook ids
-          const nbIds = [...new Set(response.map(note => note.notebookId))];
-          // create a relevance dictionary
-          nbIds.forEach(id => relevance[id] = p.newRelevance);
-          return new FetchAllNotesSuccess({response, relevance, relevanceAll: p.newRelevance});
-        }),
+      exhaustMap(() => this.http.getAllNotes().pipe(
+        map(response => new FetchAllNotesSuccess({response})),
         catchError(error =>
           of(new FetchAllNotesFailure({message: adaptErrorMessage(error, 'Failed to get all notes')}))
         )
@@ -130,7 +113,6 @@ export class NoteEffects {
         }))),
         map(response => new AddNote({note: noteResponseAdapter(response)})),
         catchError(error => {
-          // TODO: review default error messages logic
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to create note'));
           return EMPTY;
         }))
@@ -142,7 +124,6 @@ export class NoteEffects {
     this.actions$.pipe(
       ofType(NoteActionTypes.UpdateNoteRequest),
       exhaustMap(action => this.http.updateNote(action.payload.id, action.payload.note).pipe(
-        // TODO: update relevance
         map(note => new UpdateNote({note: {id: note.id, changes: note}})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to update note'));
