@@ -18,7 +18,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
-import {MatSnackBarModule} from '@angular/material';
+import {MAT_LABEL_GLOBAL_OPTIONS, MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
@@ -58,7 +58,8 @@ import {AuthService} from './core/services/auth.service';
       multi: true,
       deps: [Store]
     },
-    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
+//    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'never'}}
   ],
   bootstrap: [AppComponent]
 })

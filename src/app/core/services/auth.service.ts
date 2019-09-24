@@ -22,4 +22,6 @@ export class AuthService {
     return {userId: decoded.sub, exp, roles: decoded.roles};
   }
 
+  // TODO: reject expired tokens
+
 }

@@ -15,7 +15,7 @@ import {NotebookEffects} from './store/notebook/notebook.effects';
 import {ConfirmDialogComponent} from './notebooks-list/confirm-dialog/confirm-dialog.component';
 import {NotebookOperationsMenuComponent} from './notebooks-list/notebook-operations-menu/notebook-operations-menu.component';
 import {NotebookDialogComponent} from './notebooks-list/notebook-dialog/notebook-dialog.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotesListComponent} from './notes-list/notes-list.component';
 import {NoteEffects} from './store/note/note.effects';
 import {NoteDialogComponent} from './notes-list/note-dialog/note-dialog.component';
@@ -36,6 +36,7 @@ import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/not
   imports: [
     CommonModule,
     FlexLayoutModule,
+    FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     NotebooksRoutingModule,

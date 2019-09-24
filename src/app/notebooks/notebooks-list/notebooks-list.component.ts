@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Notebook} from '../store/notebook/notebook.model';
 import {NotebooksState} from '../store/notebook/notebook.reducer';
@@ -20,9 +20,13 @@ export class NotebooksListComponent implements OnInit {
   notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
   spinner$: Observable<boolean> = this.store.select(notebooksSpinner);
   notebooksConsistency$: Observable<{ [notebookId: string]: boolean }> = this.store.select(notebooksConsistency);
+  searchMode = false;
+  searchString = '';
+  @ViewChild('search', {static: false}) searchElement: ElementRef;
 
   constructor(private store: Store<NotebooksState>,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -42,9 +46,15 @@ export class NotebooksListComponent implements OnInit {
     ).subscribe();
   }
 
-  refreshNotebooks() {
-//    this.store.dispatch(new InvalidateNotebooksStore());
-//    this.store.dispatch(new FetchAllNotebooksRequest());
+  enableSearch() {
+    this.searchMode = true;
+    this.cd.detectChanges();
+    this.searchElement.nativeElement.focus();
     this.store.dispatch(new FetchAllNotesRequest());
   }
+
+  disableSearch() {
+    this.searchMode = false;
+  }
+
 }

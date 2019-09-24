@@ -43,3 +43,10 @@ h1 {
   text-align: center;
 }
 
+mat-form-field {
+  width: 100%;
+}
+
+.search-container {
+
+}
