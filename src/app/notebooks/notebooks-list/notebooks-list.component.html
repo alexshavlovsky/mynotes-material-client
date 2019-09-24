@@ -12,11 +12,13 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="center center"
        *ngIf="((notebooks$ | async).length) && !(spinner$|async) && !searchMode">
-    <button mat-icon-button color="primary" fxFlex="0 0 auto" (click)="openCreateNotebookDialog()">
+    <button mat-icon-button color="primary" fxFlex="0 0 auto" (click)="openCreateNotebookDialog()"
+            [matTooltip]="'Create a notebook'">
       <mat-icon>create_new_folder</mat-icon>
     </button>
     <h1 fxFlex="1 1 100%">All notebooks</h1>
-    <button mat-icon-button color="primary" fxFlex="0 0 auto" (click)="enableSearch()">
+    <button mat-icon-button color="primary" fxFlex="0 0 auto" (click)="enableSearch()"
+            [matTooltip]="'Open the search bar'">
       <mat-icon>search</mat-icon>
     </button>
   </div>

@@ -36,7 +36,7 @@ export class NotebookOperationsMenuComponent implements OnInit {
 
   openCreateNoteDialog() {
     const data: NoteDialogData = {
-      title: 'Create a note',
+      title: `Create a note in [${this.notebook.name}]`,
       titlePlaceholder: 'Note title',
       titleCurrent: '',
       textPlaceholder: 'Note content',
@@ -74,7 +74,7 @@ export class NotebookOperationsMenuComponent implements OnInit {
   openDeleteDialog() {
     const data: ConfirmDialogData = {
       title: 'Delete notebook?',
-      message: 'The notebook with all contained notes will be deleted',
+      message: `Notebook [${this.notebook.name}] and [${this.notebook.size}] contained notes will be deleted`,
       cancelButton: 'Cancel',
       confirmButton: 'Delete',
     };

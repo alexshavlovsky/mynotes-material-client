@@ -26,7 +26,7 @@ export class NoteOperationsMenuComponent implements OnInit {
   openDeleteDialog() {
     const data: ConfirmDialogData = {
       title: 'Delete note?',
-      message: 'The note will be deleted',
+      message: `Note [${this.note.title}] will be deleted`,
       cancelButton: 'Cancel',
       confirmButton: 'Delete',
     };
