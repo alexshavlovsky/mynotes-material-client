@@ -19,9 +19,30 @@ export const notebooksSpinner = createSelector(
   notebooks => notebooks.spinner
 );
 
+export const getNotebookSearchMode = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.searchMode
+);
+
+export const getNotebookSearchQuery = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.searchQuery
+);
+
 export const getAllNotebooks = createSelector(
   selectNotebooksState,
   selectAll
+);
+
+export const getAllNotebooksFilter = createSelector(
+  getAllNotebooks,
+  getNotebookSearchMode,
+  getNotebookSearchQuery,
+  (notebooks, mode, query) => {
+    if (mode === false || query === '') return notebooks;
+    const q = query.toLowerCase();
+    return notebooks.filter(nb => nb.name.toLowerCase().includes(q));
+  }
 );
 
 export const getAllNotebookEntities = createSelector(
@@ -73,14 +94,4 @@ export const storeConsistency = createSelector(
     for (const notebookId of  notebookIds) if (consistency[notebookId] !== true) return false;
     return true;
   }
-);
-
-export const getNotebookSearchMode = createSelector(
-  selectNotebooksState,
-  notebooks => notebooks.searchMode
-);
-
-export const getNotebookSearchQuery = createSelector(
-  selectNotebooksState,
-  notebooks => notebooks.searchQuery
 );

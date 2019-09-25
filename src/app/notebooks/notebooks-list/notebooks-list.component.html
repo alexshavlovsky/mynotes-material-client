@@ -27,7 +27,7 @@
 
   <mat-spinner style="margin:0 auto" *ngIf="spinner$|async"></mat-spinner>
 
-  <div *ngIf="!(spinner$|async) && !(notebooks$ | async).length">
+  <div *ngIf="!(spinner$|async) && !(searchMode$|async) && !(notebooks$ | async).length">
     <button mat-menu-item (click)="openCreateNotebookDialog()">
       <mat-icon color="primary">create_new_folder</mat-icon>
       <span>Create a notebook</span>

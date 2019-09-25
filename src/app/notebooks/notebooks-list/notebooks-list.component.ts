@@ -14,7 +14,7 @@ import {debounceTime, distinctUntilChanged, filter, map, take, tap} from 'rxjs/o
 import {MatDialog} from '@angular/material';
 import {FetchAllNotesRequest} from '../store/note/note.actions';
 import {
-  getAllNotebooks,
+  getAllNotebooksFilter,
   getNotebookSearchMode,
   getNotebookSearchQuery,
   notebooksConsistency,
@@ -28,7 +28,7 @@ import {
 })
 export class NotebooksListComponent implements OnInit {
 
-  notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooks);
+  notebooks$: Observable<Notebook[]> = this.store.select(getAllNotebooksFilter);
   spinner$: Observable<boolean> = this.store.select(notebooksSpinner);
   notebooksConsistency$: Observable<{ [notebookId: string]: boolean }> = this.store.select(notebooksConsistency);
   searchMode$: Observable<boolean> = this.store.select(getNotebookSearchMode);
@@ -49,7 +49,7 @@ export class NotebooksListComponent implements OnInit {
     ).subscribe();
     // update store if search query changes
     this.searchQueryChanged.pipe(
-      debounceTime(1000),
+      debounceTime(300),
       distinctUntilChanged(),
       tap(searchQuery => this.store.dispatch(new SearchQueryChange({searchQuery})))
     ).subscribe();
