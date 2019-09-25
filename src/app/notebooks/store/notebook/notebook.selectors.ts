@@ -74,3 +74,13 @@ export const storeConsistency = createSelector(
     return true;
   }
 );
+
+export const getNotebookSearchMode = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.searchMode
+);
+
+export const getNotebookSearchQuery = createSelector(
+  selectNotebooksState,
+  notebooks => notebooks.searchQuery
+);

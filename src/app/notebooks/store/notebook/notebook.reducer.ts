@@ -11,13 +11,18 @@ export const selectNotebooksState = createFeatureSelector<NotebooksState>(notebo
 export interface NotebooksState extends EntityState<Notebook> {
   relevance: StoreRelevance;
   spinner: boolean;
+  searchMode: boolean;
+  searchQuery: string;
 }
 
 export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
 
 export const initialState: NotebooksState = adapter.getInitialState({
   relevance: null,
-  spinner: false
+  spinner: false,
+  // TODO: reset store state on user logout->login
+  searchMode: false,
+  searchQuery: '',
 });
 
 export function reducer(state = initialState, action: NotebookActions): NotebooksState {
@@ -58,6 +63,27 @@ export function reducer(state = initialState, action: NotebookActions): Notebook
       return {
         ...state,
         entities: {...state.entities, [notebookId]: {...notebook, size: newSize}}
+      };
+    }
+
+    case NotebookActionTypes.SetNotebooksSearchMode: {
+      return {
+        ...state,
+        searchMode: true
+      };
+    }
+
+    case NotebookActionTypes.ResetNotebooksSearchMode: {
+      return {
+        ...state,
+        searchMode: false
+      };
+    }
+
+    case NotebookActionTypes.SearchQueryChange: {
+      return {
+        ...state,
+        searchQuery: action.payload.searchQuery
       };
     }
 

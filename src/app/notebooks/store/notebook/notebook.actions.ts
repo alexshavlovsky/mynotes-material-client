@@ -18,6 +18,10 @@ export enum NotebookActionTypes {
   InvalidateNotebooksStore = '[Notebooks Container/UI] Invalidate Notebooks Store',
   ParentNotebookAtomicUpdate = '[Child Note Effect] Parent Notebook Atomic Update',
 
+  SetNotebooksSearchMode = '[Notebooks List Page] Set Notebooks search mode',
+  ResetNotebooksSearchMode = '[Notebooks List Page] Reset Notebooks search mode',
+  SearchQueryChange = '[Notebooks List Page] Search Query Change',
+
   LoadNotebooks = '[Notebook] Load Notebooks',
   AddNotebook = '[Notebook] Add Notebook',
   UpsertNotebook = '[Notebook] Upsert Notebook',
@@ -82,6 +86,22 @@ export class ParentNotebookAtomicUpdate implements Action {
 
   constructor(public payload: { notebookId: string, sizeDelta: number }) {
   }
+}
+
+export class SetNotebooksSearchMode implements Action {
+  readonly type = NotebookActionTypes.SetNotebooksSearchMode;
+}
+
+export class ResetNotebooksSearchMode implements Action {
+  readonly type = NotebookActionTypes.ResetNotebooksSearchMode;
+}
+
+export class SearchQueryChange implements Action {
+  readonly type = NotebookActionTypes.SearchQueryChange;
+
+  constructor(public payload: { searchQuery: string }) {
+  }
+
 }
 
 export class LoadNotebooks implements Action {
@@ -161,6 +181,9 @@ export type NotebookActions =
   | CreateNotebookRequest
   | InvalidateNotebooksStore
   | ParentNotebookAtomicUpdate
+  | SetNotebooksSearchMode
+  | ResetNotebooksSearchMode
+  | SearchQueryChange
   | LoadNotebooks
   | AddNotebook
   | UpsertNotebook

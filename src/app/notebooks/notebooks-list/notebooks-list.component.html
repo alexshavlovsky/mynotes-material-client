@@ -1,17 +1,19 @@
 <mat-card>
-  <div class="search-container" *ngIf="searchMode">
+  <div class="search-container" *ngIf="searchMode$|async">
     <mat-form-field floatLabel="never">
       <button mat-button disabled matPrefix>
         <mat-icon matPrefix>search</mat-icon>
       </button>
-      <input matInput type="text" [(ngModel)]="searchString" #search>
+      <input matInput #search type="text"
+             [(ngModel)]="searchQuery"
+             (ngModelChange)="searchQueryChanged.next($event)">
       <button mat-icon-button matSuffix style="margin-right: 8px" (click)="disableSearch()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center"
-       *ngIf="((notebooks$ | async).length) && !(spinner$|async) && !searchMode">
+       *ngIf="((notebooks$ | async).length) && !(spinner$|async) && !(searchMode$|async)">
     <button mat-icon-button color="primary" fxFlex="0 0 auto" (click)="openCreateNotebookDialog()"
             [matTooltip]="'Create a notebook'">
       <mat-icon>create_new_folder</mat-icon>
