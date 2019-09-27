@@ -34,17 +34,6 @@ export const getAllNotebooks = createSelector(
   selectAll
 );
 
-export const getAllNotebooksFilter = createSelector(
-  getAllNotebooks,
-  getNotebookSearchMode,
-  getNotebookSearchQuery,
-  (notebooks, mode, query) => {
-    if (mode === false || query === '') return notebooks;
-    const q = query.toLowerCase();
-    return notebooks.filter(nb => nb.name.toLowerCase().includes(q));
-  }
-);
-
 export const getAllNotebookEntities = createSelector(
   selectNotebooksState,
   selectEntities
@@ -93,5 +82,27 @@ export const storeConsistency = createSelector(
   (consistency, notebookIds) => {
     for (const notebookId of  notebookIds) if (consistency[notebookId] !== true) return false;
     return true;
+  }
+);
+
+export const getAllNotebooksFilter = createSelector(
+  getAllNotebooks,
+  getNotebookSearchMode,
+  getNotebookSearchQuery,
+  (notebooks, mode, query) => {
+    if (mode === false || query === '') return notebooks;
+    const q = query.toLowerCase();
+    return notebooks.filter(nb => nb.name.toLowerCase().includes(q)).slice(0, 100);
+  }
+);
+
+export const getAllNotesFilter = createSelector(
+  getAllNotes,
+  getNotebookSearchMode,
+  getNotebookSearchQuery,
+  (notes, mode, query) => {
+    if (mode === false || query === '') return [];
+    const q = query.toLowerCase();
+    return notes.filter(n => n.title.toLowerCase().includes(q) || n.text.toLowerCase().includes(q)).slice(0, 100);
   }
 );

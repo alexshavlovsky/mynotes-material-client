@@ -9,28 +9,6 @@ mat-card {
   min-width: 270px;
 }
 
-.mat-list-base .mat-list-item {
-  height: auto;
-}
-
-.nb-item {
-  text-align: left;
-  margin: 16px 0 16px 16px;
-}
-
-.nb-title {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.nb-time {
-  font-size: 12px;
-}
-
-.icon-mb {
-  margin-bottom: 2px;
-}
-
 h1 {
   font-size: 24px;
   font-weight: 300;
