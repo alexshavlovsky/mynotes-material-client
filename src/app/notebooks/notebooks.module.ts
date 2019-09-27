@@ -20,6 +20,9 @@ import {NotesListComponent} from './notes-list/notes-list.component';
 import {NoteEffects} from './store/note/note.effects';
 import {NoteDialogComponent} from './notes-list/note-dialog/note-dialog.component';
 import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/note-operations-menu.component';
+import {NotesNavListComponent} from './notes-list/notes-nav-list/notes-nav-list.component';
+import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/notebooks-nav-list.component';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +35,8 @@ import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/not
     NotebookDialogComponent,
     NotesListComponent,
     NoteOperationsMenuComponent,
+    NotesNavListComponent,
+    NotebooksNavListComponent,
   ],
   imports: [
     CommonModule,
