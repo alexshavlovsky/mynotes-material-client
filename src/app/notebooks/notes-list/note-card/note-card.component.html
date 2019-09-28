@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-header *ngIf="notebook$ | async as notebook">
+    <mat-icon mat-card-avatar color="primary">description</mat-icon>
+    <mat-card-title>{{notebook.name}}</mat-card-title>
+    <mat-card-subtitle *ngIf="currentNote">{{currentNote.lastModifiedOn|date:'MM/dd/yy HH:mm:ss'}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-spinner style="margin:0 auto;" *ngIf="spinner$|async"></mat-spinner>
+
+  <form [formGroup]="form" *ngIf="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Note title</mat-label>
+      <input matInput
+             placeholder="Note title"
+             formControlName="titleInput">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Note content</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="10"
+                placeholder="Note content"
+                formControlName="textInput"></textarea>
+    </mat-form-field>
+  </form>
+
+  <mat-card-actions align="end" *ngIf="form">
+    <a mat-button color="primary" [routerLink]="'..'">Return</a>
+    <button mat-button color="primary" (click)="updateNote()" [disabled]="notChanged()">Save</button>
+  </mat-card-actions>
+
+</mat-card>

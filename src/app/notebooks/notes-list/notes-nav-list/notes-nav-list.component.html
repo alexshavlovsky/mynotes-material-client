@@ -1,6 +1,6 @@
 <mat-nav-list *ngIf="(notes$ | async).length">
   <div *ngFor="let note of notes$ | async" fxLayout fxLayoutAlign="space-between center">
-    <a mat-list-item>
+    <a mat-list-item [routerLink]="['/notebooks',note.notebookId,'notes',note.id]">
       <mat-icon mat-list-icon color="primary" class="icon-mb">description</mat-icon>
       <div class="nb-item">
         <div class="nb-title">{{note.title}}</div>
