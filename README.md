@@ -5,8 +5,8 @@ Basic Angular Material REST API client.
 Backend service for this project: [MyNotes SpringBoot Service](https://github.com/alexshavlovsky/mynotes-springboot-service).
 
 <p align="center">
-  <img src="screenshots/1_register.png?raw=true" width="360"/>
-  <img src="screenshots/2_login.png?raw=true" width="360"/>
+  <img src="screenshots/01_login-page.png?raw=true" width="360"/>
+  <img src="screenshots/02_sign-up-page-with-validation.png?raw=true" width="360"/>  
 </p>
 
 ## Technology Stack
@@ -19,3 +19,23 @@ Forms                | Angular Reactive Forms
 Authentication       | JWT role based
 JWT parser           | [@auth0/angular-jwt](https://github.com/auth0/angular2-jwt)
 State management     | NgRx 8 (store, effects, entity)
+
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/03_notebooks-list.png?raw=true" width="280"/>
+  <img src="screenshots/04_notes-list.png?raw=true" width="280"/>
+  <img src="screenshots/05_note-card.png?raw=true" width="280"/>  
+</p>
+
+<p align="center">
+  <img src="screenshots/06_full-text-search.png?raw=true" width="280"/>
+  <img src="screenshots/09_note-menu.png?raw=true" width="280"/>
+  <img src="screenshots/08_notebook-menu.png?raw=true" width="280"/>    
+</p>
+
+<p align="center">
+  <img src="screenshots/07_notebook-dialog.png?raw=true" width="280"/>
+  <img src="screenshots/10_note-dialog.png?raw=true" width="280"/>
+  <img src="screenshots/11_confirmation_dialog.png?raw=true" width="280"/>
+</p>
