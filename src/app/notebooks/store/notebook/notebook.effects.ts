@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, exhaustMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, exhaustMap, filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
   AddNotebook,
@@ -24,7 +24,7 @@ import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {EMPTY, of} from 'rxjs';
 import {notebookResponseAdapter} from './notebook.model';
 import {newRelevance} from '../store-relevance';
-import {ClearNotes} from '../note/note.actions';
+import {ClearNotes, DeleteNotes} from '../note/note.actions';
 
 
 @Injectable()
@@ -95,9 +95,11 @@ export class NotebookEffects {
   deleteNotebookRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotebookActionTypes.DeleteNotebookRequest),
-      // TODO: implement cascade deletion of notes in the store
       exhaustMap(action => this.http.deleteNotebook(action.payload.id).pipe(
-        map(() => new DeleteNotebook({id: action.payload.id.toString()})),
+        concatMap(() => [
+          new DeleteNotebook({id: action.payload.id}),
+          new DeleteNotes({predicate: note => note.notebookId.toString() === action.payload.id})
+        ]),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to delete notebook'));
           return EMPTY;
