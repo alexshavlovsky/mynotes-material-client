@@ -12,7 +12,11 @@ export interface NotesState extends EntityState<Note> {
   spinnerAll: boolean;
 }
 
-export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>();
+export function sortByModificationDate(a: Note, b: Note): number {
+  return new Date(b.lastModifiedOn).getTime() - new Date(a.lastModifiedOn).getTime();
+}
+
+export const adapter: EntityAdapter<Note> = createEntityAdapter<Note>({sortComparer: sortByModificationDate});
 
 export const initialState: NotesState = adapter.getInitialState({
   spinner: {},
