@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: NoteActions): NotesState {
     }
 
     case NoteActionTypes.DeleteNotes: {
-      return adapter.removeMany(action.payload.ids, state);
+      return adapter.removeMany(action.payload.predicate, state);
     }
 
     case NoteActionTypes.LoadNotes: {

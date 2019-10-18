@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Update} from '@ngrx/entity';
+import {Predicate, Update} from '@ngrx/entity';
 import {Note} from './note.model';
 import {NoteResponse} from '../../../core/model/note-response.model';
 import {NoteRequest} from '../../../core/model/note-request.model';
@@ -162,7 +162,7 @@ export class DeleteNote implements Action {
 export class DeleteNotes implements Action {
   readonly type = NoteActionTypes.DeleteNotes;
 
-  constructor(public payload: { ids: string[] }) {
+  constructor(public payload: { predicate: Predicate<Note> }) {
   }
 }
 
