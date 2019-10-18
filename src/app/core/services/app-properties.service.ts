@@ -32,6 +32,7 @@ export class AppPropertiesService {
   readonly msgRegisterSuccess = 'Your account has been created';
   readonly snackbarDefaultAction = 'close';
   readonly snackbarDefaultDelay = 5000;
+  readonly lastModifiedDateFormat = 'dd/MM/yy HH:mm:ss';
 
   readonly API_USERS = 'users';
   readonly API_CURRENT_USER = 'current';
@@ -40,7 +41,7 @@ export class AppPropertiesService {
   readonly API_FEEDBACK = 'feedback';
   readonly API_NOTES = 'notes';
   readonly API_NOTEBOOKS = 'notebooks';
-  readonly API_BASE_PATH = 'https://192.168.0.100:8443/api/';
+  readonly API_BASE_PATH = 'https://localhost:8443/api/';
   readonly API_USERS_PATH = pathJoin([this.API_BASE_PATH, this.API_USERS]);
   readonly API_LOGIN_PATH = pathJoin([this.API_USERS_PATH, this.API_LOGIN]);
   readonly API_CURRENT_USER_PATH = pathJoin([this.API_USERS_PATH, this.API_CURRENT_USER]);

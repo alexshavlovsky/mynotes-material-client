@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Note} from '../../store/note/note.model';
 import {Observable} from 'rxjs';
+import {AppPropertiesService} from '../../../core/services/app-properties.service';
 
 @Component({
   selector: 'app-notes-nav-list',
@@ -11,7 +12,7 @@ export class NotesNavListComponent implements OnInit {
 
   @Input() notes$: Observable<Note[]>;
 
-  constructor() {
+  constructor(private appProps: AppPropertiesService) {
   }
 
   ngOnInit() {

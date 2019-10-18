@@ -10,6 +10,7 @@ import {getNoteByNotebookIdAndNoteId, notesSpinner} from '../../store/note/note.
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {filter, tap} from 'rxjs/operators';
 import {Note} from '../../store/note/note.model';
+import {AppPropertiesService} from '../../../core/services/app-properties.service';
 
 @Component({
   selector: 'app-note-card',
@@ -26,7 +27,8 @@ export class NoteCardComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private appProps: AppPropertiesService) {
   }
 
   ngOnInit() {

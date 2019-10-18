@@ -5,7 +5,7 @@
       <div class="nb-item">
         <div class="nb-title">{{note.title}}</div>
         <div>{{note.text}}</div>
-        <div class="nb-time">{{note.lastModifiedOn|date:'MM/dd/yy HH:mm:ss'}}</div>
+        <div class="nb-time">{{note.lastModifiedOn|date:appProps.lastModifiedDateFormat}}</div>
       </div>
     </a>
     <app-note-operations-menu class="icon-mb" [note]="note">
