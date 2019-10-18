@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 
-import {catchError, exhaustMap, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, exhaustMap, filter, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {HttpService} from '../../../core/services/http.service';
 import {
   AddNote,
   DeleteNote,
+  DeleteNotes,
   FetchAllNotesApiCall,
   FetchAllNotesFailure,
   FetchAllNotesSuccess,
@@ -55,11 +56,10 @@ export class NoteEffects {
   fetchNotesByNotebookSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NoteActionTypes.FetchNotesByNotebookIdSuccess),
-      map(action => {
-        // TODO: remove notes before upsert?
-        const notes = action.payload.response.map(note => noteResponseAdapter(note));
-        return new UpsertNotes({notes});
-      })
+      concatMap(action => [
+        new DeleteNotes({predicate: note => note.notebookId.toString() === action.payload.notebookId}),
+        new UpsertNotes({notes: action.payload.response.map(note => noteResponseAdapter(note))})
+      ]),
     )
   );
 
