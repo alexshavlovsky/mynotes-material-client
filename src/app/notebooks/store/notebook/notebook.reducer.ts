@@ -20,7 +20,6 @@ export const adapter: EntityAdapter<Notebook> = createEntityAdapter<Notebook>();
 export const initialState: NotebooksState = adapter.getInitialState({
   relevance: null,
   spinner: false,
-  // TODO: reset store state on user logout->login
   searchMode: false,
   searchQuery: '',
 });
