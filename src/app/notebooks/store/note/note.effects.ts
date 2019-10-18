@@ -124,7 +124,10 @@ export class NoteEffects {
     this.actions$.pipe(
       ofType(NoteActionTypes.UpdateNoteRequest),
       exhaustMap(action => this.http.updateNote(action.payload.id, action.payload.note).pipe(
-        map(note => new UpdateNote({note: {id: note.id, changes: note}})),
+        map(response => {
+          const note = noteResponseAdapter(response);
+          return new UpdateNote({note: {id: note.id, changes: note}});
+        }),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to update note'));
           return EMPTY;
