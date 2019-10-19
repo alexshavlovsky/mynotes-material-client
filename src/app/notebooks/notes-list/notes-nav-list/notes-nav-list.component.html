@@ -1,7 +1,7 @@
 <mat-nav-list *ngIf="(notes$ | async).length">
-  <div id="{{'n'+note.id}}" *ngFor="let note of notes$ | async" fxLayout
+  <div [class.current]="'n'+note.id===(fragment$|async)" [id]="'n'+note.id" *ngFor="let note of notes$ | async" fxLayout
        fxLayoutAlign="space-between center">
-    <a mat-list-item [routerLink]="['/notebooks',note.notebookId,'notes',note.id]">
+    <a mat-list-item [className]="" [routerLink]="['/notebooks',note.notebookId,'notes',note.id]">
       <mat-icon mat-list-icon color="primary" class="icon-mb">description</mat-icon>
       <div class="nb-item">
         <div class="nb-title">{{note.title}}</div>
@@ -9,6 +9,9 @@
         <div class="nb-time">{{note.lastModifiedOn|date:appProps.lastModifiedDateFormat}}</div>
       </div>
     </a>
+    <button *ngIf="'n'+note.id===(fragment$|async)" mat-icon-button (click)="unHighlight()">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
     <app-note-operations-menu class="icon-mb" [note]="note">
     </app-note-operations-menu>
   </div>
