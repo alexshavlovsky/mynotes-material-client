@@ -18,12 +18,15 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
-import {MAT_LABEL_GLOBAL_OPTIONS, MatSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
 import {AuthTokenInterceptor} from './core/auth-token.interceptor';
 import {AuthService} from './core/services/auth.service';
+import {Router, Scroll} from '@angular/router';
+import {ViewportScroller} from '@angular/common';
+import {filter} from 'rxjs/operators';
 
 @NgModule({
   declarations: [
@@ -64,4 +67,24 @@ import {AuthService} from './core/services/auth.service';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
+  // override the default ViewportScroller behaviour due to issues
+  constructor(private router: Router, private viewportScroller: ViewportScroller) {
+    this.router.events.pipe(filter(e => e instanceof Scroll)).subscribe((e: any) => {
+      setTimeout(() => {
+        if (e.position && !(e.position[0] === 0 && e.position[1] === 0))
+          this.viewportScroller.scrollToPosition(e.position);
+        else if (e.anchor)
+        // try {
+        //   document.querySelector('#' + e.anchor).scrollIntoView();
+        // } catch (e) {
+        //   this.viewportScroller.scrollToPosition([0, 0]);
+        // }
+          this.viewportScroller.scrollToAnchor(e.anchor);
+        else
+          this.viewportScroller.scrollToPosition([0, 0]);
+      }, 500);
+    });
+  }
+
 }
