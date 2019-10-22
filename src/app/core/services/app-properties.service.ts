@@ -40,6 +40,7 @@ export class AppPropertiesService {
   readonly API_COMMAND = 'command';
   readonly API_FEEDBACK = 'feedback';
   readonly API_NOTES = 'notes';
+  readonly API_NOTES_XLS = 'export/xls';
   readonly API_NOTEBOOKS = 'notebooks';
   readonly API_BASE_PATH = 'https://localhost:8443/api/';
   readonly API_USERS_PATH = pathJoin([this.API_BASE_PATH, this.API_USERS]);
@@ -49,5 +50,7 @@ export class AppPropertiesService {
   readonly API_FEEDBACK_PATH = pathJoin([this.API_BASE_PATH, this.API_FEEDBACK]);
   readonly API_NOTEBOOKS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTEBOOKS]);
   readonly API_NOTES_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES]);
+  readonly API_NOTES_XLS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES, this.API_NOTES_XLS]);
   readonly API_DEFAULT_HEADERS = new HttpHeaders({Accept: 'application/json', 'Content-Type': 'application/json'});
+  readonly API_EXCEL_HEADERS = new HttpHeaders({Accept: 'application/vnd.ms-excel'});
 }

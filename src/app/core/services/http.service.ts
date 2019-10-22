@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AppPropertiesService, pathJoin} from './app-properties.service';
 import {UserLoginRequest} from '../../auth/model/user-login-request.model';
@@ -79,6 +79,12 @@ export class HttpService {
     return this.get<NoteResponse[]>(this.appProps.API_NOTES_PATH);
   }
 
+  getAllNotesAsExcel(): Observable<HttpResponse<Blob>> {
+    return this.http.get(this.appProps.API_NOTES_XLS_PATH, {
+      headers: this.appProps.API_EXCEL_HEADERS, observe: 'response', responseType: 'blob'
+    });
+  }
+
   getNotesByNotebookId(id: string): Observable<NoteResponse[]> {
     return this.get<NoteResponse[]>(pathJoin([this.appProps.API_NOTEBOOKS_PATH, id, this.appProps.API_NOTES]));
   }
@@ -95,6 +101,28 @@ export class HttpService {
   deleteNote(id: string): Observable<ApiMessage> {
     const path = pathJoin([this.appProps.API_NOTES_PATH, String(id)]);
     return this.delete<ApiMessage>(path);
+  }
+
+  // BLOB UTILS
+
+  redirectBlobToBrowser(response: HttpResponse<Blob>) {
+    this.downloadFile(response.body, this.parseFilename(response.headers));
+  }
+
+  private parseFilename(headers: HttpHeaders): string {
+    const header = headers.get('content-disposition');
+    const exp = /filename[^;=]*=((['"]).*?\2|[^;]*)/g;
+    return exp.exec(header)[1];
+  }
+
+  private downloadFile(blob: Blob, filename: string) {
+    // see also https://gist.github.com/dreamyguy/6b4ab77d2f118adb8a63c4a03fba349d
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    link.dispatchEvent(new MouseEvent(`click`, {bubbles: true, cancelable: true, view: window}));
+    URL.revokeObjectURL(url);
   }
 
 }
