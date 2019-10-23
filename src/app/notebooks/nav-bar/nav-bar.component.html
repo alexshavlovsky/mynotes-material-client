@@ -6,7 +6,7 @@
     </button>
     <a mat-button routerLink="/" fxHide.xs>
       <mat-icon>book</mat-icon>
-      <span> {{appName}}</span>
+      <span style="margin-left:10px">{{appProps.appName}}</span>
     </a>
   </div>
 
@@ -14,16 +14,10 @@
 
   <ul fxLayout>
     <li>
-      <button mat-button *ngIf="user$|async as user"
-              [matTooltip]="user.email|prefix:'Email: '"
-              #tooltip="matTooltip" (click)="tooltip.toggle()">
-        <mat-icon>account_circle</mat-icon>
-        <span fxHide.xs> {{[user.firstName, user.lastName].join(' ')}}</span>
-      </button>
-      <button mat-button *ngIf="user$|async as user" (click)="exportAsExcel()">
-        <mat-icon>save_alt</mat-icon>
-      </button>
-      <button mat-button (click)="logout.emit()" [matTooltip]="'Sign out'">
+      <app-user-menu *ngIf="user$|async as user"
+                     [user]="user" [token]="token$|async"
+                     (export)="exportAsExcel()"></app-user-menu>
+      <button mat-button (click)="onLogout()" [matTooltip]="'Sign out'">
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </li>

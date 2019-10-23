@@ -22,7 +22,7 @@ export class PrincipalEffects {
     this.actions$.pipe(
       ofType(PrincipalActionTypes.APP_INIT),
       map(() => localStorage.getItem('token')),
-      filter(token => token !== null),
+      filter(token => this.auth.isTokenValid(token)),
       map(token => new SetTokenAndFetchUser({token, tokenDecoded: this.auth.getDecodedToken(token)}))
     )
   );
@@ -52,12 +52,12 @@ export class PrincipalEffects {
   );
 
   login$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(PrincipalActionTypes.LOGIN),
-      tap(action => localStorage.setItem('token', action.payload.principal.token)),
+      this.actions$.pipe(
+        ofType(PrincipalActionTypes.LOGIN),
+        tap(action => localStorage.setItem('token', action.payload.principal.token)),
 //      tap(action => this.snackBar.openSuccess('You logged in as ' + action.payload.principal.user.firstName)),
-      tap(() => this.router.navigate(['/'])),
-    ), {dispatch: false}
+        tap(() => this.router.navigate(['/'])),
+      ), {dispatch: false}
   );
 
   logout$ = createEffect(() =>

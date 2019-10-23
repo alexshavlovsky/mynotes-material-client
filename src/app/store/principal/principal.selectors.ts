@@ -25,3 +25,8 @@ export const userDetails = createSelector(
   selectPrincipalState,
   principal => principal.user
 );
+
+export const tokenDecoded = createSelector(
+  selectPrincipalState,
+  principal => principal.tokenDecoded
+);

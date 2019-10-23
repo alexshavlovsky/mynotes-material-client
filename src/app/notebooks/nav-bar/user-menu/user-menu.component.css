@@ -1,0 +1,7 @@
+div {
+  line-height: 32px;
+  height: 32px;
+  font-size: 80%;
+  pointer-events: none;
+  opacity: 0.8;
+}

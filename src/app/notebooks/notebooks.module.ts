@@ -23,6 +23,7 @@ import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/not
 import {NotesNavListComponent} from './notes-list/notes-nav-list/notes-nav-list.component';
 import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/notebooks-nav-list.component';
 import { NoteCardComponent } from './notes-list/note-card/note-card.component';
+import { UserMenuComponent } from './nav-bar/user-menu/user-menu.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NoteCardComponent } from './notes-list/note-card/note-card.component';
     NotesNavListComponent,
     NotebooksNavListComponent,
     NoteCardComponent,
+    UserMenuComponent,
   ],
   imports: [
     CommonModule,
