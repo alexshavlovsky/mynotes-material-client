@@ -13,7 +13,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class NotesNavListComponent implements OnInit {
 
   @Input() notes$: Observable<Note[]>;
-  fragment$: Observable<string> = this.route.fragment;
+  private fragment$: Observable<string> = this.route.fragment;
+  private pathWithoutFragment = this.location.path(false);
+  private isSearchContext: boolean = !this.pathWithoutFragment.endsWith('notes');
 
   constructor(private appProps: AppPropertiesService,
               private route: ActivatedRoute,
@@ -25,10 +27,8 @@ export class NotesNavListComponent implements OnInit {
   }
 
   unHighlight() {
-    const pathWithoutFragment = this.location.path(false);
-    console.log(pathWithoutFragment);
-//    this.location.replaceState(pathWithoutFragment);
-    this.router.navigate([pathWithoutFragment]);
+//    this.location.replaceState(this.pathWithoutFragment);
+    this.router.navigate([this.pathWithoutFragment]);
   }
 
 }

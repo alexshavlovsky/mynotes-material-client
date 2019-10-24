@@ -4,16 +4,17 @@ import {ErrorComponent} from './error.component';
 import {AuthGuard} from './core/guards/auth.guard';
 import {AuthDispatcherGuard} from './core/guards/auth-dispatcher.guard';
 import {AuthInverseGuard} from './core/guards/auth-inverse.guard';
+import {RouteUrls} from './app-routing.config';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: RouteUrls.AUTH_CONTAINER,
     canLoad: [AuthInverseGuard],
     canActivate: [AuthInverseGuard],
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'notebooks',
+    path: RouteUrls.USER_CONTAINER,
     canLoad: [AuthGuard],
     canActivate: [AuthGuard],
     loadChildren: () => import('./notebooks/notebooks.module').then(m => m.NotebooksModule)
