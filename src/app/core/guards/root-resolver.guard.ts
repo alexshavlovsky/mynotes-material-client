@@ -10,23 +10,26 @@ import {RouteUrls} from '../../app-routing.config';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthDispatcherGuard implements CanActivate {
+export class RootResolverGuard implements CanActivate {
 
   constructor(private store: Store<AppState>,
               private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean | UrlTree {
-    // all routes except the '/' route are activated
-    if (state.url !== '/') return true;
-    // the '/' route is redirected based on specified conditions
-    // if an auth token is absent then it redirects to auth container route
-    // otherwise it redirects to a default route based on the current user role
+    if (state.url !== '/') return true; // activate error component
+    // the root url is redirected based on specified conditions
     return this.store.pipe(
       select(tokenDecoded),
       take(1),
-      map(t => this.router.createUrlTree(
-        [t === null ? RouteUrls.AUTH_CONTAINER : t.defaultRoute])
+      map(t => {
+          // not authenticated user is redirected to the auth container
+          if (t === null) return this.router.createUrlTree([RouteUrls.AUTH_CONTAINER]);
+          // authenticated user is redirected to a default route
+          let redirect = t.defaultRoute;
+          if (redirect === undefined || redirect === '') redirect = RouteUrls.ERROR;
+          return this.router.createUrlTree([redirect]);
+        }
       ),
     );
   }

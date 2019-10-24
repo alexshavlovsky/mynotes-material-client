@@ -7,8 +7,8 @@ export interface JwtTokenDetails {
   exp: Date;
   roles: number;
   rolesString: string;
-  hasAdminRole: boolean;
-  hasUserRole: boolean;
+  hasRoleAdmin: boolean;
+  hasRoleUser: boolean;
   defaultRoute: string;
 }
 
@@ -64,8 +64,8 @@ export class AuthService {
       exp,
       roles,
       rolesString: AuthService.rolesToString(roles),
-      hasAdminRole: AuthService.hasRole(AuthRole.ADMIN, roles),
-      hasUserRole: AuthService.hasRole(AuthRole.USER, roles),
+      hasRoleAdmin: AuthService.hasRole(AuthRole.ADMIN, roles),
+      hasRoleUser: AuthService.hasRole(AuthRole.USER, roles),
       defaultRoute: AuthService.getDefaultRoute(roles)
     };
   }

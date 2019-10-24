@@ -8,7 +8,7 @@
   <div mat-menu-item>{{user.email|prefix:'Email: '}}</div>
   <div mat-menu-item>{{token.rolesString|prefix:'Authorized as: '}}</div>
   <div mat-menu-item>{{token.exp|date:'dd-MM-yy HH:mm:ss'|prefix:'Token expires: '}}</div>
-  <button mat-menu-item *ngIf="token.hasUserRole" (click)="export.emit()">
+  <button mat-menu-item *ngIf="token.hasRoleUser" (click)="export.emit()">
     <mat-icon color="primary">save_alt</mat-icon>
     <span>Export notes to Excel</span>
   </button>

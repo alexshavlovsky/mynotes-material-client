@@ -1,25 +1,25 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ErrorComponent} from './error.component';
-import {AuthGuard} from './core/guards/auth.guard';
-import {AuthDispatcherGuard} from './core/guards/auth-dispatcher.guard';
-import {AuthInverseGuard} from './core/guards/auth-inverse.guard';
 import {RouteUrls} from './app-routing.config';
+import {HasRoleUserGuard} from './core/guards/has-role-user.guard';
+import {NotAuthenticatedGuard} from './core/guards/not-authenticated.guard';
+import {RootResolverGuard} from './core/guards/root-resolver.guard';
 
 const routes: Routes = [
   {
     path: RouteUrls.AUTH_CONTAINER,
-    canLoad: [AuthInverseGuard],
-    canActivate: [AuthInverseGuard],
+    canLoad: [NotAuthenticatedGuard],
+    canActivate: [NotAuthenticatedGuard],
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: RouteUrls.USER_CONTAINER,
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
+    canLoad: [HasRoleUserGuard],
+    canActivate: [HasRoleUserGuard],
     loadChildren: () => import('./notebooks/notebooks.module').then(m => m.NotebooksModule)
   },
-  {path: '**', component: ErrorComponent, canActivate: [AuthDispatcherGuard]},
+  {path: '**', component: ErrorComponent, canActivate: [RootResolverGuard]},
 ];
 
 @NgModule({

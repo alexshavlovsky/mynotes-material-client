@@ -11,16 +11,6 @@ export const getTokenDecoded = createSelector(
   principal => principal.tokenDecoded
 );
 
-export const isTokenPresent = createSelector(
-  getToken,
-  token => token !== null
-);
-
-export const isTokenAbsent = createSelector(
-  getToken,
-  token => token === null
-);
-
 export const userDetails = createSelector(
   selectPrincipalState,
   principal => principal.user
