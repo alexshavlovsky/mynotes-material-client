@@ -6,7 +6,6 @@ import {NotebooksComponent} from './notebooks.component';
 import {NotebooksListComponent} from './notebooks-list/notebooks-list.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material.module';
-import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {StoreModule} from '@ngrx/store';
 import * as fromNotebook from './store/notebook/notebook.reducer';
 import * as fromNote from './store/note/note.reducer';
@@ -22,13 +21,11 @@ import {NoteDialogComponent} from './notes-list/note-dialog/note-dialog.componen
 import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/note-operations-menu.component';
 import {NotesNavListComponent} from './notes-list/notes-nav-list/notes-nav-list.component';
 import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/notebooks-nav-list.component';
-import { NoteCardComponent } from './notes-list/note-card/note-card.component';
-import { UserMenuComponent } from './nav-bar/user-menu/user-menu.component';
-
+import {NoteCardComponent} from './notes-list/note-card/note-card.component';
+import {NavBarModule} from '../core/nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [
-    NavBarComponent,
     NotebooksComponent,
     NotebooksListComponent,
     NotebookOperationsMenuComponent,
@@ -40,9 +37,9 @@ import { UserMenuComponent } from './nav-bar/user-menu/user-menu.component';
     NotesNavListComponent,
     NotebooksNavListComponent,
     NoteCardComponent,
-    UserMenuComponent,
   ],
   imports: [
+    NavBarModule,
     CommonModule,
     FlexLayoutModule,
     FormsModule,

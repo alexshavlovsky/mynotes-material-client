@@ -1,8 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AppPropertiesService} from './core/services/app-properties.service';
@@ -18,7 +16,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
-import {MatSnackBarModule} from '@angular/material';
+import {MatIconModule, MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
@@ -27,6 +25,7 @@ import {AuthService} from './core/services/auth.service';
 import {Router, Scroll} from '@angular/router';
 import {ViewportScroller} from '@angular/common';
 import {filter} from 'rxjs/operators';
+import {NavBarModule} from './core/nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +33,8 @@ import {filter} from 'rxjs/operators';
     ErrorComponent,
   ],
   imports: [
+    NavBarModule,
+    MatIconModule,
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,

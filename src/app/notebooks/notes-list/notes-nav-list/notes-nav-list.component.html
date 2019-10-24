@@ -10,7 +10,7 @@
       </div>
     </a>
     <button *ngIf="'n'+note.id===(fragment$|async)" mat-icon-button (click)="unHighlight()">
-      <mat-icon>zoom_out</mat-icon>
+      <mat-icon>highlight_off</mat-icon>
     </button>
     <app-note-operations-menu class="icon-mb" [note]="note">
     </app-note-operations-menu>
