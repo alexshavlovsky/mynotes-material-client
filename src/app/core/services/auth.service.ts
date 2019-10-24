@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {RouteUrls} from '../../app-routing.config';
 
 export interface JwtTokenDetails {
   userId: string;
@@ -8,12 +9,20 @@ export interface JwtTokenDetails {
   rolesString: string;
   hasAdminRole: boolean;
   hasUserRole: boolean;
+  defaultRoute: string;
 }
 
 enum AuthRole {
   ADMIN = 1, // first bit
   USER = 2   // second bit
 }
+
+const DEFAULT_ROUTE_BY_ROLE = [
+  // if user has multiple roles, default route will be selected
+  // with priority according to the first match in this list
+  {role: AuthRole.ADMIN, url: RouteUrls.ADMIN_CONTAINER},
+  {role: AuthRole.USER, url: RouteUrls.USER_CONTAINER}
+];
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +46,11 @@ export class AuthService {
     /* tslint:enable:no-bitwise */
   }
 
+  private static getDefaultRoute(roles: number) {
+    const route = DEFAULT_ROUTE_BY_ROLE.find(r => AuthService.hasRole(r.role, roles));
+    return (route === undefined ? RouteUrls.ERROR : route.url);
+  }
+
   isTokenValid(raw: string): boolean {
     return !this.jwt.isTokenExpired(raw);
   }
@@ -52,6 +66,7 @@ export class AuthService {
       rolesString: AuthService.rolesToString(roles),
       hasAdminRole: AuthService.hasRole(AuthRole.ADMIN, roles),
       hasUserRole: AuthService.hasRole(AuthRole.USER, roles),
+      defaultRoute: AuthService.getDefaultRoute(roles)
     };
   }
 

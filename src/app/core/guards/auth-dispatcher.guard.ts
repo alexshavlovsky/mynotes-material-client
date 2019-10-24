@@ -3,8 +3,9 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {Observable} from 'rxjs';
 import {AppState} from '../../store';
 import {select, Store} from '@ngrx/store';
-import {isTokenAbsent} from '../../store/principal/principal.selectors';
+import {tokenDecoded} from '../../store/principal/principal.selectors';
 import {map, take} from 'rxjs/operators';
+import {RouteUrls} from '../../app-routing.config';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,13 @@ export class AuthDispatcherGuard implements CanActivate {
     // all routes except the '/' route are activated
     if (state.url !== '/') return true;
     // the '/' route is redirected based on specified conditions
-    // if an auth token is absent then it redirects to the 'auth' route
-    // TODO: otherwise it should redirect to a default route based on the current user role
+    // if an auth token is absent then it redirects to auth container route
+    // otherwise it redirects to a default route based on the current user role
     return this.store.pipe(
-      select(isTokenAbsent),
+      select(tokenDecoded),
       take(1),
-      map(t => this.router.createUrlTree([t ? 'auth' : 'notebooks'])
+      map(t => this.router.createUrlTree(
+        [t === null ? RouteUrls.AUTH_CONTAINER : t.defaultRoute])
       ),
     );
   }
