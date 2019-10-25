@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserRegisterResponse} from '../../../auth/model/user-register-response.model';
-import {JwtTokenDetails} from '../../services/auth.service';
+import {JwtTokenDetails} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-menu',

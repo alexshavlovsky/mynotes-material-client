@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ErrorComponent} from './error.component';
+import {ErrorComponent} from './shared/error/error.component';
 import {RouteUrls} from './app-routing.config';
 import {HasRoleUserGuard} from './core/guards/has-role-user.guard';
 import {NotAuthenticatedGuard} from './core/guards/not-authenticated.guard';

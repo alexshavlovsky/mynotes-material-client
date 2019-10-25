@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {NotebooksRoutingModule} from './notebooks-routing.module';
-import {NotebooksComponent} from './notebooks.component';
+import {NotebooksContainerComponent} from './container/notebooks-container.component';
 import {NotebooksListComponent} from './notebooks-list/notebooks-list.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material.module';
@@ -22,11 +22,11 @@ import {NoteOperationsMenuComponent} from './notes-list/note-operations-menu/not
 import {NotesNavListComponent} from './notes-list/notes-nav-list/notes-nav-list.component';
 import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/notebooks-nav-list.component';
 import {NoteCardComponent} from './notes-list/note-card/note-card.component';
-import {NavBarModule} from '../core/nav-bar/nav-bar.module';
+import {NavBarModule} from '../shared/nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [
-    NotebooksComponent,
+    NotebooksContainerComponent,
     NotebooksListComponent,
     NotebookOperationsMenuComponent,
     ConfirmDialogComponent,

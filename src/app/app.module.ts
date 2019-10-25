@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AppPropertiesService} from './core/services/app-properties.service';
 import {FormValidationService} from './core/services/form-validation.service';
-import {ErrorComponent} from './error.component';
+import {ErrorComponent} from './shared/error/error.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
@@ -25,7 +25,7 @@ import {AuthService} from './core/services/auth.service';
 import {Router, Scroll} from '@angular/router';
 import {ViewportScroller} from '@angular/common';
 import {filter} from 'rxjs/operators';
-import {NavBarModule} from './core/nav-bar/nav-bar.module';
+import {NavBarModule} from './shared/nav-bar/nav-bar.module';
 
 @NgModule({
   declarations: [

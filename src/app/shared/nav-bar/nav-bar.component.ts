@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {Observable} from 'rxjs';
-import {HttpService} from '../services/http.service';
+import {HttpService} from '../../core/services/http.service';
 import {map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store';
-import {AppPropertiesService} from '../services/app-properties.service';
+import {AppPropertiesService} from '../../core/services/app-properties.service';
 import {tokenDecoded, userDetails} from '../../store/principal/principal.selectors';
 import {Logout} from '../../store/principal/principal.actions';
-import {JwtTokenDetails} from '../services/auth.service';
+import {JwtTokenDetails} from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
