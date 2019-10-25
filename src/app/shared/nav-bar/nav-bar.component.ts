@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {Observable} from 'rxjs';
 import {HttpService} from '../../core/services/http.service';
@@ -16,6 +16,9 @@ import {JwtTokenDetails} from '../../core/services/auth.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
+
+  @HostBinding('class') classes = 'mat-elevation-z4';
+
   private user$: Observable<UserRegisterResponse> = this.store.select(userDetails);
   private token$: Observable<JwtTokenDetails> = this.store.select(tokenDecoded);
 

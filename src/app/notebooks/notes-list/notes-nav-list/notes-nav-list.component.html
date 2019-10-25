@@ -1,7 +1,8 @@
 <mat-nav-list *ngIf="(notes$ | async).length">
-  <div [class.current]="'n'+note.id===(fragment$|async)" [id]="'n'+note.id" *ngFor="let note of notes$ | async" fxLayout
-       fxLayoutAlign="space-between center">
-    <a mat-list-item [className]="" [routerLink]="isSearchContext?[note.notebookId,'notes',note.id]:[note.id]">
+  <div [class.mat-elevation-z3]="'n'+note.id===(fragment$|async)"
+       [id]="'n'+note.id" *ngFor="let note of notes$ | async"
+       fxLayout fxLayoutAlign="space-between center">
+    <a mat-list-item [routerLink]="isSearchContext?[note.notebookId,'notes',note.id]:[note.id]">
       <mat-icon mat-list-icon color="primary" class="icon-mb">description</mat-icon>
       <div class="nb-item">
         <div class="nb-title">{{note.title}}</div>
