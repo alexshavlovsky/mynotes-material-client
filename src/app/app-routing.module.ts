@@ -5,6 +5,7 @@ import {RouteUrls} from './app-routing.config';
 import {HasRoleUserGuard} from './core/guards/has-role-user.guard';
 import {NotAuthenticatedGuard} from './core/guards/not-authenticated.guard';
 import {RootResolverGuard} from './core/guards/root-resolver.guard';
+import {HasRoleAdminGuard} from './core/guards/has-role-admin.guard';
 
 const routes: Routes = [
   {
@@ -18,6 +19,12 @@ const routes: Routes = [
     canLoad: [HasRoleUserGuard],
     canActivate: [HasRoleUserGuard],
     loadChildren: () => import('./notebooks/notebooks.module').then(m => m.NotebooksModule)
+  },
+  {
+    path: RouteUrls.ADMIN_CONTAINER,
+    canLoad: [HasRoleAdminGuard],
+    canActivate: [HasRoleAdminGuard],
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   },
   {path: '**', component: ErrorComponent, canActivate: [RootResolverGuard]},
 ];
