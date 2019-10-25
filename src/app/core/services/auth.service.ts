@@ -40,15 +40,15 @@ export class AuthService {
     /* tslint:enable:no-bitwise */
   }
 
-  private static rolesToString(mask: number): string {
-    /* tslint:disable:no-bitwise */
-    return Object.keys(AuthRole).filter((key) => ((AuthRole[key] & mask) !== 0)).join(', ').toLowerCase();
-    /* tslint:enable:no-bitwise */
-  }
-
   private static getDefaultRoute(roles: number) {
     const route = DEFAULT_ROUTE_BY_ROLE.find(r => AuthService.hasRole(r.role, roles));
     return (route === undefined ? RouteUrls.ERROR : route.url);
+  }
+
+  rolesToString(mask: number): string {
+    /* tslint:disable:no-bitwise */
+    return Object.keys(AuthRole).filter((key) => ((AuthRole[key] & mask) !== 0)).join(', ').toLowerCase();
+    /* tslint:enable:no-bitwise */
   }
 
   isTokenValid(raw: string): boolean {
@@ -63,7 +63,7 @@ export class AuthService {
       userId: decoded.sub,
       exp,
       roles,
-      rolesString: AuthService.rolesToString(roles),
+      rolesString: this.rolesToString(roles),
       hasRoleAdmin: AuthService.hasRole(AuthRole.ADMIN, roles),
       hasRoleUser: AuthService.hasRole(AuthRole.USER, roles),
       defaultRoute: AuthService.getDefaultRoute(roles)

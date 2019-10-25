@@ -53,6 +53,10 @@ export class HttpService {
     return this.post<UserRegisterResponse>(this.appProps.API_USERS_PATH, body);
   }
 
+  getAllUsers(): Observable<UserRegisterResponse[]> {
+    return this.get<UserRegisterResponse[]>(this.appProps.API_USERS_PATH);
+  }
+
   // NOTEBOOKS ENDPOINT
 
   getAllNotebooks(): Observable<NotebookResponse[]> {

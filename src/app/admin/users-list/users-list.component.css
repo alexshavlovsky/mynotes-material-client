@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+
+th {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, .7);
+}
