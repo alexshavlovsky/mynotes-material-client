@@ -7,7 +7,7 @@
       <div class="nb-item">
         <div class="nb-title">{{note.title}}</div>
         <div>{{note.text}}</div>
-        <div class="nb-time">{{note.lastModifiedOn|date:appProps.lastModifiedDateFormat}}</div>
+        <div class="nb-time">{{note.lastModifiedOn|date:appProps.appDateFormat}}</div>
       </div>
     </a>
     <button *ngIf="'n'+note.id===(fragment$|async)" mat-icon-button (click)="unHighlight()">
