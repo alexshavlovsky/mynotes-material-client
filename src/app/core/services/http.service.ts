@@ -11,6 +11,7 @@ import {NotebookRequest} from '../model/notebook-request.model';
 import {NotebookResponse} from '../model/notebook-response.model';
 import {NoteResponse} from '../model/note-response.model';
 import {NoteRequest} from '../model/note-request.model';
+import {UserAdminResponse} from '../../admin/model/user-admin-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,8 +54,8 @@ export class HttpService {
     return this.post<UserRegisterResponse>(this.appProps.API_USERS_PATH, body);
   }
 
-  getAllUsers(): Observable<UserRegisterResponse[]> {
-    return this.get<UserRegisterResponse[]>(this.appProps.API_USERS_PATH);
+  getAllUsers(): Observable<UserAdminResponse[]> {
+    return this.get<UserAdminResponse[]>(this.appProps.API_USERS_PATH);
   }
 
   // NOTEBOOKS ENDPOINT

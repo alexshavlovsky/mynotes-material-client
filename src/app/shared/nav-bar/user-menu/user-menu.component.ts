@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserRegisterResponse} from '../../../auth/model/user-register-response.model';
 import {JwtTokenDetails} from '../../../core/services/auth.service';
+import {AppPropertiesService} from '../../../core/services/app-properties.service';
 
 @Component({
   selector: 'app-user-menu',
@@ -13,7 +14,7 @@ export class UserMenuComponent implements OnInit {
   @Input() token: JwtTokenDetails;
   @Output() export = new EventEmitter<void>();
 
-  constructor() {
+  constructor(private appProps: AppPropertiesService) {
   }
 
   ngOnInit() {

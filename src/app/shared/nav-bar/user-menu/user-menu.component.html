@@ -3,11 +3,12 @@
   <span style="margin-left:10px" fxHide.xs>{{[user.firstName, user.lastName].join(' ')}}</span>
 </button>
 <mat-menu #menu="matMenu">
-  <div mat-menu-item>{{user.firstName|prefix:'Name: '}}</div>
-  <div mat-menu-item *ngIf="user.lastName">{{user.lastName|prefix:'Last name: '}}</div>
-  <div mat-menu-item>{{user.email|prefix:'Email: '}}</div>
-  <div mat-menu-item>{{token.rolesString|prefix:'Authorized as: '}}</div>
-  <div mat-menu-item>{{token.exp|date:'dd-MM-yy HH:mm:ss'|prefix:'Token expires: '}}</div>
+  <div mat-menu-item>Name: {{user.firstName}}</div>
+  <div mat-menu-item *ngIf="user.lastName">Last name: {{user.lastName}}</div>
+  <div mat-menu-item>Email: {{user.email}}</div>
+  <div mat-menu-item>Authorized as: {{token.rolesString}}</div>
+  <div mat-menu-item>Last visit: {{user.lastSeenOn|date:appProps.appDateFormat}}</div>
+  <div mat-menu-item>{{token.exp|fromNow:'':'Token expires in '}}</div>
   <button mat-menu-item *ngIf="token.hasRoleUser" (click)="export.emit()">
     <mat-icon color="primary">save_alt</mat-icon>
     <span>Export notes to Excel</span>

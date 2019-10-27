@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../../core/services/http.service';
 import {Observable} from 'rxjs';
-import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {AuthService} from '../../core/services/auth.service';
+import {UserAdminResponse} from '../model/user-admin-response.model';
+import {AppPropertiesService} from '../../core/services/app-properties.service';
 
 @Component({
   selector: 'app-users-list',
@@ -11,11 +12,12 @@ import {AuthService} from '../../core/services/auth.service';
 })
 export class UsersListComponent implements OnInit {
 
-  users$: Observable<UserRegisterResponse[]> = this.http.getAllUsers();
-  displayedColumns: string[] = ['index', 'id', 'mail', 'fn', 'ln', 'roles'];
+  private users$: Observable<UserAdminResponse[]> = this.http.getAllUsers();
+  private displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status'];
 
   constructor(private http: HttpService,
-              private auth: AuthService) {
+              private auth: AuthService,
+              private appProps: AppPropertiesService) {
   }
 
   ngOnInit() {

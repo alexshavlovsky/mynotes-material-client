@@ -4,4 +4,5 @@ export interface UserRegisterResponse {
   lastName: string;
   email: string;
   roles: number;
+  lastSeenOn: Date;
 }
