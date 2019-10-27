@@ -15,10 +15,12 @@ import {
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {PrefixPipe} from './core/prefix.pipe';
+import {FromNowPipe} from './core/fromNow.pipe';
 
 @NgModule({
   declarations: [
-    PrefixPipe
+    PrefixPipe,
+    FromNowPipe,
   ],
   imports: [
     MatButtonModule,
@@ -37,6 +39,7 @@ import {PrefixPipe} from './core/prefix.pipe';
   ],
   exports: [
     PrefixPipe,
+    FromNowPipe,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
