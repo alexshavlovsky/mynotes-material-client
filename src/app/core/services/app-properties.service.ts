@@ -52,5 +52,5 @@ export class AppPropertiesService {
   readonly API_NOTES_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES]);
   readonly API_NOTES_XLS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES, this.API_NOTES_XLS]);
   readonly API_DEFAULT_HEADERS = new HttpHeaders({Accept: 'application/json', 'Content-Type': 'application/json'});
-  readonly API_EXCEL_HEADERS = new HttpHeaders({Accept: 'application/vnd.ms-excel'});
+  readonly API_EXCEL_HEADERS = new HttpHeaders({Accept: 'application/vnd.ms-excel, application/json'});
 }

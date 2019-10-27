@@ -1,14 +1,15 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {HttpService} from '../../core/services/http.service';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store';
 import {AppPropertiesService} from '../../core/services/app-properties.service';
 import {tokenDecoded, userDetails} from '../../store/principal/principal.selectors';
 import {Logout} from '../../store/principal/principal.actions';
 import {JwtTokenDetails} from '../../core/services/auth.service';
+import {SnackBarService} from '../../core/services/snack-bar.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -24,7 +25,8 @@ export class NavBarComponent implements OnInit {
 
   constructor(private http: HttpService,
               private store: Store<AppState>,
-              private appProps: AppPropertiesService) {
+              private appProps: AppPropertiesService,
+              private snackBar: SnackBarService) {
   }
 
   ngOnInit() {
@@ -32,7 +34,12 @@ export class NavBarComponent implements OnInit {
 
   exportAsExcel() {
     this.http.getAllNotesAsExcel().pipe(
-      map(response => this.http.redirectBlobToBrowser(response))
+      map(response => this.http.redirectBlobToBrowser(response)),
+      catchError(() => {
+        // see also https://github.com/angular/angular/issues/19888
+        this.snackBar.openError('Failed to get an Excel file');
+        return EMPTY;
+      })
     ).subscribe();
   }
 
