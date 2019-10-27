@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {PrincipalState} from '../store/principal/principal.reducer';
 import {getToken} from '../store/principal/principal.selectors';
 import {switchMap, take, tap} from 'rxjs/operators';
-import {HttpRequestRejected} from '../store/principal/principal.actions';
+import {HttpRequestRejected, Logout} from '../store/principal/principal.actions';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
@@ -20,8 +20,10 @@ export class AuthTokenInterceptor implements HttpInterceptor {
         req.clone({setHeaders: {Authorization: `Bearer ${token}`}})).pipe(
         tap(() => {
         }, err => {
-          if (err instanceof HttpErrorResponse) /*&& (err.status === 401 || err.status === 403)*/
+          if (err instanceof HttpErrorResponse) {
             this.store.dispatch(new HttpRequestRejected({message: err.message}));
+            if (err.status === 403) this.store.dispatch(new Logout());
+          }
         })
         )
       )
