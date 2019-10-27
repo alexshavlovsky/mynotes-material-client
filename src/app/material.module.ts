@@ -15,7 +15,7 @@ import {
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {PrefixPipe} from './core/prefix.pipe';
-import {FromNowPipe} from './core/fromNow.pipe';
+import {FromNowPipe} from './core/from-now.pipe';
 
 @NgModule({
   declarations: [
