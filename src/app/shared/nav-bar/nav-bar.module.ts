@@ -4,6 +4,7 @@ import {UserMenuComponent} from './user-menu/user-menu.component';
 import {MaterialModule} from '../../material.module';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   imports: [
     CommonModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forChild([]),
   ],
   exports: [
     NavBarComponent,
