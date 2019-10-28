@@ -44,6 +44,7 @@ export class NavBarComponent implements OnInit {
   }
 
   onLogout() {
+    // TODO: show confirmation dialog before
     this.store.dispatch(new Logout());
   }
 

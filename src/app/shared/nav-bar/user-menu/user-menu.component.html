@@ -1,6 +1,6 @@
 <button mat-button [matMenuTriggerFor]="menu">
   <mat-icon>account_circle</mat-icon>
-  <span style="margin-left:10px" fxHide.xs>{{[user.firstName, user.lastName].join(' ')}}</span>
+  <span style="margin-left:8px" fxHide.xs>{{[user.firstName, user.lastName].join(' ')}}</span>
 </button>
 <mat-menu #menu="matMenu">
   <div mat-menu-item>Name: {{user.firstName}}</div>
