@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store';
-import {ConfirmDialogComponent, ConfirmDialogData} from '../../notebooks-list/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent, ConfirmDialogData} from '../../../shared/dialog/confirm-dialog/confirm-dialog.component';
 import {filter, map} from 'rxjs/operators';
 import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../note-dialog/note-dialog.component';
 import {Note} from '../../store/note/note.model';

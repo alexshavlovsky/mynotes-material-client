@@ -8,6 +8,8 @@ import {MaterialModule} from '../material.module';
 import {AdminRoutingModule} from './admin-routing.module';
 import {UserOperationsMenuComponent} from './users-list/user-operations-menu/user-operations-menu.component';
 import {ErrorModule} from '../shared/error/error.module';
+import {DialogModule} from '../shared/dialog/dialog.module';
+import {ConfirmDialogComponent} from '../shared/dialog/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import {ErrorModule} from '../shared/error/error.module';
     UserOperationsMenuComponent,
   ],
   imports: [
+    DialogModule,
     ErrorModule,
     NavBarModule,
     CommonModule,
     FlexLayoutModule,
     MaterialModule,
     AdminRoutingModule,
-  ]
+  ],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class AdminModule {
 }

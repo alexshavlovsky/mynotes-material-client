@@ -58,6 +58,11 @@ export class HttpService {
     return this.get<UserAdminResponse[]>(this.appProps.API_USERS_PATH);
   }
 
+  deleteUser(id: string): Observable<ApiMessage> {
+    const path = pathJoin([this.appProps.API_USERS_PATH, String(id)]);
+    return this.delete<ApiMessage>(path);
+  }
+
   // NOTEBOOKS ENDPOINT
 
   getAllNotebooks(): Observable<NotebookResponse[]> {

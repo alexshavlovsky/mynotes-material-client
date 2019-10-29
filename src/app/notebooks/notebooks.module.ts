@@ -11,7 +11,7 @@ import * as fromNotebook from './store/notebook/notebook.reducer';
 import * as fromNote from './store/note/note.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {NotebookEffects} from './store/notebook/notebook.effects';
-import {ConfirmDialogComponent} from './notebooks-list/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from '../shared/dialog/confirm-dialog/confirm-dialog.component';
 import {NotebookOperationsMenuComponent} from './notebooks-list/notebook-operations-menu/notebook-operations-menu.component';
 import {NotebookDialogComponent} from './notebooks-list/notebook-dialog/notebook-dialog.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -23,13 +23,13 @@ import {NotesNavListComponent} from './notes-list/notes-nav-list/notes-nav-list.
 import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/notebooks-nav-list.component';
 import {NoteCardComponent} from './notes-list/note-card/note-card.component';
 import {NavBarModule} from '../shared/nav-bar/nav-bar.module';
+import {DialogModule} from '../shared/dialog/dialog.module';
 
 @NgModule({
   declarations: [
     NotebooksContainerComponent,
     NotebooksListComponent,
     NotebookOperationsMenuComponent,
-    ConfirmDialogComponent,
     NoteDialogComponent,
     NotebookDialogComponent,
     NotesListComponent,
@@ -39,6 +39,7 @@ import {NavBarModule} from '../shared/nav-bar/nav-bar.module';
     NoteCardComponent,
   ],
   imports: [
+    DialogModule,
     NavBarModule,
     CommonModule,
     FlexLayoutModule,
