@@ -19,13 +19,13 @@
       </button>
     </div>
   </mat-menu>
-  <div *ngIf="token$|async as token" fxHide.xs>
+  <div fxHide.xs>
     <a mat-button routerLink="/">
       <mat-icon>book</mat-icon>
-      <span style="margin-left:8px">{{appProps.appName}}</span>
+      <span style="margin-left:8px">{{'appName'|appProp}}</span>
     </a>
-    <a mat-button routerLink="/notebooks" *ngIf="token.hasRoleUser"><span>Notebooks</span></a>
-    <a mat-button routerLink="/admin" *ngIf="token.hasRoleAdmin"><span>Users</span></a>
+    <a mat-button routerLink="/notebooks" *ngIf="isUser$|async"><span>Notebooks</span></a>
+    <a mat-button routerLink="/admin" *ngIf="isAdmin$|async"><span>Users</span></a>
   </div>
 
   <div fxFlex></div>
@@ -35,7 +35,7 @@
       <app-user-menu *ngIf="user$|async as user"
                      [user]="user" [token]="token$|async"
                      (export)="exportAsExcel()"></app-user-menu>
-      <button mat-button (click)="onLogout()" [matTooltip]="'Sign out'">
+      <button mat-button *ngIf="token$|async" (click)="onLogout()" [matTooltip]="'Sign out'">
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </li>

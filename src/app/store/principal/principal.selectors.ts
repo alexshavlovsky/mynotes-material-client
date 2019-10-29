@@ -20,3 +20,13 @@ export const tokenDecoded = createSelector(
   selectPrincipalState,
   principal => principal.tokenDecoded
 );
+
+export const isAdmin = createSelector(
+  tokenDecoded,
+  token => token !== null && token.hasRoleAdmin
+);
+
+export const isUser = createSelector(
+  tokenDecoded,
+  token => token !== null && token.hasRoleUser
+);

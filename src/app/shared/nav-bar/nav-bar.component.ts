@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store';
 import {AppPropertiesService} from '../../core/services/app-properties.service';
-import {tokenDecoded, userDetails} from '../../store/principal/principal.selectors';
+import {isAdmin, isUser, tokenDecoded, userDetails} from '../../store/principal/principal.selectors';
 import {Logout} from '../../store/principal/principal.actions';
 import {JwtTokenDetails} from '../../core/services/auth.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
@@ -22,6 +22,8 @@ export class NavBarComponent implements OnInit {
 
   private user$: Observable<UserRegisterResponse> = this.store.select(userDetails);
   private token$: Observable<JwtTokenDetails> = this.store.select(tokenDecoded);
+  private isAdmin$: Observable<boolean> = this.store.select(isAdmin);
+  private isUser$: Observable<boolean> = this.store.select(isUser);
 
   constructor(private http: HttpService,
               private store: Store<AppState>,
