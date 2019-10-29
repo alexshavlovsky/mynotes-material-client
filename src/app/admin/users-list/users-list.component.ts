@@ -15,9 +15,9 @@ import {SnackBarService} from '../../core/services/snack-bar.service';
 })
 export class UsersListComponent implements OnInit, OnDestroy {
 
-  private users: UserAdminResponse[] = [];
+  private users: UserAdminResponse[] = null;
   private isFetchUsersFailed = false;
-  private readonly fetchErrorMessage = 'Failed to fetch users';
+  private fetchErrorMessage = '';
 
   private displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status', 'menu'];
 
@@ -54,7 +54,9 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.isFetchUsersFailed = false;
       },
       err => {
-        this.snackBar.openError(adaptErrorMessage(err, this.fetchErrorMessage));
+        this.fetchErrorMessage = adaptErrorMessage(err, 'Failed to fetch users');
+        this.snackBar.openError(this.fetchErrorMessage);
+        this.users = null;
         this.isFetchUsersFailed = true;
       }
     );

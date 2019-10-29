@@ -7,6 +7,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material.module';
 import {AdminRoutingModule} from './admin-routing.module';
 import {UserOperationsMenuComponent} from './users-list/user-operations-menu/user-operations-menu.component';
+import {ErrorModule} from '../shared/error/error.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {UserOperationsMenuComponent} from './users-list/user-operations-menu/use
     UserOperationsMenuComponent,
   ],
   imports: [
+    ErrorModule,
     NavBarModule,
     CommonModule,
     FlexLayoutModule,

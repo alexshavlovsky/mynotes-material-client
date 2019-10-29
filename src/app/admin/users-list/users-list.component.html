@@ -1,4 +1,6 @@
-<table mat-table [dataSource]="users">
+<app-error-message *ngIf="isFetchUsersFailed" [message]="fetchErrorMessage"></app-error-message>
+
+<table mat-table [dataSource]="users" *ngIf="users !== null && !isFetchUsersFailed">
 
   <ng-container matColumnDef="index">
     <th mat-header-cell *matHeaderCellDef></th>

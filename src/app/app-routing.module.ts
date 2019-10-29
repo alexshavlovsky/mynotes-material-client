@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ErrorComponent} from './shared/error/error.component';
+import {ErrorContainerComponent} from './shared/error/container/error-container.component';
 import {RouteUrls} from './app-routing.config';
 import {HasRoleUserGuard} from './core/guards/has-role-user.guard';
 import {NotAuthenticatedGuard} from './core/guards/not-authenticated.guard';
@@ -26,7 +26,7 @@ const routes: Routes = [
     canActivate: [HasRoleAdminGuard],
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   },
-  {path: '**', component: ErrorComponent, canActivate: [RootResolverGuard]},
+  {path: '**', component: ErrorContainerComponent, canActivate: [RootResolverGuard]},
 ];
 
 @NgModule({

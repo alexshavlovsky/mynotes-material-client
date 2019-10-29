@@ -5,7 +5,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AppPropertiesService} from './core/services/app-properties.service';
 import {FormValidationService} from './core/services/form-validation.service';
-import {ErrorComponent} from './shared/error/error.component';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
@@ -16,7 +15,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
-import {MatIconModule, MatSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from '@angular/material';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';
@@ -25,16 +24,14 @@ import {AuthService} from './core/services/auth.service';
 import {Router, Scroll} from '@angular/router';
 import {ViewportScroller} from '@angular/common';
 import {filter} from 'rxjs/operators';
-import {NavBarModule} from './shared/nav-bar/nav-bar.module';
+import {ErrorModule} from './shared/error/error.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorComponent,
   ],
   imports: [
-    NavBarModule,
-    MatIconModule,
+    ErrorModule,
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
