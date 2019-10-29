@@ -16,11 +16,13 @@ import {
 import {NgModule} from '@angular/core';
 import {PrefixPipe} from './core/prefix.pipe';
 import {FromNowPipe} from './core/from-now.pipe';
+import {DateTimeFormatPipe} from './core/date-time-format.pipe';
 
 @NgModule({
   declarations: [
     PrefixPipe,
     FromNowPipe,
+    DateTimeFormatPipe
   ],
   imports: [
     MatButtonModule,
@@ -40,6 +42,7 @@ import {FromNowPipe} from './core/from-now.pipe';
   exports: [
     PrefixPipe,
     FromNowPipe,
+    DateTimeFormatPipe,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,

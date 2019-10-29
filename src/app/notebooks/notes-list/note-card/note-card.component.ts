@@ -10,7 +10,6 @@ import {getNoteByNotebookIdAndNoteId, notesSpinner} from '../../store/note/note.
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {filter, tap} from 'rxjs/operators';
 import {Note} from '../../store/note/note.model';
-import {AppPropertiesService} from '../../../core/services/app-properties.service';
 import {Location} from '@angular/common';
 
 @Component({
@@ -29,15 +28,14 @@ export class NoteCardComponent implements OnInit {
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
               private route: ActivatedRoute,
-              private location: Location,
-              private appProps: AppPropertiesService) {
+              private location: Location) {
   }
 
   ngOnInit() {
     this.store.dispatch(new FetchNotesByNotebookIdRequest({notebookId: this.nbId.toString()}));
     this.store.select(getNoteByNotebookIdAndNoteId, {notebookId: this.nbId, noteId: this.id}).pipe(
       filter(note => note !== null),
-      tap(note => {
+      tap((note: Note) => {
         this.form = this.fb.group({
           titleInput: [note.title, []],
           textInput: [note.text, []],

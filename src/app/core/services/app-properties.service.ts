@@ -32,7 +32,8 @@ export class AppPropertiesService {
   readonly msgRegisterSuccess = 'Your account has been created';
   readonly snackbarDefaultAction = 'close';
   readonly snackbarDefaultDelay = 5000;
-  readonly appDateFormat = 'dd/MM/yy HH:mm:ss';
+  readonly DATE_FMT = 'dd/MM/yyyy';
+  readonly DATE_TIME_FMT = `${this.DATE_FMT} HH:mm:ss`;
 
   readonly API_USERS = 'users';
   readonly API_CURRENT_USER = 'current';

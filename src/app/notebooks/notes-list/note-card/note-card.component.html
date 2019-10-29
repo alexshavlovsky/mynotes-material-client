@@ -3,7 +3,7 @@
     <mat-icon mat-card-avatar color="primary">description</mat-icon>
     <mat-card-title>{{notebook.name}}</mat-card-title>
     <mat-card-subtitle
-      *ngIf="currentNote">{{currentNote.lastModifiedOn|date:appProps.appDateFormat}}</mat-card-subtitle>
+      *ngIf="currentNote">{{currentNote.lastModifiedOn|dateTimeFormat}}</mat-card-subtitle>
   </mat-card-header>
 
   <mat-spinner style="margin:0 auto;" *ngIf="spinner$|async"></mat-spinner>

@@ -27,7 +27,7 @@
 
   <ng-container matColumnDef="created">
     <th mat-header-cell *matHeaderCellDef>Created</th>
-    <td mat-cell *matCellDef="let user">{{user.createdOn|date:appProps.appDateFormat}}</td>
+    <td mat-cell *matCellDef="let user">{{user.createdOn|dateTimeFormat}}</td>
   </ng-container>
 
   <ng-container matColumnDef="seen">

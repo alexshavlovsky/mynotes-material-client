@@ -3,7 +3,6 @@ import {HttpService} from '../../core/services/http.service';
 import {Observable, Subscription} from 'rxjs';
 import {AuthService} from '../../core/services/auth.service';
 import {UserAdminResponse} from '../model/user-admin-response.model';
-import {AppPropertiesService} from '../../core/services/app-properties.service';
 import {MediaObserver} from '@angular/flex-layout';
 import {getColumnsConfig, toDisplayedColumns} from '../../core/utils/mat-table.utils';
 
@@ -28,7 +27,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpService,
               private auth: AuthService,
-              private appProps: AppPropertiesService,
               private mediaObserver: MediaObserver) {
     this.mediaObserver.filterOverlaps = true;
     this.mediaSub = mediaObserver.asObservable().pipe(

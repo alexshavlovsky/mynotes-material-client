@@ -7,7 +7,7 @@
   <div mat-menu-item *ngIf="user.lastName">Last name: {{user.lastName}}</div>
   <div mat-menu-item>Email: {{user.email}}</div>
   <div mat-menu-item>Authorized as: {{token.rolesString}}</div>
-  <div mat-menu-item *ngIf="user.lastSeenOn">Last visit: {{user.lastSeenOn|date:appProps.appDateFormat}}</div>
+  <div mat-menu-item *ngIf="user.lastSeenOn">Last visit: {{user.lastSeenOn|dateTimeFormat}}</div>
   <div mat-menu-item>{{token.exp|fromNow:'':'Token expires in '}}</div>
   <button mat-menu-item *ngIf="token.hasRoleUser" (click)="export.emit()">
     <mat-icon color="primary">save_alt</mat-icon>
