@@ -6,11 +6,13 @@ import {NavBarModule} from '../shared/nav-bar/nav-bar.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material.module';
 import {AdminRoutingModule} from './admin-routing.module';
+import {UserOperationsMenuComponent} from './users-list/user-operations-menu/user-operations-menu.component';
 
 @NgModule({
   declarations: [
     AdminContainerComponent,
-    UsersListComponent
+    UsersListComponent,
+    UserOperationsMenuComponent,
   ],
   imports: [
     NavBarModule,

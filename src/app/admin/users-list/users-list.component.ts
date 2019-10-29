@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpService} from '../../core/services/http.service';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {AuthService} from '../../core/services/auth.service';
 import {UserAdminResponse} from '../model/user-admin-response.model';
 import {MediaObserver} from '@angular/flex-layout';
 import {getColumnsConfig, toDisplayedColumns} from '../../core/utils/mat-table.utils';
+import {adaptErrorMessage} from '../../core/services/app-properties.service';
+import {SnackBarService} from '../../core/services/snack-bar.service';
 
 @Component({
   selector: 'app-users-list',
@@ -13,9 +15,11 @@ import {getColumnsConfig, toDisplayedColumns} from '../../core/utils/mat-table.u
 })
 export class UsersListComponent implements OnInit, OnDestroy {
 
-  private users$: Observable<UserAdminResponse[]> = this.http.getAllUsers();
+  private users: UserAdminResponse[] = [];
+  private isFetchUsersFailed = false;
+  private readonly fetchErrorMessage = 'Failed to fetch users';
 
-  private displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status'];
+  private displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status', 'menu'];
 
   private readonly columnsConfig = getColumnsConfig(this.displayedColumns,
     ['id'],
@@ -26,6 +30,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   mediaSub: Subscription;
 
   constructor(private http: HttpService,
+              private snackBar: SnackBarService,
               private auth: AuthService,
               private mediaObserver: MediaObserver) {
     this.mediaObserver.filterOverlaps = true;
@@ -35,10 +40,24 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.fetchUsers();
   }
 
   ngOnDestroy() {
     this.mediaSub.unsubscribe();
+  }
+
+  fetchUsers() {
+    this.http.getAllUsers().subscribe(
+      users => {
+        this.users = users;
+        this.isFetchUsersFailed = false;
+      },
+      err => {
+        this.snackBar.openError(adaptErrorMessage(err, this.fetchErrorMessage));
+        this.isFetchUsersFailed = true;
+      }
+    );
   }
 
 }
