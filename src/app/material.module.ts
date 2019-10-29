@@ -14,15 +14,18 @@ import {
   MatTooltipModule,
 } from '@angular/material';
 import {NgModule} from '@angular/core';
-import {PrefixPipe} from './core/prefix.pipe';
-import {FromNowPipe} from './core/from-now.pipe';
-import {DateTimeFormatPipe} from './core/date-time-format.pipe';
+import {PrefixPipe} from './core/pipes/prefix.pipe';
+import {FromNowPipe} from './core/pipes/from-now.pipe';
+import {DateTimeFormatPipe} from './core/pipes/date-time-format.pipe';
+import {AppPropPipe} from './core/pipes/app-prop.pipe';
+
 
 @NgModule({
   declarations: [
     PrefixPipe,
     FromNowPipe,
-    DateTimeFormatPipe
+    DateTimeFormatPipe,
+    AppPropPipe
   ],
   imports: [
     MatButtonModule,
@@ -43,6 +46,7 @@ import {DateTimeFormatPipe} from './core/date-time-format.pipe';
     PrefixPipe,
     FromNowPipe,
     DateTimeFormatPipe,
+    AppPropPipe,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,

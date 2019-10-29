@@ -1,7 +1,7 @@
 <div class="m-a">
   <mat-card>
     <mat-icon>how_to_reg</mat-icon>
-    <h1>Sign up for {{appProps.appName}}</h1>
+    <h1>Sign up for {{'appName'|appProp}}</h1>
     <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-16">
       <mat-form-field>
         <input type="text" matInput placeholder="Your first name" class="form-control" formControlName="firstName">

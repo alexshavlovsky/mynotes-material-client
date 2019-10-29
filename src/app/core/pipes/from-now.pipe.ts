@@ -21,9 +21,10 @@ export class FromNowPipe implements PipeTransform {
 
   private format = (t, n) => this.agoTemplates[t].replace(/%d/i, Math.round(n));
 
-  transform(time: Date, suffix: string = '', prefix: string = ''): string {
-    if (time === null) return 'never';
-    const seconds = Math.abs(new Date().getTime() - new Date(time).getTime()) / 1000;
+  transform(date: Date, suffix: string = '', prefix: string = ''): string {
+    if (date === null) return 'never';
+    const time = (date instanceof Date) ? date : new Date(date);
+    const seconds = Math.abs(new Date().getTime() - time.getTime()) / 1000;
     const minutes = seconds / 60;
     const hours = minutes / 60;
     const days = hours / 24;

@@ -5,7 +5,7 @@ import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {AuthActions, AuthActionTypes, LoginFailure, LoginSuccess, RegisterFailure, RegisterSuccess} from './auth.actions';
 import {HttpService} from '../../core/services/http.service';
 import {of} from 'rxjs';
-import {adaptErrorMessage, AppPropertiesService} from '../../core/services/app-properties.service';
+import {adaptErrorMessage} from '../../core/services/app-properties.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
 import {Login} from '../../store/principal/principal.actions';
 import {AuthService} from '../../core/services/auth.service';
@@ -19,7 +19,7 @@ export class AuthEffects {
       exhaustMap(action => this.http.postLoginRequest(action.payload.request).pipe(
         map(response => new LoginSuccess({response})),
         catchError(error =>
-          of(new LoginFailure({message: adaptErrorMessage(error, this.appProps.msgLoginFailure)}))
+          of(new LoginFailure({message: adaptErrorMessage(error, 'Failed to sign in')}))
         ))
       )
     ),
@@ -48,7 +48,7 @@ export class AuthEffects {
       exhaustMap(action => this.http.postRegisterRequest(action.payload.request).pipe(
         map(response => new RegisterSuccess({response})),
         catchError(error =>
-          of(new RegisterFailure({message: adaptErrorMessage(error, this.appProps.msgRegisterFailure)}))
+          of(new RegisterFailure({message: adaptErrorMessage(error, 'Failed to sign up')}))
         ))
       )
     ),
@@ -57,7 +57,7 @@ export class AuthEffects {
   registerSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionTypes.REGISTER_SUCCESS),
-      tap(() => this.snackBar.openSuccess(this.appProps.msgRegisterSuccess))
+      tap(() => this.snackBar.openSuccess('Your account has been created'))
     ), {dispatch: false}
   );
 
@@ -70,7 +70,6 @@ export class AuthEffects {
 
   constructor(private actions$: Actions<AuthActions>,
               private http: HttpService,
-              private appProps: AppPropertiesService,
               private snackBar: SnackBarService,
               private auth: AuthService) {
   }

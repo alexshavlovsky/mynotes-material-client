@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DatePipe} from '@angular/common';
-import {AppPropertiesService} from './services/app-properties.service';
+import {AppPropertiesService} from '../services/app-properties.service';
 
 @Pipe({
   name: 'dateTimeFormat'

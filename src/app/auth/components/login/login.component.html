@@ -1,7 +1,7 @@
 <div class="m-a">
   <mat-card>
     <mat-icon>notes</mat-icon>
-    <h1>Sign in to {{appProps.appName}}</h1>
+    <h1>Sign in to {{'appName'|appProp}}</h1>
     <form fxLayout="column" [formGroup]="form" (ngSubmit)="onSubmit()" class="pb-16">
       <mat-form-field>
         <input type="email" matInput placeholder="Your email" class="form-control" formControlName="email">
@@ -20,7 +20,7 @@
       </button>
     </form>
     <mat-card-content>
-      New to {{appProps.appName}}?
+      New to {{'appName'|appProp}}?
       <a mat-button color="primary" routerLink="../register">Create an account</a>.
     </mat-card-content>
   </mat-card>

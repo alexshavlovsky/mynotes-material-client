@@ -19,6 +19,7 @@ export function pathJoin(parts: string[]): string {
 })
 export class AppPropertiesService {
   readonly appName = 'MyNotes';
+
   readonly passwordCrossFieldValidatorErrorKey = 'passwords';
   readonly userPasswordMinLength = 5;
   readonly validationMessages: ValidationMessageEntry[] = [
@@ -27,11 +28,9 @@ export class AppPropertiesService {
     {name: 'email', message: 'Please enter a valid email address'},
     {name: this.passwordCrossFieldValidatorErrorKey, message: 'Passwords do not match'}
   ];
-  readonly msgLoginFailure = 'Failed to sign in';
-  readonly msgRegisterFailure = 'Failed to sign up';
-  readonly msgRegisterSuccess = 'Your account has been created';
-  readonly snackbarDefaultAction = 'close';
-  readonly snackbarDefaultDelay = 5000;
+
+  readonly SNACK_BAR_DEF_ACTION = 'close';
+  readonly SNACK_BAR_DEF_DELAY = 5000;
   readonly DATE_FMT = 'dd/MM/yyyy';
   readonly DATE_TIME_FMT = `${this.DATE_FMT} HH:mm:ss`;
 

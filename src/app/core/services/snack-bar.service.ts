@@ -13,13 +13,13 @@ export class SnackBarService {
   }
 
   openSuccess(message: string) {
-    this.snackbar.open(message, this.appProps.snackbarDefaultAction,
-      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['success-snackbar']});
+    this.snackbar.open(message, this.appProps.SNACK_BAR_DEF_ACTION,
+      {duration: this.appProps.SNACK_BAR_DEF_DELAY, panelClass: ['success-snackbar']});
   }
 
   openError(message: string) {
-    this.snackbar.open(message, this.appProps.snackbarDefaultAction,
-      {duration: this.appProps.snackbarDefaultDelay, panelClass: ['error-snackbar']});
+    this.snackbar.open(message, this.appProps.SNACK_BAR_DEF_ACTION,
+      {duration: this.appProps.SNACK_BAR_DEF_DELAY, panelClass: ['error-snackbar']});
   }
 
 }
