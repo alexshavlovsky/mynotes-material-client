@@ -1,6 +1,6 @@
 <app-error-message *ngIf="isFetchUsersFailed" [message]="fetchErrorMessage"></app-error-message>
 
-<table mat-table [dataSource]="users" *ngIf="users !== null && !isFetchUsersFailed">
+<table mat-table [dataSource]="dataSource" *ngIf="dataSource !== null && !isFetchUsersFailed">
 
   <ng-container matColumnDef="index">
     <th mat-header-cell *matHeaderCellDef></th>
@@ -45,7 +45,7 @@
   <ng-container matColumnDef="menu">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let user">
-      <app-user-operations-menu [user]="user"></app-user-operations-menu>
+      <app-user-operations-menu [user]="user" (userDeleted)="deleteUser(user)"></app-user-operations-menu>
     </td>
   </ng-container>
 

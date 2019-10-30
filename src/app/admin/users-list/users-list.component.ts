@@ -7,6 +7,7 @@ import {MediaObserver} from '@angular/flex-layout';
 import {getColumnsConfig, toDisplayedColumns} from '../../core/utils/mat-table.utils';
 import {adaptErrorMessage} from '../../core/services/app-properties.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-users-list',
@@ -15,7 +16,7 @@ import {SnackBarService} from '../../core/services/snack-bar.service';
 })
 export class UsersListComponent implements OnInit, OnDestroy {
 
-  private users: UserAdminResponse[] = null;
+  private dataSource: MatTableDataSource<UserAdminResponse> = null;
   private isFetchUsersFailed = false;
   private fetchErrorMessage = '';
 
@@ -50,16 +51,22 @@ export class UsersListComponent implements OnInit, OnDestroy {
   fetchUsers() {
     this.http.getAllUsers().subscribe(
       users => {
-        this.users = users;
+        this.dataSource = new MatTableDataSource(users);
         this.isFetchUsersFailed = false;
       },
       err => {
         this.fetchErrorMessage = adaptErrorMessage(err, 'Failed to fetch users');
         this.snackBar.openError(this.fetchErrorMessage);
-        this.users = null;
+        this.dataSource = null;
         this.isFetchUsersFailed = true;
       }
     );
+  }
+
+  deleteUser(user: UserAdminResponse) {
+    const users = this.dataSource.data;
+    users.splice(users.indexOf(user), 1);
+    this.dataSource._updateChangeSubscription();
   }
 
 }
