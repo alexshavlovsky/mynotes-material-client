@@ -51,6 +51,21 @@ export class AuthService {
     /* tslint:enable:no-bitwise */
   }
 
+  hasRoleAdmin(mask: number): boolean {
+    return AuthService.hasRole(AuthRole.ADMIN, mask);
+  }
+
+  hasRoleUser(mask: number): boolean {
+    return AuthService.hasRole(AuthRole.USER, mask);
+  }
+
+  packRoles(admin: boolean, user: boolean): number {
+    let res = 0;
+    res += admin ? AuthRole.ADMIN : 0;
+    res += user ? AuthRole.USER : 0;
+    return res;
+  }
+
   isTokenValid(raw: string): boolean {
     return !this.jwt.isTokenExpired(raw);
   }
@@ -64,8 +79,8 @@ export class AuthService {
       exp,
       roles,
       rolesString: this.rolesToString(roles),
-      hasRoleAdmin: AuthService.hasRole(AuthRole.ADMIN, roles),
-      hasRoleUser: AuthService.hasRole(AuthRole.USER, roles),
+      hasRoleAdmin: this.hasRoleAdmin(roles),
+      hasRoleUser: this.hasRoleUser(roles),
       defaultRoute: AuthService.getDefaultRoute(roles)
     };
   }

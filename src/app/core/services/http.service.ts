@@ -12,6 +12,7 @@ import {NotebookResponse} from '../model/notebook-response.model';
 import {NoteResponse} from '../model/note-response.model';
 import {NoteRequest} from '../model/note-request.model';
 import {UserAdminResponse} from '../../admin/model/user-admin-response.model';
+import {UserAdminRequest} from '../../admin/model/user-admin-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,11 @@ export class HttpService {
   deleteUser(id: string): Observable<ApiMessage> {
     const path = pathJoin([this.appProps.API_USERS_PATH, String(id)]);
     return this.delete<ApiMessage>(path);
+  }
+
+  updateUser(id: string, body: UserAdminRequest): Observable<UserAdminResponse> {
+    const path = pathJoin([this.appProps.API_USERS_PATH, String(id)]);
+    return this.put<UserAdminResponse>(path, body);
   }
 
   // NOTEBOOKS ENDPOINT

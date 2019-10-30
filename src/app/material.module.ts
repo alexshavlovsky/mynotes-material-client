@@ -2,6 +2,7 @@ import {
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
@@ -41,6 +42,7 @@ import {AppPropPipe} from './core/pipes/app-prop.pipe';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTableModule,
+    MatCheckboxModule,
   ],
   exports: [
     PrefixPipe,
@@ -60,6 +62,7 @@ import {AppPropPipe} from './core/pipes/app-prop.pipe';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTableModule,
+    MatCheckboxModule,
   ],
 })
 export class MaterialModule {

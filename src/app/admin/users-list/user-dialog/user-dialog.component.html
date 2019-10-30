@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Edit account authorities</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <h5>Account to be updated</h5>
+  <p>{{data.email}}</p>
+  <h5>Granted authorities</h5>
+  <mat-checkbox color="primary" formControlName="hasRoleAdmin">admin</mat-checkbox>
+  <br>
+  <mat-checkbox color="primary" formControlName="hasRoleUser">user</mat-checkbox>
+  <h5>Account status</h5>
+  <mat-checkbox color="primary" formControlName="isAccountEnabled">enabled</mat-checkbox>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="close()">Cancel</button>
+  <button mat-button color="primary" (click)="confirm()">Update</button>
+</mat-dialog-actions>

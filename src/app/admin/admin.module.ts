@@ -10,15 +10,19 @@ import {UserOperationsMenuComponent} from './users-list/user-operations-menu/use
 import {ErrorModule} from '../shared/error/error.module';
 import {DialogModule} from '../shared/dialog/dialog.module';
 import {ConfirmDialogComponent} from '../shared/dialog/confirm-dialog/confirm-dialog.component';
+import {UserDialogComponent} from './users-list/user-dialog/user-dialog.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AdminContainerComponent,
     UsersListComponent,
     UserOperationsMenuComponent,
+    UserDialogComponent,
   ],
   imports: [
     DialogModule,
+    ReactiveFormsModule,
     ErrorModule,
     NavBarModule,
     CommonModule,
@@ -26,7 +30,7 @@ import {ConfirmDialogComponent} from '../shared/dialog/confirm-dialog/confirm-di
     MaterialModule,
     AdminRoutingModule,
   ],
-  entryComponents: [ConfirmDialogComponent]
+  entryComponents: [ConfirmDialogComponent, UserDialogComponent]
 })
 export class AdminModule {
 }

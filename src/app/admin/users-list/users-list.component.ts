@@ -69,4 +69,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
     this.dataSource._updateChangeSubscription();
   }
 
+  updateUser(user: UserAdminResponse, updatedUser: UserAdminResponse) {
+    const users = this.dataSource.data;
+    users[users.indexOf(user)] = updatedUser;
+    this.dataSource._updateChangeSubscription();
+  }
+
 }

@@ -2,11 +2,15 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserAdminResponse} from '../../model/user-admin-response.model';
 import {MatDialog} from '@angular/material';
 import {HttpService} from '../../../core/services/http.service';
-import {ConfirmDialogComponent, ConfirmDialogData} from '../../../shared/dialog/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogData
+} from '../../../shared/dialog/confirm-dialog/confirm-dialog.component';
 import {catchError, exhaustMap, filter, map} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
+import {UserDialogComponent, UserDialogData, UserDialogPayload} from '../user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-user-operations-menu',
@@ -17,6 +21,7 @@ export class UserOperationsMenuComponent implements OnInit {
 
   @Input() user: UserAdminResponse;
   @Output() userDeleted = new EventEmitter<void>();
+  @Output() userUpdated = new EventEmitter<UserAdminResponse>();
 
   constructor(private dialog: MatDialog,
               private snackBar: SnackBarService,
@@ -45,6 +50,21 @@ export class UserOperationsMenuComponent implements OnInit {
   }
 
   openEditDialog() {
+    const data: UserDialogData = {
+      email: this.user.email,
+      roles: this.user.roles,
+      enabled: this.user.enabled,
+    };
+    this.dialog.open(UserDialogComponent, {data}).afterClosed().pipe(
+      filter((payload: UserDialogPayload) => payload !== undefined),
+      exhaustMap(payload => this.http.updateUser(this.user.userId,
+        {roles: payload.roles, enabled: payload.enabled})),
+      map((user: UserAdminResponse) => this.userUpdated.emit(user)),
+      catchError(err => {
+        this.snackBar.openError(adaptErrorMessage(err, 'Failed to update user'));
+        return EMPTY;
+      }),
+    ).subscribe();
   }
 
 }
