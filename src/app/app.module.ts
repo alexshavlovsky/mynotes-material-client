@@ -73,15 +73,12 @@ export class AppModule {
         if (e.position && !(e.position[0] === 0 && e.position[1] === 0))
           this.viewportScroller.scrollToPosition(e.position);
         else if (e.anchor)
-        // try {
-        //   document.querySelector('#' + e.anchor).scrollIntoView();
-        // } catch (e) {
-        //   this.viewportScroller.scrollToPosition([0, 0]);
-        // }
-          this.viewportScroller.scrollToAnchor(e.anchor);
-        else
-          this.viewportScroller.scrollToPosition([0, 0]);
-      }, 500);
+          try {
+            document.querySelector('#' + e.anchor).scrollIntoView({block: 'center'});
+          } catch (e) {
+            this.viewportScroller.scrollToPosition([0, 0]);
+          }
+      }, 300);
     });
   }
 
