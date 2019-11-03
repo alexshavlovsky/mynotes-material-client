@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
@@ -25,6 +25,7 @@ import {Router, Scroll} from '@angular/router';
 import {ViewportScroller} from '@angular/common';
 import {filter} from 'rxjs/operators';
 import {ErrorModule} from './shared/error/error.module';
+import {EnvConfigProvider} from './core/env.injector';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import {ErrorModule} from './shared/error/error.module';
     EffectsModule.forFeature([PrincipalEffects]),
     StoreModule.forFeature(fromPrincipal.principalFeatureKey, fromPrincipal.reducer),
   ],
-  providers: [AppPropertiesService, FormValidationService, HttpService, SnackBarService, AuthService,
+  providers: [Title, AppPropertiesService, FormValidationService, HttpService, SnackBarService, AuthService,
     {
       provide: APP_INITIALIZER,
       useFactory: (store: Store<AppState>) => {
@@ -60,14 +61,20 @@ import {ErrorModule} from './shared/error/error.module';
       deps: [Store]
     },
     {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
+    EnvConfigProvider
 //    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'never'}}
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  // override the default ViewportScroller behaviour due to issues
-  constructor(private router: Router, private viewportScroller: ViewportScroller) {
+  constructor(private router: Router,
+              private viewportScroller: ViewportScroller,
+              private title: Title,
+              private appProps: AppPropertiesService) {
+    // set app title
+    this.title.setTitle(this.appProps.appName);
+    // override the default ViewportScroller behaviour due to issues
     this.router.events.pipe(filter(e => e instanceof Scroll)).subscribe((e: any) => {
       setTimeout(() => {
         if (e.position && !(e.position[0] === 0 && e.position[1] === 0))

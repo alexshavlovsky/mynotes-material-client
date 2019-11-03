@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
+import {IEnvConfig} from '../env.injector';
 
 export interface ValidationMessageEntry {
   name: string;
@@ -18,39 +19,49 @@ export function pathJoin(parts: string[]): string {
   providedIn: 'root'
 })
 export class AppPropertiesService {
-  readonly appName = 'MyNotes';
 
-  readonly passwordCrossFieldValidatorErrorKey = 'passwords';
-  readonly userPasswordMinLength = 5;
-  readonly validationMessages: ValidationMessageEntry[] = [
+  constructor(@Inject('ENV_CONFIG') private envConfig: IEnvConfig) {
+    if (envConfig.override) {
+      const override = envConfig.override;
+      for (const key in override)
+        if (this.hasOwnProperty(key))
+          this[key] = override[key];
+    }
+  }
+
+  appName = 'MyNotes';
+
+  passwordCrossFieldValidatorErrorKey = 'passwords';
+  userPasswordMinLength = 5;
+  validationMessages: ValidationMessageEntry[] = [
     {name: 'required', message: 'This field is required'},
     {name: 'minlength', message: f => `Please enter at least ${f.minlength} characters`},
     {name: 'email', message: 'Please enter a valid email address'},
     {name: this.passwordCrossFieldValidatorErrorKey, message: 'Passwords do not match'}
   ];
 
-  readonly SNACK_BAR_DEF_ACTION = 'close';
-  readonly SNACK_BAR_DEF_DELAY = 5000;
-  readonly DATE_FMT = 'dd/MM/yyyy';
-  readonly DATE_TIME_FMT = `${this.DATE_FMT} HH:mm:ss`;
+  SNACK_BAR_DEF_ACTION = 'close';
+  SNACK_BAR_DEF_DELAY = 5000;
+  DATE_FMT = 'dd/MM/yyyy';
+  DATE_TIME_FMT = `${this.DATE_FMT} HH:mm:ss`;
 
-  readonly API_USERS = 'users';
-  readonly API_CURRENT_USER = 'current';
-  readonly API_LOGIN = 'login';
-  readonly API_COMMAND = 'command';
-  readonly API_FEEDBACK = 'feedback';
-  readonly API_NOTES = 'notes';
-  readonly API_NOTES_XLS = 'export/xls';
-  readonly API_NOTEBOOKS = 'notebooks';
-  readonly API_BASE_PATH = 'https://localhost:8443/api/';
-  readonly API_USERS_PATH = pathJoin([this.API_BASE_PATH, this.API_USERS]);
-  readonly API_LOGIN_PATH = pathJoin([this.API_USERS_PATH, this.API_LOGIN]);
-  readonly API_CURRENT_USER_PATH = pathJoin([this.API_USERS_PATH, this.API_CURRENT_USER]);
-  readonly API_COMMAND_PATH = pathJoin([this.API_BASE_PATH, this.API_COMMAND]);
-  readonly API_FEEDBACK_PATH = pathJoin([this.API_BASE_PATH, this.API_FEEDBACK]);
-  readonly API_NOTEBOOKS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTEBOOKS]);
-  readonly API_NOTES_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES]);
-  readonly API_NOTES_XLS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES, this.API_NOTES_XLS]);
-  readonly API_DEFAULT_HEADERS = new HttpHeaders({Accept: 'application/json', 'Content-Type': 'application/json'});
-  readonly API_EXCEL_HEADERS = new HttpHeaders({Accept: 'application/vnd.ms-excel, application/json'});
+  API_USERS = 'users';
+  API_CURRENT_USER = 'current';
+  API_LOGIN = 'login';
+  API_COMMAND = 'command';
+  API_FEEDBACK = 'feedback';
+  API_NOTES = 'notes';
+  API_NOTES_XLS = 'export/xls';
+  API_NOTEBOOKS = 'notebooks';
+  API_BASE_PATH = this.envConfig.apiBaseUrl;
+  API_USERS_PATH = pathJoin([this.API_BASE_PATH, this.API_USERS]);
+  API_LOGIN_PATH = pathJoin([this.API_USERS_PATH, this.API_LOGIN]);
+  API_CURRENT_USER_PATH = pathJoin([this.API_USERS_PATH, this.API_CURRENT_USER]);
+  API_COMMAND_PATH = pathJoin([this.API_BASE_PATH, this.API_COMMAND]);
+  API_FEEDBACK_PATH = pathJoin([this.API_BASE_PATH, this.API_FEEDBACK]);
+  API_NOTEBOOKS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTEBOOKS]);
+  API_NOTES_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES]);
+  API_NOTES_XLS_PATH = pathJoin([this.API_BASE_PATH, this.API_NOTES, this.API_NOTES_XLS]);
+  API_DEFAULT_HEADERS = new HttpHeaders({Accept: 'application/json', 'Content-Type': 'application/json'});
+  API_EXCEL_HEADERS = new HttpHeaders({Accept: 'application/vnd.ms-excel, application/json'});
 }
