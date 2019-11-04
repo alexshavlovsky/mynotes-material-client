@@ -16,13 +16,13 @@ import {MatTableDataSource} from '@angular/material';
 })
 export class UsersListComponent implements OnInit, OnDestroy {
 
-  private dataSource: MatTableDataSource<UserAdminResponse> = null;
-  private isFetchUsersFailed = false;
-  private fetchErrorMessage = '';
+  dataSource: MatTableDataSource<UserAdminResponse> = null;
+  isFetchUsersFailed = false;
+  fetchErrorMessage = '';
 
-  private displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status', 'menu'];
+  displayedColumns: string[] = ['index', 'id', 'mail', 'name', 'created', 'seen', 'roles', 'status', 'menu'];
 
-  private readonly columnsConfig = getColumnsConfig(this.displayedColumns,
+  columnsConfig = getColumnsConfig(this.displayedColumns,
     ['id'],
     ['created', 'seen'],
     ['name']
@@ -73,6 +73,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
     const users = this.dataSource.data;
     users[users.indexOf(user)] = updatedUser;
     this.dataSource._updateChangeSubscription();
+  }
+
+  rolesToString(roles: number): string {
+    return this.auth.rolesToString(roles);
   }
 
 }

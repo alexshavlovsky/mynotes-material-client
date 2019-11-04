@@ -12,9 +12,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class NotesNavListComponent implements OnInit {
 
   @Input() notes$: Observable<Note[]>;
-  private fragment$: Observable<string> = this.route.fragment;
-  private pathWithoutFragment = this.location.path(false);
-  private isSearchContext: boolean = !this.pathWithoutFragment.endsWith('notes');
+  fragment$: Observable<string> = this.route.fragment;
+  pathWithoutFragment = this.location.path(false);
+  isSearchContext: boolean = !this.pathWithoutFragment.endsWith('notes');
 
   constructor(private route: ActivatedRoute,
               private router: Router,

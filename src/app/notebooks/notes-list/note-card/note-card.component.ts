@@ -61,4 +61,8 @@ export class NoteCardComponent implements OnInit {
       this.currentNote.text === this.form.value.textInput;
   }
 
+  goBack() {
+    this.location.back();
+  }
+
 }

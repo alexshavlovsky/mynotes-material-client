@@ -28,7 +28,7 @@
   </form>
 
   <mat-card-actions align="end" *ngIf="form">
-    <button mat-button color="primary" (click)="location.back()">Go back</button>
+    <button mat-button color="primary" (click)="goBack()">Go back</button>
     <a mat-button color="primary" [routerLink]="'..'" [fragment]="'n'+id">Show in notebook</a>
     <button mat-button color="primary" (click)="updateNote()" [disabled]="notChanged()">Save</button>
   </mat-card-actions>

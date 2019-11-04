@@ -20,10 +20,10 @@ export class NavBarComponent implements OnInit {
 
   @HostBinding('class') classes = 'mat-elevation-z4';
 
-  private user$: Observable<UserRegisterResponse> = this.store.select(userDetails);
-  private token$: Observable<JwtTokenDetails> = this.store.select(tokenDecoded);
-  private isAdmin$: Observable<boolean> = this.store.select(isAdmin);
-  private isUser$: Observable<boolean> = this.store.select(isUser);
+  user$: Observable<UserRegisterResponse> = this.store.select(userDetails);
+  token$: Observable<JwtTokenDetails> = this.store.select(tokenDecoded);
+  isAdmin$: Observable<boolean> = this.store.select(isAdmin);
+  isUser$: Observable<boolean> = this.store.select(isUser);
 
   constructor(private http: HttpService,
               private store: Store<AppState>,
