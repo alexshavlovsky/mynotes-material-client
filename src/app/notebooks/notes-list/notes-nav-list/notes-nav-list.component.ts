@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./notes-nav-list.component.css']
 })
 export class NotesNavListComponent implements OnInit {
-
+  // TODO: handle the case when a notes list is empty. Maybe it would be better to redirect to notebooks list
   @Input() notes$: Observable<Note[]>;
   fragment$: Observable<string> = this.route.fragment;
   pathWithoutFragment = this.location.path(false);

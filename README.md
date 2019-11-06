@@ -19,6 +19,23 @@ Forms                | Angular Reactive Forms
 Authentication       | JWT role based
 JWT parser           | [@auth0/angular-jwt](https://github.com/auth0/angular2-jwt)
 State management     | NgRx 8 (store, effects, entity)
+Production packaging | Docker Engine Container, Alpine Linux, Nginx (SSL, HTTP2, API proxy)
+
+## Build and run instructions
+
+With Docker:
+```
+git clone https://github.com/alexshavlovsky/mynotes-material-client.git
+cd mynotes-material-client
+npm install
+npm run buildprod
+ 
+docker build --build-arg key_store_pass=spring -t mynotes-front .
+&& docker run
+-p 80:80 -p 443:443
+--name mynotes_front
+mynotes-front
+```
 
 ## Screenshots
 
