@@ -3,6 +3,7 @@
 
 # Allow files and directories
 !Dockerfile
-!dist/**
+!dist
+!dist-bootstrap
 !keystore.p12
 !nginx.conf
