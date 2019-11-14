@@ -31,6 +31,9 @@ export class AppPropertiesService {
 
   appName = 'MyNotes';
 
+  // if not empty, 'switch frontend' button will be displayed on the nav bar
+  switchFrontendHref = '';
+
   passwordCrossFieldValidatorErrorKey = 'passwords';
   userPasswordMinLength = 5;
   validationMessages: ValidationMessageEntry[] = [

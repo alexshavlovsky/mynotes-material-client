@@ -2,7 +2,9 @@
 
 Basic Angular Material REST API client.
 
-Backend service for this project: [MyNotes SpringBoot Service](https://github.com/alexshavlovsky/mynotes-springboot-service).
+A Backend service for this project: [MyNotes SpringBoot Service](https://github.com/alexshavlovsky/mynotes-springboot-service).
+<br>
+A Bootstrap version of the client: [Angular Bootstrap REST Client](https://github.com/alexshavlovsky/mynotes-ng-client.git).
 
 <p align="center">
   <img src="screenshots/01_login-page.png?raw=true" width="360"/>
@@ -23,19 +25,21 @@ Production packaging | Docker Engine Container, Alpine Linux, Nginx (SSL, HTTP2,
 
 ## Build and run instructions
 
-With Docker:
+Precompiled dist folders are included in the repository.
+<br>
+Deploy With Docker:
 ```
-git clone https://github.com/alexshavlovsky/mynotes-material-client.git
-cd mynotes-material-client
-npm install
-npm run buildprod
+git clone https://github.com/alexshavlovsky/mynotes-material-client.git \
+  && cd mynotes-material-client
  
-docker build --build-arg key_store_pass=spring -t mynotes-front .
-&& docker run
--p 80:80 -p 443:443
---name mynotes_front
-mynotes-front
+docker build --build-arg key_store_pass=spring -t mynotes-front . \
+  && docker run -d -p 80:80 -p 443:443 --name mynotes_front mynotes-front
 ```
+An Nginx hosted Angular Material client will be accessible on ports `80` and `443` at URI `\material\ `.
+<br>
+A Bootstrap client will be accessible at URI `\bootstrap\ `.
+<br>
+A backend API is supposed to be be running on port `8443` on the same host. To deploy a backend service see: [MyNotes SpringBoot Service](https://github.com/alexshavlovsky/mynotes-springboot-service#build-and-run-instructions).
 
 ## Screenshots
 

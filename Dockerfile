@@ -33,16 +33,15 @@ RUN sed -i "/return 301 https:\/\/\$host\/def\//c\    return 301 https:\/\/\$hos
 RUN sed -i "/apiBaseUrl/c\    apiBaseUrl: '\/$api_uri\/'," /usr/share/nginx/html/$client1_uri/env.js
 # patch api uri in frontend #2 env.js
 RUN sed -i "/apiBaseUrl/c\    apiBaseUrl: '\/$api_uri\/'," /usr/share/nginx/html/$client2_uri/env.js
+# patch switch frontend cross link in frontend #1 env.js
+RUN sed -i "/switchFrontendHref/c\      switchFrontendHref: '\/$client2_uri\/'," /usr/share/nginx/html/$client1_uri/env.js
+# patch switch frontend cross link in frontend #2 env.js
+RUN sed -i "/switchFrontendHref/c\      switchFrontendHref: '\/$client1_uri\/'," /usr/share/nginx/html/$client2_uri/env.js
 # patch frontend #1 base href in index.html
 RUN sed -i "/base href=/c\  <base href=\"/$client1_uri/\">" /usr/share/nginx/html/$client1_uri/index.html
 # patch frontend #2 base href in index.html
 RUN sed -i "/base href=/c\  <base href=\"/$client2_uri/\">" /usr/share/nginx/html/$client2_uri/index.html
 EXPOSE 80 443
 
-#docker build
-#--build-arg key_store_pass=spring
-#-t mynotes-front .
-#&& docker run
-#-p 80:80 -p 443:443
-#--name mynotes_front
-#mynotes-front
+#docker build --build-arg key_store_pass=spring -t mynotes-front .
+#docker run -d -p 80:80 -p 443:443 --name mynotes_front mynotes-front

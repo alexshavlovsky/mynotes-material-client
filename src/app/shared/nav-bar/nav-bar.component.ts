@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, HostBinding, Inject, OnInit} from '@angular/core';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {EMPTY, Observable} from 'rxjs';
 import {HttpService} from '../../core/services/http.service';
@@ -10,6 +10,7 @@ import {isAdmin, isUser, tokenDecoded, userDetails} from '../../store/principal/
 import {Logout} from '../../store/principal/principal.actions';
 import {JwtTokenDetails} from '../../core/services/auth.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-nav-bar',
@@ -24,11 +25,13 @@ export class NavBarComponent implements OnInit {
   token$: Observable<JwtTokenDetails> = this.store.select(tokenDecoded);
   isAdmin$: Observable<boolean> = this.store.select(isAdmin);
   isUser$: Observable<boolean> = this.store.select(isUser);
+  switchFrontendLink = this.appProps.switchFrontendHref === '' ? null : this.document.location.origin + this.appProps.switchFrontendHref;
 
   constructor(private http: HttpService,
               private store: Store<AppState>,
               private appProps: AppPropertiesService,
-              private snackBar: SnackBarService) {
+              private snackBar: SnackBarService,
+              @Inject(DOCUMENT) private document: any) {
   }
 
   ngOnInit() {

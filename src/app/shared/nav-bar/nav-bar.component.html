@@ -39,6 +39,9 @@
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </li>
+    <a *ngIf="switchFrontendLink" mat-button [href]="switchFrontendLink" [matTooltip]="'Switch frontend'">
+      <mat-icon>flip</mat-icon>
+    </a>
   </ul>
 
 </mat-toolbar>
