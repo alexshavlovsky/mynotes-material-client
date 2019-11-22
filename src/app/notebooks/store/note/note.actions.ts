@@ -92,7 +92,7 @@ export class CreateNoteRequest implements Action {
 export class UpdateNoteRequest implements Action {
   readonly type = NoteActionTypes.UpdateNoteRequest;
 
-  constructor(public payload: { id: string; note: NoteRequest }) {
+  constructor(public payload: { id: string; currentNbId: number, note: NoteRequest }) {
   }
 }
 

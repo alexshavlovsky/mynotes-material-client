@@ -124,10 +124,18 @@ export class NoteEffects {
     this.actions$.pipe(
       ofType(NoteActionTypes.UpdateNoteRequest),
       exhaustMap(action => this.http.updateNote(action.payload.id, action.payload.note).pipe(
-        map(response => {
-          const note = noteResponseAdapter(response);
-          return new UpdateNote({note: {id: note.id, changes: note}});
+        map(response => noteResponseAdapter(response)),
+        tap(note => {
+          if (note.notebookId !== action.payload.currentNbId) {
+            this.store.dispatch(new ParentNotebookAtomicUpdate({
+              notebookId: action.payload.currentNbId.toString(), sizeDelta: -1
+            }));
+            this.store.dispatch(new ParentNotebookAtomicUpdate({
+              notebookId: note.notebookId.toString(), sizeDelta: 1
+            }));
+          }
         }),
+        map(note => new UpdateNote({note: {id: note.id, changes: note}})),
         catchError(error => {
           this.snackBar.openError(adaptErrorMessage(error, 'Failed to update note'));
           return EMPTY;

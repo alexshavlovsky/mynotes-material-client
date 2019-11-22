@@ -7,6 +7,7 @@ import {filter, map} from 'rxjs/operators';
 import {NoteDialogComponent, NoteDialogData, NoteDialogPayload} from '../note-dialog/note-dialog.component';
 import {Note} from '../../store/note/note.model';
 import {DeleteNoteRequest, UpdateNoteRequest} from '../../store/note/note.actions';
+import {NoteMoveDialogComponent, NoteMoveDialogData, NoteMoveDialogPayload} from '../note-move-dialog/note-move-dialog.component';
 
 @Component({
   selector: 'app-note-operations-menu',
@@ -53,10 +54,32 @@ export class NoteOperationsMenuComponent implements OnInit {
       filter((payload: NoteDialogPayload) => payload !== undefined),
       map(payload => this.store.dispatch(new UpdateNoteRequest({
         id: this.note.id.toString(),
+        currentNbId: this.note.notebookId,
         note: {
           title: payload.newTitle,
           text: payload.newText,
           notebookId: this.note.notebookId
+        }
+      })))
+    ).subscribe();
+  }
+
+  openMoveDialog() {
+    const data: NoteMoveDialogData = {
+      title: `Move the note [${this.note.title}] to a notebook:`,
+      currentNbId: this.note.notebookId,
+      cancelButton: 'Cancel',
+      confirmButton: 'Move',
+    };
+    this.dialog.open(NoteMoveDialogComponent, {data, autoFocus: false}).afterClosed().pipe(
+      filter((payload: NoteMoveDialogPayload) => payload !== undefined),
+      map(payload => this.store.dispatch(new UpdateNoteRequest({
+        id: this.note.id.toString(),
+        currentNbId: this.note.notebookId,
+        note: {
+          title: this.note.title,
+          text: this.note.text,
+          notebookId: payload.nbId
         }
       })))
     ).subscribe();

@@ -24,6 +24,7 @@ import {NotebooksNavListComponent} from './notebooks-list/notebooks-nav-list/not
 import {NoteCardComponent} from './notes-list/note-card/note-card.component';
 import {NavBarModule} from '../shared/nav-bar/nav-bar.module';
 import {DialogModule} from '../shared/dialog/dialog.module';
+import { NoteMoveDialogComponent } from './notes-list/note-move-dialog/note-move-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {DialogModule} from '../shared/dialog/dialog.module';
     NotesNavListComponent,
     NotebooksNavListComponent,
     NoteCardComponent,
+    NoteMoveDialogComponent,
   ],
   imports: [
     DialogModule,
@@ -51,7 +53,7 @@ import {DialogModule} from '../shared/dialog/dialog.module';
     StoreModule.forFeature(fromNotebook.notebooksFeatureKey, fromNotebook.reducer),
     StoreModule.forFeature(fromNote.notesFeatureKey, fromNote.reducer),
   ],
-  entryComponents: [ConfirmDialogComponent, NotebookDialogComponent, NoteDialogComponent]
+  entryComponents: [ConfirmDialogComponent, NotebookDialogComponent, NoteDialogComponent, NoteMoveDialogComponent]
 })
 export class NotebooksModule {
 }

@@ -13,6 +13,7 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatRadioModule,
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 import {PrefixPipe} from './core/pipes/prefix.pipe';
@@ -43,6 +44,7 @@ import {AppPropPipe} from './core/pipes/app-prop.pipe';
     MatProgressSpinnerModule,
     MatTableModule,
     MatCheckboxModule,
+    MatRadioModule,
   ],
   exports: [
     PrefixPipe,
@@ -63,6 +65,7 @@ import {AppPropPipe} from './core/pipes/app-prop.pipe';
     MatProgressSpinnerModule,
     MatTableModule,
     MatCheckboxModule,
+    MatRadioModule,
   ],
 })
 export class MaterialModule {

@@ -48,6 +48,7 @@ export class NoteCardComponent implements OnInit {
   updateNote() {
     this.store.dispatch(new UpdateNoteRequest({
       id: this.currentNote.id.toString(),
+      currentNbId: this.currentNote.notebookId,
       note: {
         title: this.form.value.titleInput,
         text: this.form.value.textInput,
