@@ -26,6 +26,7 @@ import {ViewportScroller} from '@angular/common';
 import {filter} from 'rxjs/operators';
 import {ErrorModule} from './shared/error/error.module';
 import {EnvConfigProvider} from './core/env.injector';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import {EnvConfigProvider} from './core/env.injector';
       deps: [Store]
     },
     {provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true},
-    EnvConfigProvider
+    EnvConfigProvider,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, maxHeight: '90vh', autoFocus: true}},
 //    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'never'}}
   ],
   bootstrap: [AppComponent]
