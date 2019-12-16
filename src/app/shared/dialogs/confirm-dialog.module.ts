@@ -11,9 +11,10 @@ import {MaterialModule} from '../../material.module';
     CommonModule,
     MaterialModule,
   ],
+  entryComponents: [ConfirmDialogComponent],
   exports: [
     ConfirmDialogComponent
   ]
 })
-export class DialogModule {
+export class ConfirmDialogModule {
 }

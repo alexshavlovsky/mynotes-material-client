@@ -8,10 +8,9 @@ import {MaterialModule} from '../material.module';
 import {AdminRoutingModule} from './admin-routing.module';
 import {UserOperationsMenuComponent} from './users-list/user-operations-menu/user-operations-menu.component';
 import {ErrorModule} from '../shared/error/error.module';
-import {DialogModule} from '../shared/dialog/dialog.module';
-import {ConfirmDialogComponent} from '../shared/dialog/confirm-dialog/confirm-dialog.component';
 import {UserDialogComponent} from './users-list/user-dialog/user-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ConfirmDialogModule} from '../shared/dialogs/confirm-dialog.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     UserDialogComponent,
   ],
   imports: [
-    DialogModule,
+    ConfirmDialogModule,
     ReactiveFormsModule,
     ErrorModule,
     NavBarModule,
@@ -30,7 +29,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     MaterialModule,
     AdminRoutingModule,
   ],
-  entryComponents: [ConfirmDialogComponent, UserDialogComponent]
+  entryComponents: [UserDialogComponent]
 })
 export class AdminModule {
 }

@@ -2,15 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserAdminResponse} from '../../model/user-admin-response.model';
 import {MatDialog} from '@angular/material';
 import {HttpService} from '../../../core/services/http.service';
-import {
-  ConfirmDialogComponent,
-  ConfirmDialogData
-} from '../../../shared/dialog/confirm-dialog/confirm-dialog.component';
 import {catchError, exhaustMap, filter, map} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 import {adaptErrorMessage} from '../../../core/services/app-properties.service';
 import {SnackBarService} from '../../../core/services/snack-bar.service';
 import {UserDialogComponent, UserDialogData, UserDialogPayload} from '../user-dialog/user-dialog.component';
+import {ConfirmDialogComponent, ConfirmDialogData} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-operations-menu',
