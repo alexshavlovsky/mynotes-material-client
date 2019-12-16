@@ -39,6 +39,7 @@ export class AppPropertiesService {
   validationMessages: ValidationMessageEntry[] = [
     {name: 'required', message: 'This field is required'},
     {name: 'minlength', message: f => `Please enter at least ${f.minlength} characters`},
+    {name: 'maxlength', message: f => `This field must not exceed ${f.maxlength} characters`},
     {name: 'email', message: 'Please enter a valid email address'},
     {name: this.passwordCrossFieldValidatorErrorKey, message: 'Passwords do not match'}
   ];

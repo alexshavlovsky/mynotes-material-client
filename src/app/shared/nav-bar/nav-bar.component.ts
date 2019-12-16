@@ -2,7 +2,7 @@ import {Component, HostBinding, Inject, OnInit} from '@angular/core';
 import {UserRegisterResponse} from '../../auth/model/user-register-response.model';
 import {EMPTY, Observable} from 'rxjs';
 import {HttpService} from '../../core/services/http.service';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, filter, map} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store';
 import {AppPropertiesService} from '../../core/services/app-properties.service';
@@ -11,6 +11,9 @@ import {Logout} from '../../store/principal/principal.actions';
 import {JwtTokenDetails} from '../../core/services/auth.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
 import {DOCUMENT} from '@angular/common';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent, ConfirmDialogData} from '../dialogs/confirm-dialog/confirm-dialog.component';
+import {FeedbackDialogComponent} from './feedback-dialog/feedback-dialog.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -31,6 +34,7 @@ export class NavBarComponent implements OnInit {
               private store: Store<AppState>,
               private appProps: AppPropertiesService,
               private snackBar: SnackBarService,
+              private dialog: MatDialog,
               @Inject(DOCUMENT) private document: any) {
   }
 
@@ -48,9 +52,21 @@ export class NavBarComponent implements OnInit {
     ).subscribe();
   }
 
+  leaveFeedback(user: UserRegisterResponse) {
+    this.dialog.open(FeedbackDialogComponent, {data: {user}}).afterClosed().subscribe();
+  }
+
   onLogout() {
-    // TODO: show confirmation dialog before
-    this.store.dispatch(new Logout());
+    const data: ConfirmDialogData = {
+      title: 'Sign out confirmation',
+      message: `Are you sure you want to sign out?`,
+      cancelButton: 'Cancel',
+      confirmButton: 'Sign out',
+    };
+    this.dialog.open(ConfirmDialogComponent, {data, autoFocus: false}).afterClosed().pipe(
+      filter(result => result === true),
+      map(() => this.store.dispatch(new Logout()))
+    ).subscribe();
   }
 
 }

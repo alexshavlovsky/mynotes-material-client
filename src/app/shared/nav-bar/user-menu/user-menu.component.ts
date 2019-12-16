@@ -12,6 +12,7 @@ export class UserMenuComponent implements OnInit {
   @Input() user: UserRegisterResponse;
   @Input() token: JwtTokenDetails;
   @Output() export = new EventEmitter<void>();
+  @Output() feedback = new EventEmitter<void>();
 
   constructor() {
   }

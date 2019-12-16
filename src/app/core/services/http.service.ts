@@ -13,6 +13,7 @@ import {NoteResponse} from '../model/note-response.model';
 import {NoteRequest} from '../model/note-request.model';
 import {UserAdminResponse} from '../../admin/model/user-admin-response.model';
 import {UserAdminRequest} from '../../admin/model/user-admin-request.model';
+import {FeedbackModel} from '../model/feedback.model';
 
 @Injectable({
   providedIn: 'root'
@@ -117,6 +118,12 @@ export class HttpService {
   deleteNote(id: string): Observable<ApiMessage> {
     const path = pathJoin([this.appProps.API_NOTES_PATH, String(id)]);
     return this.delete<ApiMessage>(path);
+  }
+
+  // FEEDBACK ENDPOINT
+
+  postFeedbackRequest(body: FeedbackModel): Observable<ApiMessage> {
+    return this.post<ApiMessage>(this.appProps.API_FEEDBACK_PATH, body);
   }
 
   // BLOB UTILS

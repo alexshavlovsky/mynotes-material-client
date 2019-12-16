@@ -34,8 +34,9 @@
     <li>
       <app-user-menu *ngIf="user$|async as user"
                      [user]="user" [token]="token$|async"
+                     (feedback)="leaveFeedback(user)"
                      (export)="exportAsExcel()"></app-user-menu>
-      <button mat-button *ngIf="token$|async" (click)="onLogout()" [matTooltip]="'Sign out'">
+      <button mat-button fxHide.xs *ngIf="token$|async" (click)="onLogout()" [matTooltip]="'Sign out'">
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </li>

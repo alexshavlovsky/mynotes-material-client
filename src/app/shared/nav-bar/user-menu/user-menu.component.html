@@ -13,4 +13,8 @@
     <mat-icon color="primary">save_alt</mat-icon>
     <span>Export notes to Excel</span>
   </button>
+  <button mat-menu-item *ngIf="token.hasRoleUser" (click)="feedback.emit()">
+    <mat-icon color="primary">feedback</mat-icon>
+    <span>Leave a feedback</span>
+  </button>
 </mat-menu>
