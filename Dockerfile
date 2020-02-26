@@ -45,3 +45,6 @@ EXPOSE 80 443
 
 #docker build --build-arg key_store_pass=spring -t mynotes-front .
 #docker run -d -p 80:80 -p 443:443 --name mynotes_front mynotes-front
+
+# to expose this setup to Internet with ngrok:
+# ngrok http 192.168.0.103:443 -host-header=rewrite
