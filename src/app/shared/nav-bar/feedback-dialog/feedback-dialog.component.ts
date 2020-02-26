@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {FormValidationService} from '../../../core/services/form-validation.service';
 import {UserRegisterResponse} from '../../../auth/model/user-register-response.model';
 import {HttpService} from '../../../core/services/http.service';

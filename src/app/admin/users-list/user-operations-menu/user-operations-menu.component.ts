@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserAdminResponse} from '../../model/user-admin-response.model';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {HttpService} from '../../../core/services/http.service';
 import {catchError, exhaustMap, filter, map} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';

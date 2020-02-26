@@ -7,6 +7,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {ConfirmDialogModule} from '../dialogs/confirm-dialog.module';
 import {FeedbackDialogComponent} from './feedback-dialog/feedback-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     FlexLayoutModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   entryComponents: [FeedbackDialogComponent],
   exports: [

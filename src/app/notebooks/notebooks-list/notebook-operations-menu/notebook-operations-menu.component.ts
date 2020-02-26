@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {filter, map} from 'rxjs/operators';
 import {NotebookDialogComponent, NotebookDialogData, NotebookDialogPayload} from '../notebook-dialog/notebook-dialog.component';
 import {Notebook} from '../../store/notebook/notebook.model';

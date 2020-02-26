@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {AppPropertiesService} from './app-properties.service';
-import {ErrorStateMatcher} from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 export class CrossFieldErrorMatcher implements ErrorStateMatcher {
   constructor(private errorKey: string) {

@@ -11,7 +11,7 @@ import {
 } from '../store/notebook/notebook.actions';
 import {NotebookDialogComponent, NotebookDialogData, NotebookDialogPayload} from './notebook-dialog/notebook-dialog.component';
 import {debounceTime, distinctUntilChanged, filter, map, take, tap} from 'rxjs/operators';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {FetchAllNotesRequest} from '../store/note/note.actions';
 import {
   getAllNotebooksFilter, getAllNotesFilter,
@@ -36,7 +36,7 @@ export class NotebooksListComponent implements OnInit {
   searchMode$: Observable<boolean> = this.store.select(getNotebookSearchMode);
   searchQuery;
   searchQueryChanged: Subject<string> = new Subject<string>();
-  @ViewChild('search', {static: false}) searchElement: ElementRef;
+  @ViewChild('search') searchElement: ElementRef;
 
   constructor(private store: Store<NotebooksState>,
               private dialog: MatDialog,

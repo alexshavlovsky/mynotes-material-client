@@ -15,7 +15,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {HttpService} from './core/services/http.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {SnackBarService} from './core/services/snack-bar.service';
-import {MatSnackBarModule} from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import * as fromPrincipal from './store/principal/principal.reducer';
 import {PrincipalEffects} from './store/principal/principal.effects';
 import {AppInit} from './store/principal/principal.actions';

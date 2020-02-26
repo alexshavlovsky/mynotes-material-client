@@ -7,7 +7,7 @@ import {MediaObserver} from '@angular/flex-layout';
 import {getColumnsConfig, toDisplayedColumns} from '../../core/utils/mat-table.utils';
 import {adaptErrorMessage} from '../../core/services/app-properties.service';
 import {SnackBarService} from '../../core/services/snack-bar.service';
-import {MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-users-list',
