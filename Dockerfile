@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.20.0-alpine
 ARG key_store_pass
 ARG api_uri="api"
 ARG api_port="8443"
